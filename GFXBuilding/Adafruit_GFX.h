@@ -4,7 +4,7 @@
 // #if ARDUINO >= 100
 #include "Arduino.h"
 #include "Print.h"
-// #else
+// #elsend
 // #include "WProgram.h"
 // #endif
 #include "gfxfont.h"

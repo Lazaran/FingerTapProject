@@ -100,7 +100,7 @@ void Adafruit_ST77xx::displayInit(const uint8_t *addr) {
     cmd = pgm_read_byte(addr++);       // Read command
     numArgs = pgm_read_byte(addr++);   // Number of args to follow
     ms = numArgs & ST_CMD_DELAY;       // If hibit set, delay follows args
-    numArgs &= ~ST_CMD_DELAY;          // Mask out delay bit
+    numArgs &= ~ST_CMD_DELAY;          // Mask out delay bit 
     sendCommand(cmd, addr, numArgs);
     addr += numArgs;
 

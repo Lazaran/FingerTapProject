@@ -675,7 +675,6 @@ void static commonInit(const uint8_t *cmdList) {
   SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
   while((SYSCTL_PRGPIO_R&0x01)==0){}; // allow time for clock to start
 
-  // toggle RST low to reset; CS low so it'll listen to us
   // SSI0Fss is temporarily used as GPIO
   GPIO_PORTA_DIR_R |= 0xC8;             // make PA3,6,7 out
   GPIO_PORTA_AFSEL_R &= ~0xC8;          // disable alt funct on PA3,6,7
@@ -683,6 +682,7 @@ void static commonInit(const uint8_t *cmdList) {
                                         // configure PA3,6,7 as GPIO
   GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0x00FF0FFF)+0x00000000;
   GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
+  // toggle RST low to reset; CS low so it'll listen to us
   TFT_CS = TFT_CS_LOW;
   RESET = RESET_HIGH;
   Delay1ms(500);
