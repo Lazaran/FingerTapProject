@@ -3,6 +3,15 @@
 #include "Glove_ST7735.h"
 #include "tm4c123gh6pm.h"
 
+// Valvano statics, can be changed in the future
+static uint8_t ColStart, RowStart; // some displays need this changed
+static uint8_t Rotation;           // 0 to 3
+static enum initRFlags TabColor;
+static int16_t _width = ST7735_TFTWIDTH;   // this could probably be a constant, except it is used in Adafruit_GFX and depends on image rotation
+static int16_t _height = ST7735_TFTHEIGHT;
+
+
+// Adafruit ST7735R Initilization array, used in conjunction with Valvano
 Rcmd1[] = {                       // 7735R init, part 1 (red or green tab)
     15,                             // 15 commands in list:
     ST77XX_SWRESET,   ST_CMD_DELAY, //  1: Software reset, 0 args, w/delay
@@ -40,14 +49,14 @@ Rcmd1[] = {                       // 7735R init, part 1 (red or green tab)
     ST77XX_COLMOD,  1,              // 15: set color mode, 1 arg, no delay:
       0x05 };                       //     16-bit color
 
-Rcmd2red[] = {                      // 7735R init, part 2 (red tab only)
+Rcmd2green[] = {                  // 7735R init, part 2 (green tab only)
     2,                              //  2 commands in list:
     ST77XX_CASET,   4,              //  1: Column addr set, 4 args, no delay:
-      0x00, 0x00,                   //     XSTART = 0
-      0x00, 0x7F,                   //     XEND = 127
+      0x00, 0x02,                   //     XSTART = 0
+      0x00, 0x7F+0x02,              //     XEND = 127
     ST77XX_RASET,   4,              //  2: Row addr set, 4 args, no delay:
-      0x00, 0x00,                   //     XSTART = 0
-      0x00, 0x9F };                 //     XEND = 159
+      0x00, 0x01,                   //     XSTART = 0
+      0x00, 0x9F+0x01 };            //     XEND = 159
 
 Rcmd3[] = {                         // 7735R init, part 3 (red or green tab)
     4,                              //  4 commands in list:
@@ -66,16 +75,70 @@ Rcmd3[] = {                         // 7735R init, part 3 (red or green tab)
     ST77XX_DISPON,    ST_CMD_DELAY, //  4: Main screen turn on, no args w/delay
       100 };                         //     100 ms delay
 
+// Initialization code common to both 'B' and 'R' type displays
+void static commonInit(const uint8_t *cmdList) {
+  volatile uint32_t delay;
+  ColStart  = RowStart = 0; // May be overridden in init func
+
+  SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
+  SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
+  while((SYSCTL_PRGPIO_R&0x01)==0){}; // allow time for clock to start
+
+  // SSI0Fss is temporarily used as GPIO
+  GPIO_PORTA_DIR_R |= 0xC8;             // make PA3,6,7 out
+  GPIO_PORTA_AFSEL_R &= ~0xC8;          // disable alt funct on PA3,6,7
+  GPIO_PORTA_DEN_R |= 0xC8;             // enable digital I/O on PA3,6,7
+                                        // configure PA3,6,7 as GPIO
+  GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0x00FF0FFF)+0x00000000;
+  GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
+  // toggle RST low to reset; CS low so it'll listen to us
+  TFT_CS = TFT_CS_LOW;
+  RESET = RESET_HIGH;
+  Delay1ms(500);
+  RESET = RESET_LOW;
+  Delay1ms(500);
+  RESET = RESET_HIGH;
+  Delay1ms(500);
+
+  // initialize SSI0
+  GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
+  GPIO_PORTA_DEN_R |= 0x2C;             // enable digital I/O on PA2,3,5
+                                        // configure PA2,3,5 as SSI
+  GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFF0F00FF)+0x00202200;
+  GPIO_PORTA_AMSEL_R &= ~0x2C;          // disable analog functionality on PA2,3,5
+  SSI0_CR1_R &= ~SSI_CR1_SSE;           // disable SSI
+  SSI0_CR1_R &= ~SSI_CR1_MS;            // master mode
+                                        // configure for system clock/PLL baud clock source
+  SSI0_CC_R = (SSI0_CC_R&~SSI_CC_CS_M)+SSI_CC_CS_SYSPLL;
+//                                        // clock divider for 3.125 MHz SSIClk (50 MHz PIOSC/16)
+//  SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+16;
+                                        // clock divider for 8 MHz SSIClk (80 MHz PLL/24)
+                                        // SysClk/(CPSDVSR*(1+SCR))
+                                        // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
+  SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+10; // must be even number
+  SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
+                  SSI_CR0_SPH |         // SPH = 0
+                  SSI_CR0_SPO);         // SPO = 0
+                                        // FRF = Freescale format
+  SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO;
+                                        // DSS = 8-bit data
+  SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
+  SSI0_CR1_R |= SSI_CR1_SSE;            // enable SSI
+
+  if(cmdList) commandList(cmdList);
+}
+
+// Use Adafruit ST7735R init array and set screen rotation
 void ST7735_initR(uint8_t options) {
   commonInit(Rcmd1);
-  displayInit(Rcmd2red);
+  displayInit(Rcmd2green);
   displayInit(Rcmd3);
   setRotation(0);
 }
 
+// Set the rotation of the screen
 void ST7735_setRotation(uint8_t m) {
   uint8_t madctl = 0;
-
   int rotation = m % 3; // can't be higher than 3
 
   switch (rotation) {
@@ -110,7 +173,55 @@ void ST7735_setRotation(uint8_t m) {
       // _ystart = _colstart;
       // _xstart = _rowstart;
       break;
-  }
+  };
 
-  sendCommand(ST77XX_MADCTL, &madctl, 1);
+  writecommand(ST77XX_MADCTL);
+  writedata(madctl);
+};
+
+
+
+/**************************************************************************/
+/*!
+  @brief  SPI displays set an address window rectangle for blitting pixels
+  @param  x  Top left corner x coordinate
+  @param  y  Top left corner x coordinate
+  @param  w  Width of window
+  @param  h  Height of window
+*/
+/**************************************************************************/
+// Set the region of the screen RAM to be modified
+// Pixel colors are sent left to right, top to bottom
+// (same as Font table is encoded; different from regular bitmap)
+// Requires 11 bytes of transmission
+void static setAddrWindow(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
+
+  writecommand(ST7735_CASET); // Column addr set
+  writedata(0x00);
+  writedata(x0+ColStart);     // XSTART
+  writedata(0x00);
+  writedata(x1+ColStart);     // XEND
+
+  writecommand(ST7735_RASET); // Row addr set
+  writedata(0x00);
+  writedata(y0+RowStart);     // YSTART
+  writedata(0x00);
+  writedata(y1+RowStart);     // YEND
+
+  writecommand(ST7735_RAMWR); // write to RAM
+}
+void Adafruit_ST77xx::setAddrWindow(uint16_t x, uint16_t y, uint16_t w,
+                                    uint16_t h) {
+  x += _xstart;
+  y += _ystart;
+  uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
+  uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
+
+  writeCommand(ST77XX_CASET); // Column addr set
+  SPI_WRITE32(xa);
+
+  writeCommand(ST77XX_RASET); // Row addr set
+  SPI_WRITE32(ya);
+
+  writeCommand(ST77XX_RAMWR); // write to RAM
 }

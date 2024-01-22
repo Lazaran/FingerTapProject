@@ -146,9 +146,9 @@
 #define ST77XX_MADCTL 0x36  
 // Interface Pixel Format | Interface Format
 #define ST77XX_COLMOD 0x3A  
-// Row Address Order | Column address direction parameter
+// Row Address Order
 #define ST77XX_MADCTL_MY 0x80 
-// Column Address Order | Row address direction parameter
+// Column Address Order
 #define ST77XX_MADCTL_MX 0x40 
 // Row/Column  Order
 #define ST77XX_MADCTL_MV 0x20 
