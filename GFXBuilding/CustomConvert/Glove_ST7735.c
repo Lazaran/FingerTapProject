@@ -180,16 +180,7 @@ void ST7735_setRotation(uint8_t m) {
 };
 
 
-
-/**************************************************************************/
-/*!
-  @brief  SPI displays set an address window rectangle for blitting pixels
-  @param  x  Top left corner x coordinate
-  @param  y  Top left corner x coordinate
-  @param  w  Width of window
-  @param  h  Height of window
-*/
-/**************************************************************************/
+// Valvano
 // Set the region of the screen RAM to be modified
 // Pixel colors are sent left to right, top to bottom
 // (same as Font table is encoded; different from regular bitmap)
@@ -209,13 +200,36 @@ void static setAddrWindow(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
   writedata(y1+RowStart);     // YEND
 
   writecommand(ST7735_RAMWR); // write to RAM
-}
-void Adafruit_ST77xx::setAddrWindow(uint16_t x, uint16_t y, uint16_t w,
+};
+
+// Adafruit
+/**************************************************************************/
+/*!
+  @brief  SPI displays set an address window rectangle for blitting pixels
+  @param  x  Top left corner x coordinate
+  @param  y  Top left corner x coordinate
+  @param  w  Width of window
+  @param  h  Height of window
+*/
+/**************************************************************************/
+void setAddrWindow(uint16_t x, uint16_t y, uint16_t w,
                                     uint16_t h) {
   x += _xstart;
   y += _ystart;
   uint32_t xa = ((uint32_t)x << 16) | (x + w - 1);
   uint32_t ya = ((uint32_t)y << 16) | (y + h - 1);
+
+  /* Example
+  if _xstart = 2, _ystart = 1, input x = 10, input y = 10, input w = 50, input h = 50
+    x += _xstart : 12
+    y += _ystart : 11
+    x1 = x << 16 = 0xC0000 = 1100 0000 0000 0000 0000
+    y1 = y << 16 = 0xB0000 = 1011 0000 0000 0000 0000
+    x2 = x + w - 1 = 61 = 0011 1101
+    y2 = y + h - 1 = 60 = 0011 1100
+    xa = x1 | x2 = 1100 0000 0000 0011 1101
+    ya = y1 | y2 = 1011 0000 0000 0011 1100
+  */
 
   writeCommand(ST77XX_CASET); // Column addr set
   SPI_WRITE32(xa);
@@ -223,5 +237,9 @@ void Adafruit_ST77xx::setAddrWindow(uint16_t x, uint16_t y, uint16_t w,
   writeCommand(ST77XX_RASET); // Row addr set
   SPI_WRITE32(ya);
 
+
+eekoa
+
+
   writeCommand(ST77XX_RAMWR); // write to RAM
-}
+};

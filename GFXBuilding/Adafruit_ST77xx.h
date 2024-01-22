@@ -1,4 +1,4 @@
-/**************************************************************************
+ /**************************************************************************
   This is a library for several Adafruit displays based on ST77* drivers.
 
   Works with the Adafruit 1.8" TFT Breakout w/SD card
