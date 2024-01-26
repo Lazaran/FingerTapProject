@@ -178,3 +178,55 @@
 #define ST77XX_ORANGE 0xFC00
 
 #endif
+
+
+// Scurr custom set of SSI etc Settings
+//  Register location macros will have postfix _L
+//  Register value macros will have postfix _V
+
+// Defined 4-byte 0-string, for posterity mostly
+#define HEX_NULL 0x00000000
+
+// SSI Serial Clock Rate Location
+#define SSI_CR0_SCR_L           0x0000FF00  
+// SSI Serial Clock Rate Value
+#define SSI_CR0_SCR_V           HEX_NULL
+
+// SSI Serial Clock Phase Location
+#define SSI_CR0_SPH_L           0x00000080  
+// SSI Serial Clock Phase Value
+#define SSI_CR0_SPH_V           HEX_NULL
+
+// SSI Serial Clock Polarity Location
+#define SSI_CR0_SPO_L           0x00000040  
+// SSI Serial Clock Polarity Value
+#define SSI_CR0_SPO_V           HEX_NULL
+
+// SSI Frame Format Select Location
+#define SSI_CR0_FRF_L           0x00000030  
+// SSI Frame Format Select Value
+#define SSI_CR0_FRF_V           HEX_NULL
+
+// SSI Data Size Select Location
+#define SSI_CR0_DSS_L           0x0000000F  
+// SSI Data Size Select Value
+#define SSI_CR0_DSS_V           0x00000007 
+ 
+// SSI Master/Slave Select
+#define SSI_CR1_MS              0x00000004  
+// SSI Synchronous Serial Port Enable
+#define SSI_CR1_SSE             0x00000002 
+// SSI Busy Bit
+#define SSI_SR_BSY              0x00000010  
+// SSI Transmit FIFO Not Full
+#define SSI_SR_TNF              0x00000002  
+// SSI Clock Prescale Divisor
+#define SSI_CPSR_CPSDVSR_M      0x000000FF  
+// SSI Baud Clock Source
+#define SSI_CC_CS_M             0x0000000F  
+// Either the system clock (if the PLL bypass is in effect) or the PLL output (default)
+#define SSI_CC_CS_SYSPLL        0x00000000                        
+// SSI0 Clock Gating Control
+#define SYSCTL_RCGC1_SSI0       0x00000010  
+// port A Clock Gating Control
+#define SYSCTL_RCGC2_GPIOA      0x00000001

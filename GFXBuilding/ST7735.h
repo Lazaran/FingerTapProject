@@ -53,7 +53,8 @@
 // Gnd (pin 1) connected to ground
 
 #ifndef _ST7735H_
-#define _ST7735H_
+#define 
+
 
 // some flags for ST7735_InitR()
 enum initRFlags{
