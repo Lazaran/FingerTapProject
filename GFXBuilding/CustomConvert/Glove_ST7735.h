@@ -17,11 +17,15 @@
 
 #define ST7735_TFTWIDTH  128
 #define ST7735_TFTHEIGHT 160
+// Chip enable?
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS normally controlled by hardware
 #define TFT_CS_HIGH             0x08
+// Data/Command Flag Register
 #define DC                      (*((volatile uint32_t *)0x40004100))
+// Command Flag Set
 #define DC_COMMAND              0
+// Data Flag Set
 #define DC_DATA                 0x40
 #define RESET                   (*((volatile uint32_t *)0x40004200))
 #define RESET_LOW               0

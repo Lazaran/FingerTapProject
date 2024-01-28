@@ -206,7 +206,7 @@ void enableSleep(int enable) {
   @remarks Using w and h convention for x2 and y2 of rect
   @remarks Using x/yOffset convention rather than col/rowstart or x/ystart
   @remarks Using Valavano 1-byte transfers rather than Ada 32-bit
-  @remarks Changed writecommand and writeData to camel-case equivalents
+  @remarks Changed writecommand and writedata to camel-case equivalents
   @since January 25, 2024
 */
 /**************************************************************************/
@@ -343,7 +343,7 @@ void commonInit() {
   // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
   SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+10; // must be even number
   // SCR = 0 (8 Mbps data rate), SPH = 0, SPO = 0
-  SSI0_CR0_R = (SSI0_CR0_R&~(SSI_CR0_SCR_M | SSI_CR0_SPH | SSI_CR0_SPO | SSI_CR0_FRF_M | SSI_CR0_DSS_M)) + (SSI_CR0_FRF_MOTO |);
+  SSI0_CR0_R &= ~(SSI_CR0_SCR_M | SSI_CR0_SPH | SSI_CR0_SPO);
 
   // FULL CR0 = 0x0000FFC0
   // FRF = Freescale format
