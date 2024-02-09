@@ -418,3 +418,5 @@ void ST7735_initR() {
   setRotation(0);
   readCmdList(initCmdList);
 };
+
+
