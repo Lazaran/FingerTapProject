@@ -304,7 +304,7 @@ void commonInit() {
   //  enable digital I/O on PA3,6,7
   GPIO_PORTA_DEN_R |= 0xC8;
   //  disable analog functionality on PA3,6,7
-  //  GPIO_PORTA_AMSEL_R &= ~0xC8;
+  GPIO_PORTA_AMSEL_R &= ~0xC8;
 
   // toggle RST low to reset; CS low so it'll listen to us
   TFT_CS = TFT_CS_LOW;
