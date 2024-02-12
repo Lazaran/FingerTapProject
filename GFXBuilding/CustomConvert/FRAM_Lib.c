@@ -53,6 +53,12 @@ of doing what I want.
 
 If I find a better way, I'll return PB5 to Fss so that the SSI
 module operates normally.
+
+ADDITIONALLY
+
+Might switch from APB GPIO to AHB GPIO because of faster response times
+
+
 */
 
 
@@ -118,7 +124,7 @@ void FRAM_INIT(){
             writing operation (WRSR command and WRITE command). 
     @since February 11th, 2024
 **********************************************************************/
-void FRAM_WREN(void){
+void FRAM_OP_WREN(void){
     // WAIT UNTIL FIFO EMPTY
     while(SSI2_SR_R&SSI_SR_BSY){};
     // SET HOLD HIGH
@@ -139,7 +145,7 @@ void FRAM_WREN(void){
             command) are not performed when WEL is reset. 
     @since February 11th, 2024
 **********************************************************************/
-void FRAM_WRDI(void){
+void FRAM_OP_WRDI(void){
     // WAIT UNTIL FIFO EMPTY
     while(SSI2_SR_R&SSI_SR_BSY){};
     // SET HOLD HIGH
@@ -151,6 +157,43 @@ void FRAM_WRDI(void){
     // SET HOLD LOW
     GPIO_PORTB_DATA_R &= ~PB_HOLD;
 };
+
+void WRITE_OPCODE(uint8_t opcode){
+    // WAIT UNTIL FIFO EMPTY
+    while(SSI2_SR_R&SSI_SR_BSY){};
+    // SET HOLD HIGH
+    GPIO_PORTB_DATA_R |= PB_HOLD;
+    // SEND OPCODE TO FIFO
+    SSI2_DR_R = opcode;
+    // WAIT UNTIL FIFO EMPTY
+    while(!(SSI2_SR_R&SSI_SR_TFE)){};
+    // SET HOLD LOW
+    GPIO_PORTB_DATA_R &= ~PB_HOLD;
+};
+
+
+void READ_DATA(){};
+
+void WRITE_DATA(uint8_t data){
+    // WAIT UNTIL FIFO NOT FULL
+    while(!(SSI2_SR_R&SSI_SR_TNF)){};
+    // SET HOLD HIGH
+    GPIO_PORTB_DATA_R |= PB_HOLD;
+    // SEND OPCODE TO FIFO
+    SSI2_DR_R = data;
+    // WAIT UNTIL FIFO EMPTY
+    while(!(SSI2_SR_R&SSI_SR_TFE)){};
+    // SET HOLD LOW
+    GPIO_PORTB_DATA_R &= ~PB_HOLD;
+}
+
+
+
+
+
+
+
+
 
 /*!*******************************************************************
     @author Qwyntyn Scurr
@@ -164,30 +207,93 @@ void FRAM_WRDI(void){
             is enabled by sending SCK continuously before rising of CS 
     @since February 11th, 2024
 **********************************************************************/
-void FRAM_RDSR(void){
+// uint8_t FRAM_OP_RDSR(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_RNE){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_RDSR;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // // SET HOLD LOW
+//     // GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-};
+// void FRAM_OP_WRSR(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-void FRAM_WRSR(void){
+// void FRAM_OP_READ(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-};
+// void FRAM_OP_WRITE(uint32_t address){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-void FRAM_READ(void){
+// void FRAM_OP_FSTRD(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-};
+// void FRAM_OP_RDID(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
 
-void FRAM_WRITE(uint32_t address,){
-
-};
-
-void FRAM_FSTRD(void){
-
-};
-
-void FRAM_RDID(void){
-
-};
-
-void FRAM_SLEEP(void){
-
-};
+// void FRAM_OP_SLEEP(void){
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD HIGH
+//     GPIO_PORTB_DATA_R |= PB_HOLD;
+//     // SEND OPCODE TO FIFO
+//     SSI2_DR_R = OP_WRDI;
+//     // WAIT UNTIL FIFO EMPTY
+//     while(SSI2_SR_R&SSI_SR_BSY){};
+//     // SET HOLD LOW
+//     GPIO_PORTB_DATA_R &= ~PB_HOLD;
+// };
