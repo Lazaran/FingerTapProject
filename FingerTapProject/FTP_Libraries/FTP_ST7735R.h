@@ -235,19 +235,25 @@
 // port A Clock Gating Control
 #define SYSCTL_RCGC2_GPIOA      0x00000001
 
-
-
-
-
 // Function Prototypes
 void writeCommand(uint8_t c) {};
+
 void writeData(uint8_t c) {};
+
 void setColRowStart(int8_t col, int8_t row) {};
+
 void enableDisplay(int enable) {};
+
 void enableTearing(int enable) {};
+
 void enableSleep(int enable) {};
+
 void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h) {};
+
 void setRotation(uint8_t m) {};
+
 void commonInit() {};
+
 void readCmdList(const uint8_t *addr) {};
+
 void ST7735_initR() {};

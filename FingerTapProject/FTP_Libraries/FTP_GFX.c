@@ -1,5 +1,5 @@
-#include "Glove_ST7735.h"
-#include "Glove_GFX.h"
+#include "FTP_ST7735R.h"
+#include "FTP_GFX.h"
 #include "stdint.h"
 #include "stdlib.h"
 

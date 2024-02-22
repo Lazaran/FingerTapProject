@@ -10,19 +10,19 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <uAC6>0</uAC6>
+      <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TM4C123GH6PM</Device>
           <Vendor>Texas Instruments</Vendor>
           <PackID>Keil.TM4C_DFP.1.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x00000000,0x040000) IRAM(0x20000000,0x008000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x008000) IROM(0x00000000,0x040000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0TM4C123_256 -FS00 -FL040000 -FP0($$Device:TM4C123GH6PM$Flash/TM4C123_256.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0TM4C123_256 -FS00 -FL040000 -FP0($$Device:TM4C123GH6PM$Flash\TM4C123_256.FLM))</FlashDriverDll>
           <DeviceId>6015</DeviceId>
-          <RegisterFile>$$Device:TM4C123GH6PM$Device/Include/TM4C123/TM4C123.h</RegisterFile>
+          <RegisterFile>$$Device:TM4C123GH6PM$Device\Include\TM4C123\TM4C123.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -32,7 +32,7 @@
           <SLE66CMisc>-DTM4C123GH6PM</SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:TM4C123GH6PM$SVD/TM4C123/TM4C123GH6PM.svd</SFDFile>
+          <SFDFile>$$Device:TM4C123GH6PM$SVD\TM4C123\TM4C123GH6PM.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -48,7 +48,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>GloveCode</OutputName>
+          <OutputName>FingerTapProject</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -111,7 +111,7 @@
           <SimDllName>SARMCM3.DLL</SimDllName>
           <SimDllArguments>-MPU</SimDllArguments>
           <SimDlgDll>DCM.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pCM4</SimDlgDllArguments>
+          <SimDlgDllArguments>-pCM4 -dLaunchPadDLL</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
           <TargetDllArguments>-MPU</TargetDllArguments>
           <TargetDlgDll>TCM.DLL</TargetDlgDll>
@@ -182,7 +182,7 @@
             <hadIRAM>1</hadIRAM>
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
-            <RvdsVP>2</RvdsVP>
+            <RvdsVP>1</RvdsVP>
             <RvdsMve>0</RvdsMve>
             <RvdsCdeCp>0</RvdsCdeCp>
             <nBranchProt>0</nBranchProt>
@@ -259,17 +259,17 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
@@ -279,7 +279,7 @@
                 <Size>0x40000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -325,10 +325,10 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
-            <uGnu>0</uGnu>
+            <uC99>1</uC99>
+            <uGnu>1</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
+            <v6Lang>3</v6Lang>
             <v6LangP>1</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
@@ -361,7 +361,7 @@
             </VariousControls>
           </Aads>
           <LDads>
-            <umfTarg>0</umfTarg>
+            <umfTarg>1</umfTarg>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
@@ -384,19 +384,69 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>PLL.c</FileName>
+              <FileName>FTP_FRAM.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\GeneralLib\PLL.c</FilePath>
+              <FilePath>.\FTP_Libraries\FTP_FRAM.c</FilePath>
             </File>
             <File>
-              <FileName>ST7735.c</FileName>
+              <FileName>FTP_GFX.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\GeneralLib\ST7735.c</FilePath>
+              <FilePath>.\FTP_Libraries\FTP_GFX.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_INPUT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_INPUT.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_NOTES.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_NOTES.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_PONG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_PONG.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_SNAKE.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_SNAKE.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_ST7735R.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_ST7735R.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_TETRIS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_TETRIS.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_VPAINT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_VPAINT.c</FilePath>
+            </File>
+            <File>
+              <FileName>PLL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\PLL.c</FilePath>
             </File>
             <File>
               <FileName>SysTick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\GeneralLib\SysTick.c</FilePath>
+              <FilePath>.\FTP_Libraries\SysTick.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\FTP_Libraries\startup.s</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_MAIN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_Libraries\FTP_MAIN.c</FilePath>
             </File>
           </Files>
         </Group>

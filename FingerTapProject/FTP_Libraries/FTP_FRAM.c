@@ -188,6 +188,9 @@ void WRITE_DATA(uint8_t data){
 }
 
 
+void func(int size){
+    int arr[size];
+}
 
 
 
