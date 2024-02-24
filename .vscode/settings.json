@@ -2,6 +2,7 @@
     "files.associations": {
         "glove_st7735.h": "c",
         "tm4c123gh6pm.h": "c",
-        "ftp_st7735r.h": "c"
+        "ftp_st7735r.h": "c",
+        "ftp_input.h": "c"
     }
 }
