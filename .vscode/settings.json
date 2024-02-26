@@ -3,6 +3,11 @@
         "glove_st7735.h": "c",
         "tm4c123gh6pm.h": "c",
         "ftp_st7735r.h": "c",
-        "ftp_input.h": "c"
+        "ftp_input.h": "c",
+        "cstdlib": "c",
+        "stdint.h": "c",
+        "ftp_gfx.h": "c",
+        "systick.h": "c",
+        "ftp_gameobj.h": "c"
     }
 }

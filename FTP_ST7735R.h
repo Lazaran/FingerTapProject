@@ -1,3 +1,9 @@
+/* File FTP_STT7735R.h */
+#ifndef FTP_STT7735R_H
+#define FTP_STT7735R_H
+
+#include <stdint.h>
+#include <stdlib.h>
 // Backlight (pin 10) connected to +3.3 V
 // MISO (pin 9) unconnected
 // SCK (pin 8) connected to PA2 (SSI0Clk)
@@ -9,15 +15,26 @@
 // VCC (pin 2) connected to +3.3 V
 // Gnd (pin 1) connected to ground
 
-#ifndef FTP_ST7735R_H
-#define FTP_ST7735R_H
-
-#include <stdint.h>
-
 // --| Valvano TFT, DC and Reset Settings |--
+
 
 #define ST7735_TFTWIDTH  128
 #define ST7735_TFTHEIGHT 160
+
+#define ST7735_BLACK   0x0000
+#define ST7735_BLUE    0xF800
+#define ST7735_RED     0x001F
+#define ST7735_GREEN   0x07E0
+#define ST7735_CYAN    0xFFE0
+#define ST7735_MAGENTA 0xF81F
+#define ST7735_YELLOW  0x07FF
+#define ST7735_WHITE   0xFFFF
+
+volatile extern uint8_t ScreenX;
+volatile extern uint8_t ScreenY;
+volatile extern uint8_t ScreenW;
+volatile extern uint8_t ScreenH;
+
 // Chip enable?
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS normally controlled by hardware
@@ -235,7 +252,10 @@
 #define SYSCTL_RCGC2_GPIOA      0x00000001
 
 // Function Prototypes
+
 void pushColor(uint16_t c);
+
+void setDirection(uint8_t m);
 
 void writeCommand(uint8_t c);
 
@@ -259,4 +279,4 @@ void readCmdList(const uint8_t *addr);
 
 void ST7735_initR();
 
-#endif
+#endif /* !FTP_STT7735R_H */

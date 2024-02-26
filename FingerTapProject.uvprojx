@@ -414,6 +414,11 @@
               <FileType>2</FileType>
               <FilePath>.\startup.s</FilePath>
             </File>
+            <File>
+              <FileName>FTP_PONG.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_PONG.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -1,19 +1,33 @@
+#include <stdlib.h>
+#include <stdint.h>
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
-#include "stdint.h"
-#include "stdlib.h"
+#include "SysTick.h"
+
+
+void extern inline v_Swap(uint8_t a, uint8_t b);
+
+void extern inline v_Clip(uint8_t a, uint8_t b);
+
+int extern inline v_Count(uint16_t x,uint16_t y,uint16_t w,uint16_t h);
+
+/* End of FTP_GFX Inlines*/
+
+const unsigned short colors[] = {
+    0x0000,
+    0xF800,
+    0x001F,
+    0x07E0,
+    0xFFE0,
+    0xF81F,
+    0x07FF,
+    0xFFFF
+};
+
 
 #define PIXEL_ARR_SIZE 500
 #define WIDTH 128
 #define HEIGHT 160
-
-#ifndef vSwap
-#define vSwap(a, b){uint8_t t = a; a = b; b = t;};
-#endif
-
-#ifndef vClip
-#define vClip(a, b){a = b;};
-#endif
 
 /* !!!!! IMPORTANT ABOUT THICKNESS !!!!!
   THICKNESS SHOULD ALWAYS GO TOWARD CENTER OF SCREEN
@@ -22,6 +36,7 @@
 */
 
 /*
+
 r-Series: Raw primitives, at the moment only includes rLine and rRect
           These shapes only draw from the coordinates provided
           They do no error checking or clipping, that is the job of d-Series
@@ -32,6 +47,10 @@ d-Series: 'Drawn' Higher order primitives, include error checking and clipping
 
 v-Series: Vertex-affecting functions, includes clipping, bounds checking
           and anything else I come up with of the ilk
+
+c-Series: Color-affecting functions, fills and inversions perhaps
+
+t-Series: Testing functions to push the LCD
 
 rRect: Creates a rectangle filled with color c from point x,y to w,h
 rLine: Creates a line with color c from point x,y to w,h
@@ -44,9 +63,32 @@ dCircle: Draw a circle with border thickness y, border color c1, infill color c2
           with a radius of r and centerpoint x,y
 */
 
+void c_Fill(uint16_t vCnt, uint16_t c1){
+  for (int i = 0; i < (vCnt); i++){
+    pushColor(c1);
+  };
+};
 
+void c_Bifill(uint16_t vCnt, uint16_t c1, uint16_t c2){
+  for (int i = 0; i < (vCnt); i++){
+    ((i % 2) == 0) ? pushColor(c1) : pushColor(c2); 
+  };
+};
 
+void c_Gradient(void){
+  // unknown
+};
 
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Clears the screen by selecting the entire screen and writing a single color to it
+  @param c 16-bit color in 5-6-5 format
+  @since February 24, 2024
+**********************************************************************/
+void clearScreen(uint16_t c){
+  setAddrWindow(ScreenX,ScreenY,ScreenW,ScreenH);  
+  c_Fill(v_Count(ScreenX,ScreenY,ScreenW,ScreenH),c);
+};
 
 /*!*******************************************************************
   @author Qwyntyn Scurr
@@ -60,7 +102,7 @@ dCircle: Draw a circle with border thickness y, border color c1, infill color c2
   @param h H position of the second point
   @since February 7th, 2024
 **********************************************************************/
-void rLine(uint8_t x, uint8_t y, uint8_t w, uint8_t h){
+void r_Line(uint8_t x, uint8_t y, uint8_t w, uint8_t h){
 
   uint8_t bitmap[2][500] = {0,0};
 };
@@ -76,15 +118,49 @@ void rLine(uint8_t x, uint8_t y, uint8_t w, uint8_t h){
   @param c Color of the rectangle
   @since February 7th, 2024
 **********************************************************************/
-void rRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t c){
-  // Calculate the total number of pixels to iterate over
-  int pCnt = (abs(w-x)+1) * (abs(y-h)+1);
-  // Set the pixel window to modify
-  setAddrWindow(x,y,w,h);
-  // Iterate pCnt times, setting the color of each pixel to c
-  for (int i = 0; i < (pCnt); i++){
-    pushColor(c);
-  };
+void r_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t c){
+  setAddrWindow(x,y,x+w,y+h);
+  c_Fill(v_Count(x,y,x+w,y+h),c);
+};
+
+/*!*******************************************************************
+  @author Qwyntyn Scurr
+  @brief Draws a color to the pixel at (x,y)
+  @param x X position of the first point
+  @param y Y position of the first point
+  @param c Color of the rectangle
+  @since February 25th, 2024
+**********************************************************************/
+void r_Pixel(uint8_t x, uint8_t y, uint16_t c){
+  setAddrWindow(x,y,x,y);
+  pushColor(c);
+};
+
+/*!*******************************************************************
+  @authors StackOverflow
+  @brief  Non-uniform random number from min to max N
+  @param  min_n Bottom limit
+  @param  max_n Top limit
+  @since February 25, 2024
+**********************************************************************/
+int t_Random(int min_n, int max_n)
+{
+    return rand() % (max_n - min_n + 1) + min_n;
+}
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief  Draws a random color pixel to each position of the LCD
+  @since February 25, 2024
+**********************************************************************/
+void t_RandomPixels (){
+  int maxC = sizeof(colors) / sizeof(colors[0]);
+	for (int x = 0; x < ST7735_TFTWIDTH; x++){
+		for (int y = 0; y < ST7735_TFTHEIGHT; y++){
+			r_Pixel(x,y,colors[t_Random(0,maxC)]);
+			SysTick_Wait10ms(1);
+		};
+	};
 };
 
 
@@ -127,24 +203,24 @@ void rRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t c){
   @param c2 Infill color
   @since February 9th, 2024
 **********************************************************************/
-void dRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, uint8_t cToggle, uint16_t c2){
+void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, uint8_t cToggle, uint16_t c2){
   // Clipping shape to screen if needed
-  if (h >= HEIGHT){ vClip(h,HEIGHT-1) };
-  if (w >= WIDTH){ vClip(w,WIDTH-1) };
-  if (x < 0){ vClip(x, 0) };
-  if (y < 0){ vClip(y, 0) };
+  if (y+h >= HEIGHT){ v_Clip((y+h),HEIGHT-1); };
+  if (w+x >= WIDTH){ v_Clip((x+w),WIDTH-1); };
+  if (x < 0){ v_Clip(x, 0); };
+  if (y < 0){ v_Clip(y, 0); };
 
   // Draw top border, offset down by t
-  rRect(x,y,w,(y+t),c1);
+  r_Rect(x,y,w,t,c1);
   // Draw bottom border, offset up by t
-  rRect(x,(h-t),w,h,c1);
+  r_Rect(x,(y+h-t),w,t,c1);
   // Draw left border, offset right by t
-  rRect(x,y,(x+t),h,c1);
+  r_Rect(x,y,t,h,c1);
   // Draw right border, offset left by t
-  rRect((w-t),y,w,h,c1);
+  r_Rect((x+w-t),y,t,h,c1);
   // Draw center fill if toggled
   if (cToggle){
-    rRect((x+t+1),(y+t+1),(w-t-1),(h-t-1),c2);
+    r_Rect((x+t),(y+t),(w-(2*t)),(h-(2*t)),c2);
   }
 }
 

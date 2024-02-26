@@ -1,17 +1,28 @@
-#include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
-#include "FTP_ST7735R.h"
+#include <stdio.h>
 #include "tm4c123gh6pm.h"
 #include "SysTick.h"
 
+#include "FTP_ST7735R.h"
+
+
+/* End of FTP_ST7735R Inlines*/
+
+/* The purpose of this file is to separate SSI command functions from graphical
+    manipulation functions. Thus, the FTP_GFX file calls neither writeData or
+    writeCommand. Similarly, this file may only call writeData, writeCommand
+    or another function defined in this program.
+
+*/
+
 // Valvano statics, can be changed in the future
-static uint8_t ColStart, RowStart; // some displays need this changed
-static uint8_t Rotation;           // 0 to 3
-static int16_t width = ST7735_TFTWIDTH;   // this could probably be a constant, except it is used in Adafruit_GFX and depends on image rotation
-static int16_t height = ST7735_TFTHEIGHT;
-static uint8_t xOffset, yOffset = 0; // some displays need this changed
 #define BACKGROUND_COLOR ST77XX_BLACK
 
+volatile uint8_t ScreenX = 0;
+volatile uint8_t ScreenY = 0;
+volatile uint8_t ScreenW = ST7735_TFTWIDTH;
+volatile uint8_t ScreenH = ST7735_TFTHEIGHT;
 
 /**************************************************************************/
 /*!
@@ -51,7 +62,7 @@ uint8_t initCmdList[] = {
   //  13: Don't invert display, no args
   ST77XX_INVOFF, 0,              
   //  14: Mem access ctl (directions), 1 arg: row/col addr, bottom-top refresh
-  ST77XX_MADCTL, 1,  0xC8,                         
+  ST77XX_MADCTL, 1,  0x08,                         
   //  15: set color mode, 1 arg, no delay: 16-bit color
   ST77XX_COLMOD, 1,  0x05,                         
 
@@ -84,8 +95,7 @@ uint8_t initCmdList[] = {
   that is actually being transmitted.
 */
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @author Jonathan W. Valvano
   @brief  waits until all data has been sent, configures the 
           Data/Command pin for commands, sends the command, 
@@ -95,8 +105,7 @@ uint8_t initCmdList[] = {
   @param  c  Data to be sent through SSI
   @remarks Changed function name to camel-case
   @since January 27, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void writeCommand(uint8_t c) {
   // Wait until SSI0 not busy/transmit FIFO empty
   while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
@@ -108,8 +117,7 @@ void writeCommand(uint8_t c) {
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @author Jonathan W. Valvano
   @brief  The write data operation waits until there is room in the
           transmit FIFO, configures the Data/Command pin for data,
@@ -119,8 +127,7 @@ void writeCommand(uint8_t c) {
   @param  c  Data to be sent through SSI
   @remarks Changed function name to camel-case
   @since January 27, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void writeData(uint8_t c) {
   // Wait until transmit FIFO not full
   while((SSI0_SR_R&SSI_SR_TNF)==0){};   
@@ -130,8 +137,7 @@ void writeData(uint8_t c) {
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada
   @brief  Set origin of (0,0) of display with offsets
   @param  col  The offset from 0 for the column address
@@ -139,62 +145,53 @@ void writeData(uint8_t c) {
   @remarks I believe this sets the offsets of the screen, leaving as col- and row-start
             for now but likely should be xOffset and yOffset
   @since January 27, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void setColRowStart(int8_t col, int8_t row) {
-  ColStart = col;
-  RowStart = row;
+  ScreenX = col;
+  ScreenY = row;
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada
   @brief  Change whether display is on or off
   @param  enable 1 if you want the display ON, 0 = OFF
   @remarks Modified to use int instead of bool
   @remarks changed sendcommand to writeCommand
   @since January 27, 2024
- */
-/**************************************************************************/
+**********************************************************************/
 void enableDisplay(int enable) {
   writeCommand(enable ? ST77XX_DISPON : ST77XX_DISPOFF);
 };
 
 
-/**************************************************************************/
-/*!
-Adafruit
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada
   @brief  Change whether TE pin output is on or off
   @param  enable 1 if you want the TE pin ON, 0 = OFF
   @remarks Modified to use int instead of bool
   @remarks changed sendcommand to writeCommand
   @since January 27, 2024
- */
-/**************************************************************************/
+**********************************************************************/
 void enableTearing(int enable) {
   writeCommand(enable ? ST77XX_TEON : ST77XX_TEOFF);
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada
   @brief  Change whether sleep mode is on or off
   @param  enable 1 if you want sleep mode ON, 0 = OFF
   @remarks Modified to use int instead of bool
   @remarks changed sendcommand to writeCommand
   @since January 27, 2024
- */
-/**************************************************************************/
+**********************************************************************/
 void enableSleep(int enable) {
   writeCommand(enable ? ST77XX_SLPIN : ST77XX_SLPOUT);
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @brief Sets an address window rectangle for pixel blitting
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
   @param x  Window X position
@@ -207,23 +204,22 @@ void enableSleep(int enable) {
   @remarks Using Valavano 1-byte transfers rather than Ada 32-bit
   @remarks Changed writecommand and writedata to camel-case equivalents
   @since January 25, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h){
 
   // Setting the columns to blit?
   writeCommand(ST77XX_CASET); // Column addr set
   writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
-  writeData(x + xOffset);     // XSTART
+  writeData(x + ScreenX);     // XSTART
   writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
-  writeData(w + xOffset);     // XEND
+  writeData(w + ScreenX);     // XEND
 
   // Setting the rows to blit?
   writeCommand(ST77XX_RASET); // Row addr set
   writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
-  writeData(y + yOffset);     // YSTART
+  writeData(y + ScreenY);     // YSTART
   writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
-  writeData(h + yOffset);     // YEND
+  writeData(h + ScreenY);     // YEND
 
   // Writing something to RAM, still not sure what or why
   writeCommand(ST77XX_RAMWR); // write to RAM
@@ -242,73 +238,95 @@ void pushColor(uint16_t c) {
   writeData((uint8_t)c);
 }
 
-
-void clearScreen(){
-  setAddrWindow(xOffset,yOffset,ST7735_TFTWIDTH,ST7735_TFTHEIGHT);
-  pushColor(BACKGROUND_COLOR);
-};
-
-
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
   @brief Sets the rotation of screen
+  @deprecated
   @param m 0 to 3, determines rotation of screen
   @since January 27, 2024
-*/
-/**************************************************************************/
-void setRotation(uint8_t m){
-  uint8_t madctl = 0;
-  int rotation = m % 3; // can't be higher than 3
+**********************************************************************/
+// void setRotation(uint8_t m){
+//   uint8_t madctl = 0;
+//   int rotation = m % 3; // can't be higher than 3
+//   switch (rotation) {
+//     case 0:
+//       madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST7735_MADCTL_BGR;
+//       ScreenW = ST7735_TFTWIDTH;
+//       ScreenH = ST7735_TFTHEIGHT;
+//       break;
+//     case 1:
+//       madctl = ST77XX_MADCTL_MY | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
+//       ScreenW = ST7735_TFTHEIGHT;
+//       ScreenH = ST7735_TFTWIDTH;
+//       break;
+//     case 2:
+//       madctl = ST7735_MADCTL_BGR;
+//       ScreenW = ST7735_TFTWIDTH;
+//       ScreenH = ST7735_TFTHEIGHT;
+//       break;
+//     case 3:
+//       madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
+//       ScreenW = ST7735_TFTHEIGHT;
+//       ScreenH = ST7735_TFTWIDTH;
+//       break;
+//   }
+//   writeCommand(ST77XX_MADCTL);
+//   writeData(madctl);
+// };
 
-  switch (rotation) {
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Sets the display direction of the LCD screen, as per Sitronix Datsheet
+  @details 0: Normal Mode
+            1: Y-Mirror
+            2: X-Mirror
+            3: X-Mirror | Y-Mirror
+            4: X-Y Exchange
+            5: X-Y Exchange | Y-Mirror
+            6: X-Y Exchange | X-Mirror
+            7: X-Y Exchange | X-Mirror | Y-Mirror
+  @note Derived from the setRotation function devloped by Adafruit/Valvano
+        However, this function provides full display direction functionality 
+  @param m 0 to 7, determines display direction of screen
+  @since Feb 24, 2024
+**********************************************************************/
+void setDirection(uint8_t m){
+  uint8_t direction = m % 7; // Limits input to 0-7
+  switch (direction) {
     case 0:
-      madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST7735_MADCTL_BGR;
-      height = ST7735_TFTHEIGHT;
-      width = ST7735_TFTWIDTH;
-      xOffset = ColStart;
-      yOffset = RowStart;
-      break;
     case 1:
-      madctl = ST77XX_MADCTL_MY | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
-      width = ST7735_TFTHEIGHT;
-      height = ST7735_TFTWIDTH;
-      yOffset = ColStart;
-      xOffset = RowStart;
-      break;
     case 2:
-      madctl = ST7735_MADCTL_BGR;
-      height = ST7735_TFTHEIGHT;
-      width = ST7735_TFTWIDTH;
-      xOffset = ColStart;
-      yOffset = RowStart;
-      break;
     case 3:
-      madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
-      width = ST7735_TFTHEIGHT;
-      height = ST7735_TFTWIDTH;
-      yOffset = ColStart;
-      xOffset = RowStart;
+      ScreenW = ST7735_TFTWIDTH;
+      ScreenH = ST7735_TFTHEIGHT;
       break;
-  };
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      ScreenW = ST7735_TFTHEIGHT;
+      ScreenH = ST7735_TFTWIDTH;
+      break;
+  }
+  // Set last 3 bits of register with direction select
+  direction <<= 5;
+  direction |= ST7735_MADCTL_BGR;
   writeCommand(ST77XX_MADCTL);
-  writeData(madctl);
+  writeData(direction);
 };
 
-/**************************************************************************/
-/*!
+
+
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Jonathan W. Valvano 
   @brief Initilization code for the ST7735R
-  @param cmdlist  list of commands to set the display with
   @remarks Modifications include:
   @remarks shuffling Valvano's settings around to make more sense
   Must put in ifndefs for systick wait to use it?
   @since January 25, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void commonInit() {
-  ColStart = RowStart = 0; // May be overridden in init func
-
   SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
   SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
 
@@ -375,8 +393,7 @@ void commonInit() {
 }
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
   @brief  Companion code to the initiliazation tables. Reads and issues
           a series of LCD commands stored in PROGMEM byte array.
@@ -384,8 +401,7 @@ void commonInit() {
   @remarks Used Valvanos version as a base since it follows TM4C SSI
   @remarks Changed delay function to Systick_Wait10ms() for cross-compatibility
   @since January 27, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void readCmdList(const uint8_t *addr) {
   uint8_t numCommands, numArgs;
   uint16_t ms;
@@ -419,8 +435,7 @@ void readCmdList(const uint8_t *addr) {
 };
 
 
-/**************************************************************************/
-/*!
+/*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
   @brief  LCD screen Initilization function; calls commonInit to enable
           communication between TM4C and ST7735R via SSI
@@ -429,13 +444,10 @@ void readCmdList(const uint8_t *addr) {
   @remarks Modified greatly to only require commonInit and readCmdList
   @remarks Since the cmdlist has been merged, only one call of readCmdList is necessary
   @since January 27, 2024
-*/
-/**************************************************************************/
+**********************************************************************/
 void ST7735_initR() {
   commonInit();
-  setRotation(0);
   readCmdList(initCmdList);
-  clearScreen();
 };
 
 
