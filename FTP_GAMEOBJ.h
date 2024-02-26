@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-typedef struct  {
+typedef struct GameObject{
+	uint16_t COLOR;
 	uint8_t X;
 	uint8_t Y;
 	uint8_t W;
@@ -12,7 +13,6 @@ typedef struct  {
 	uint8_t YVEL;
     uint8_t XACCEL;
     uint8_t YACCEL;
-	uint16_t COLOR;
 } GameObject;
 
 void Set_GOX(GameObject *active, uint8_t x);

@@ -71,9 +71,9 @@ int pong_main(void) {
     uint8_t exitcode = 1;
 
 	// Generate GameObjects
-	struct GameObject PongPaddle = {P_PAD_X,P_PAD_Y,P_PAD_W,P_PAD_H,0,0,0,0,ST7735_WHITE};
-	struct GameObject PongBall = {P_BALL_X,P_BALL_Y,P_BALL_W,P_BALL_H,P_BALL_XVEL,P_BALL_YVEL,0,0,ST7735_WHITE};
-    struct GameObject PongViewport = {ScreenX,ScreenY,ScreenW,ScreenH,0,0,0,0,ST7735_BLACK};
+	struct GameObject PongPaddle = {ST7735_WHITE,P_PAD_X,P_PAD_Y,P_PAD_W,P_PAD_H,0,0,0,0};
+	struct GameObject PongBall = {ST7735_WHITE,P_BALL_X,P_BALL_Y,P_BALL_W,P_BALL_H,P_BALL_XVEL,P_BALL_YVEL,0,0};
+  struct GameObject PongViewport = {ST7735_BLACK,ScreenX,ScreenY,ScreenW,ScreenH,0,0,0,0};
 
     // Pong Hyperloop
 	while(exitcode){

@@ -4,20 +4,20 @@
 #include <stdint.h>
 #include "FTP_GAMEOBJ.h"
 
-void p_Bounce(GameObject *active, GameObject *passive);
+void p_Bounce(GameObject *a, GameObject *p);
 
-void p_AABBCollide(GameObject *active, GameObject *passive);
+void p_AABBCollide(GameObject *a, GameObject *p);
 
-void p_ViewCollide(GameObject *active, GameObject *viewport);
+void p_ViewCollide(GameObject *a, GameObject *viewport);
 
-void p_PosUpdate(GameObject *active);
+void p_PosUpdate(GameObject *a);
 
-void p_VelUpdate(GameObject *active);
+void p_VelUpdate(GameObject *a);
 
-void p_PosMod(GameObject *active, uint8_t mod, uint8_t dim);
+void p_PosMod(GameObject *a, uint8_t mod, uint8_t dim);
 
-void p_VelMod(GameObject *active, uint8_t mod, uint8_t dim);
+void p_VelMod(GameObject *a, uint8_t mod, uint8_t dim);
 
-void p_AccelMod(GameObject *active, uint8_t mod, uint8_t dim);
+void p_AccelMod(GameObject *a, uint8_t mod, uint8_t dim);
 
 #endif

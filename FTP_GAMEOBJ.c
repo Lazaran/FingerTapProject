@@ -108,3 +108,4 @@ void Set_GOYACCEL(GameObject *active, uint8_t yAccel){
 void Set_GOCOLOR(GameObject *active, uint16_t color){
 		active->COLOR = color;
 };
+

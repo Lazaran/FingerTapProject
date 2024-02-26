@@ -117,13 +117,12 @@ void p_VelUpdate(GameObject *a){
   @authors Qwyntyn Scurr
   @brief  Updates a gameobjects' position using a vector modifier
   @param  a Some GameObject
-  @param  mod A vector modifier 
-  @param  dim X or Y select
+  @param  vector A vector modifier 
   @since February 25, 2024
 **********************************************************************/
-void p_PosMod(GameObject *a, uint8_t mod, uint8_t dim){
-    if (dim) {a->Y += mod;} 
-    else {a->X += mod;};
+void p_PosMod(GameObject *a, uint8_t *vector){
+    a->X += vector[0]; 
+    a->Y += vector[1];
 }
 
 
@@ -131,13 +130,12 @@ void p_PosMod(GameObject *a, uint8_t mod, uint8_t dim){
   @authors Qwyntyn Scurr
   @brief  Updates a gameobjects' velocity using a vector modifier
   @param  a Some GameObject
-  @param  mod A vector modifier 
-  @param  dim X or Y select
+  @param  vector A vector modifier 
   @since February 25, 2024
 **********************************************************************/
-void p_VelMod(GameObject *a, uint8_t mod, uint8_t dim){
-    if (dim) {a->YVEL += mod;} 
-    else {a->XVEL += mod;};
+void p_VelMod(GameObject *a, uint8_t *vector){
+    a->XVEL += vector[0]; 
+    a->YVEL += vector[1];
 }
 
 /*!*******************************************************************
@@ -148,7 +146,7 @@ void p_VelMod(GameObject *a, uint8_t mod, uint8_t dim){
   @param  dim X or Y select
   @since February 25, 2024
 **********************************************************************/
-void p_AccelMod(GameObject *a, uint8_t mod, uint8_t dim){
-    if (dim) {a->YACCEL += mod;} 
-    else {a->XACCEL += mod;};
+void p_AccelMod(GameObject *a, uint8_t *vector){
+    a->XVEL += vector[0]; 
+    a->YVEL += vector[1];
 }
