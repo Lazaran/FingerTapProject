@@ -52,13 +52,21 @@
   @param  viewport Pong Viewport struct
   @since February 25, 2024
 **********************************************************************/
-void orderedUpdate(struct GameObject *ball, struct GameObject *paddle, struct GameObject *viewport){
-    p_VelUpdate(ball);
-    p_PosUpdate(ball);
-    p_ViewCollide(ball, viewport);
-    p_AABBCollide(ball, paddle);
-    p_Bounce(ball, viewport);
+void step(struct GameObject *ball, struct GameObject *paddle, struct GameObject *viewport){
+  p_UpdateVelocity(ball);
+  p_UpdatePosition(ball);
+
 }
+
+
+/*
+ FOR FINAL IMPLEMENTATION, MAKE A LIST OF ACTIVE OBJECT
+Iterate through list using step loop, checking collisions of objects.
+this will most likely require a partial rewrite of the physics lib
+mainly to make collision stuff more robust so the viewport can be included
+in the list without it bouncing off somewhere.
+Otherwise, maybe just leave the viewport object out of the stepping list
+*/
 
 
 /*!*******************************************************************
