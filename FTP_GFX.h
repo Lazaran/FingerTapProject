@@ -3,6 +3,7 @@
 #define FTP_GFX_H
 
 #include <stdint.h>
+#include <stdlib.h>
 	
 void inline v_Swap(uint8_t a, uint8_t b){
   uint8_t t = a; 
@@ -10,7 +11,7 @@ void inline v_Swap(uint8_t a, uint8_t b){
   b = t;
 };
 
-void inline v_Clip(uint8_t a, uint8_t b){
+ void inline v_Clip(uint8_t a, uint8_t b){
   a = b;
 };
 
@@ -37,5 +38,6 @@ uint8_t d_Line(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t width, uint8_
 void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, uint8_t cToggle, uint16_t c2);
 
 void d_Circle(uint8_t x, uint8_t ys);
+
 
 #endif /* !FTP_GFX_H */

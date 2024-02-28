@@ -273,10 +273,10 @@ void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h);
 
 void setRotation(uint8_t m);
 
-void commonInit();
+void commonInit(void);
 
 void readCmdList(const uint8_t *addr);
 
-void ST7735_initR();
+void ST7735_initR(void);
 
 #endif /* !FTP_STT7735R_H */

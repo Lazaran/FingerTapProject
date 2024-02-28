@@ -1,0 +1,10 @@
+.\objects\ftp_tetris.o: FTP_TETRIS.c
+.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\ftp_tetris.o: SysTick.h
+.\objects\ftp_tetris.o: FTP_TETRIS.h
+.\objects\ftp_tetris.o: FTP_GFX.h
+.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\ftp_tetris.o: FTP_GAMEOBJ.h
+.\objects\ftp_tetris.o: FTP_ST7735R.h
+.\objects\ftp_tetris.o: FTP_PHYSX.h

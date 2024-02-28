@@ -6,15 +6,17 @@
 
 typedef uint8_t Vector2[2];
 
-int p_DetectOutsideCollision(GameObject *active, GameObject *passive);
+void t_Bounce(GameObject *active);
 
-int p_DetectInsideCollision(GameObject *active, GameObject *passive);
+int p_DetectEnterCollision(GameObject *active, GameObject *passive);
 
-void p_CorrectCollision(GameObject *active, GameObject *passive);
+uint8_t p_DetectExitCollisionAABB(GameObject *active, GameObject *passive);
 
-void p_UpdatePosition(GameObject *active);
+void p_CorrectCollision(GameObject *active, uint8_t collisionCode);
 
 void p_UpdateVelocity(GameObject *active);
+
+void p_UpdatePosition(GameObject *active);
 
 void p_SetPosition(GameObject *active, Vector2 newPosition);
 

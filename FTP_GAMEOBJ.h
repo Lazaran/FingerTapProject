@@ -17,6 +17,11 @@ typedef struct GameObject{
 	uint8_t friction;
 } GameObject;
 
+typedef struct PositionGameObject{
+	uint8_t x;
+	uint8_t y;
+} PositionGameObject;
+
 void SetGO_x(GameObject *active, uint8_t x);
 
 void SetGO_y(GameObject *active, uint8_t y);
@@ -33,6 +38,10 @@ void SetGO_xaccel(GameObject *active, uint8_t xaccel);
 
 void SetGO_yaccel(GameObject *active, uint8_t yaccel);
 
-void SetGO_x(GameObject *active, uint16_t color);
+void SetGO_color(GameObject *active, uint16_t color);
+
+void SetGO_bounce(GameObject *active, uint8_t bounce);
+
+void SetGO_friction(GameObject *active, uint8_t friction);
 
 #endif

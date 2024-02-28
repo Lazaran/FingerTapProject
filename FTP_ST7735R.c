@@ -326,7 +326,7 @@ void setDirection(uint8_t m){
   Must put in ifndefs for systick wait to use it?
   @since January 25, 2024
 **********************************************************************/
-void commonInit() {
+void commonInit(void) {
   SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
   SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
 
@@ -445,7 +445,7 @@ void readCmdList(const uint8_t *addr) {
   @remarks Since the cmdlist has been merged, only one call of readCmdList is necessary
   @since January 27, 2024
 **********************************************************************/
-void ST7735_initR() {
+void ST7735_initR(void) {
   commonInit();
   readCmdList(initCmdList);
 };

@@ -278,4 +278,13 @@ void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, 
 //   }
 // }
 
+//void 
+/* printing letters to screen
+cursor x,y position
+for (x <5)
+  
+for (y< 8)
+  font[i][x] > y
+  
 
+*/

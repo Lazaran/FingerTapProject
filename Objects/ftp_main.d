@@ -1,4 +1,14 @@
-./objects/ftp_main.o: FTP_MAIN.c tm4c123gh6pm.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h PLL.h SysTick.h \
-  FTP_ST7735R.h C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  FTP_GFX.h FTP_INPUT.h FTP_PONG.h
+.\objects\ftp_main.o: FTP_MAIN.c
+.\objects\ftp_main.o: tm4c123gh6pm.h
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ftp_main.o: PLL.h
+.\objects\ftp_main.o: SysTick.h
+.\objects\ftp_main.o: FTP_ST7735R.h
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\ftp_main.o: FTP_GFX.h
+.\objects\ftp_main.o: FTP_INPUT.h
+.\objects\ftp_main.o: FTP_GAMEOBJ.h
+.\objects\ftp_main.o: FTP_PHYSX.h
+.\objects\ftp_main.o: FTP_PONG.h
+.\objects\ftp_main.o: FTP_TETRIS.h
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

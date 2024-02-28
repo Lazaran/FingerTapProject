@@ -3,8 +3,9 @@
 #define FTP_PONG_H
 
 #include <stdint.h>
+#include "FTP_GAMEOBJ.h"
 
-void orderedUpdate(struct GameObject *ball, struct GameObject *paddle, struct GameObject *viewport);
+void step(GameObject *ball, GameObject *paddle, GameObject *viewport);
 
 int pong_main(void);
 

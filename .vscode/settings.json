@@ -8,6 +8,14 @@
         "stdint.h": "c",
         "ftp_gfx.h": "c",
         "systick.h": "c",
-        "ftp_gameobj.h": "c"
-    }
+        "ftp_gameobj.h": "c",
+        "ftp_physx.h": "c",
+        "ftp_pong.h": "c",
+        "stdlib.h": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xstring": "c",
+        "xutility": "c"
+    },
+    "C_Cpp.default.cStandard": "c99"
 }
