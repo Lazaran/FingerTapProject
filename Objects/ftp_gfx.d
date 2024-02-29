@@ -1,6 +1,4 @@
-.\objects\ftp_gfx.o: FTP_GFX.c
-.\objects\ftp_gfx.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\ftp_gfx.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\ftp_gfx.o: FTP_ST7735R.h
-.\objects\ftp_gfx.o: FTP_GFX.h
-.\objects\ftp_gfx.o: SysTick.h
+./objects/ftp_gfx.o: FTP_GFX.c \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h FTP_ST7735R.h \
+  FTP_GFX.h SysTick.h

@@ -2,6 +2,8 @@
 #define FTP_TETRIS_H
 
 #include <stdint.h>
+#include "FTP_TETRIS.h"
+#include "FTP_PHYSX.h"
 
 #define ST7735_BLACK   0x0000
 #define ST7735_BLUE    0xF800
@@ -15,8 +17,8 @@
 #define ST7735_NEONGREEN 0x3FE2
 #define ST7735_GRAY 0x8410
 
-#define MINO_WIDTH ((uint8_t) 10)
-#define MINO_HEIGHT ((uint8_t) 10)
+#define MINO_WIDTH ((uint8_t) 4)
+#define MINO_HEIGHT ((uint8_t) 4)
 // Matrix size determined from mino and screen dimensions
 #define MATRIX_WIDTH ((uint8_t) (ST7735_TFTWIDTH/MINO_WIDTH))
 #define MATRIX_HEIGHT ((uint8_t) (ST7735_TFTHEIGHT/MINO_HEIGHT))
@@ -24,21 +26,37 @@
 #define BORDERED_MATRIX_WIDTH ((uint8_t) (MATRIX_WIDTH - 2))
 #define BORDERED_MATRIX_HEIGHT ((uint8_t) (MATRIX_HEIGHT - 2))
 
+typedef uint16_t Color;
+// typedef uint8_t Tetromino[5][2];
+
 typedef uint8_t Tetromino[5][2];
+
+extern Vector2 StarshipWhite[83];
+extern Vector2 StarshipBlue[4];
+extern Vector2 StarshipRed[24];
+extern Vector2 Alien[46];
+
+
+typedef struct ActiveTetromino{
+    Tetromino Minos;
+    Color MinoColor;
+    Vector2 MinoPos;
+    Vector2 MinoMax;
+} ActiveTetromino;
 
 typedef uint8_t MinoPile[2];
 
-extern uint8_t FixedTetrominos[19][5][2]; 
+extern ActiveTetromino FixedTetrominos[19]; 
 
 uint8_t GetTetrominoSize(void);
 
-void SelectTetromino(uint8_t index);
+// void SelectTetromino(uint8_t index);
 
 void DrawMatrixBorder(void);
 
 void tetris_main(uint8_t exitcode);
 
-void DrawTetromino(Tetromino activeBlock, uint8_t xPos, uint8_t yPos, uint16_t color);
+void DrawTetromino(ActiveTetromino active, Color color);
 
 /*
 The following is a list of the shapes, their orientations and 
@@ -127,5 +145,35 @@ Tetrominos:
 */
 
 
+/*
+       #
+       #
+       #
+      ###  
+   3  ###  3
+   3  ###  3  
+3  # ##### #  3
+3  #@##3##@#  3
+#  @##333##@  #
+#  ###3#3###  #
+# ########### #
+#####3###3#####
+### 33###33 ###
+##  33 # 33  ##
+#      #      #
+*/
+
+
+
+/*
+  #     #
+   #   # 
+  #######
+ ## ### ##
+###########
+# ####### #
+# #     # #
+   ## ##
+*/
 
 #endif
