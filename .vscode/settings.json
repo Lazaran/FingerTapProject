@@ -19,5 +19,15 @@
         "ftp_tetris.h": "c",
         "pll.h": "c"
     },
-    "C_Cpp.default.cStandard": "c99"
+    "C_Cpp.default.cStandard": "c99",
+    "cmsis-csolution.actions": [
+        {
+            "path": "FingerTapProject.csolution.yml",
+            "target": "Target_1",
+            "config": {
+                "run": "Flash Device",
+                "debug": "Embedded Debug"
+            }
+        }
+    ]
 }

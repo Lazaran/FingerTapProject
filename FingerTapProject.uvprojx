@@ -416,24 +416,14 @@
               <FilePath>.\startup.s</FilePath>
             </File>
             <File>
-              <FileName>FTP_PONG.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FTP_PONG.c</FilePath>
-            </File>
-            <File>
-              <FileName>FTP_PHYSX.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FTP_PHYSX.c</FilePath>
-            </File>
-            <File>
-              <FileName>FTP_GAMEOBJ.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FTP_GAMEOBJ.c</FilePath>
-            </File>
-            <File>
               <FileName>FTP_TETRIS.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\FTP_TETRIS.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_INPUT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_INPUT.c</FilePath>
             </File>
           </Files>
         </Group>

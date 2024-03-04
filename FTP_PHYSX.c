@@ -1,9 +1,9 @@
 #include <stdint.h>
 #include <stdlib.h>
-
-#include "FTP_PHYSX.h"
-#include "FTP_GAMEOBJ.h"
 #include <math.h>
+
+#include "FTP_TYPES.h"
+#include "FTP_PHYSX.h"
 
 
 

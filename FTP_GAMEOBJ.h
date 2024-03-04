@@ -1,26 +1,8 @@
 #ifndef FTP_GAMEOBJ_H
 #define FTP_GAMEOBJ_H
 
-#include <stdint.h>
-
-typedef struct GameObject{
-	uint16_t color;
-	uint8_t x;
-	uint8_t y;
-	uint8_t w;
-	uint8_t h;
-	uint8_t xvel;
-	uint8_t yvel;
-    uint8_t xaccel;
-    uint8_t yaccel;
-	uint8_t bounce;
-	uint8_t friction;
-} GameObject;
-
-typedef struct PositionGameObject{
-	uint8_t x;
-	uint8_t y;
-} PositionGameObject;
+#include <stdint.h> 
+#include "FTP_TYPES.h"
 
 void SetGO_x(GameObject *active, uint8_t x);
 

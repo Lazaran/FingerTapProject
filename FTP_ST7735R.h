@@ -29,6 +29,7 @@
 #define ST7735_MAGENTA 0xF81F
 #define ST7735_YELLOW  0x07FF
 #define ST7735_WHITE   0xFFFF
+#define BG_COLOR ST7735_BLACK
 
 volatile extern uint8_t ScreenX;
 volatile extern uint8_t ScreenY;

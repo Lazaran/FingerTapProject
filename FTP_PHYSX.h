@@ -2,9 +2,7 @@
 #define FTP_PHYSX_H
 
 #include <stdint.h>
-#include "FTP_GAMEOBJ.h"
-
-typedef uint8_t Vector2[2];
+#include "FTP_TYPES.h"
 
 void t_Bounce(GameObject *active);
 

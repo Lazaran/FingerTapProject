@@ -39,5 +39,8 @@ void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, 
 
 void d_Circle(uint8_t x, uint8_t ys);
 
+uint8_t d_DrawString(uint8_t x, uint8_t y, char *pt, uint16_t textColor);
+
+void d_DrawCharS(uint8_t x, uint8_t y, char c, uint16_t textColor, uint16_t bgColor, uint8_t size);
 
 #endif /* !FTP_GFX_H */

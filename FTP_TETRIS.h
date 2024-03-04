@@ -1,10 +1,13 @@
+/* File FTP_TETRIS.h*/
 #ifndef FTP_TETRIS_H
 #define FTP_TETRIS_H
 
+// Includes
 #include <stdint.h>
-#include "FTP_TETRIS.h"
-#include "FTP_PHYSX.h"
+#include "FTP_TYPES.h"
+#include "FTP_ST7735R.h"
 
+// Reference colors, Orange doesn't work for some reason
 #define ST7735_BLACK   0x0000
 #define ST7735_BLUE    0xF800
 #define ST7735_RED     0x001F
@@ -17,51 +20,60 @@
 #define ST7735_NEONGREEN 0x3FE2
 #define ST7735_GRAY 0x8410
 
-#define MINO_WIDTH ((uint8_t) 4)
-#define MINO_HEIGHT ((uint8_t) 4)
-// Matrix size determined from mino and screen dimensions
+#define MINO_DIMENSION 10
+/* Mino dimensions, entire scale of game is based on this 
+    Only takes MinoDimension if width/height is fully divisable by it
+    Otherwise defaults to ten */ 
+#define MINO_WIDTH ((uint8_t) ((ST7735_TFTWIDTH % MINO_DIMENSION == 0) ? MINO_DIMENSION : 10))
+#define MINO_HEIGHT ((uint8_t) ((ST7735_TFTHEIGHT % MINO_DIMENSION == 0) ? MINO_DIMENSION : 10))
+/* Matrix dimensions, determined from mino and screen dimensions */
 #define MATRIX_WIDTH ((uint8_t) (ST7735_TFTWIDTH/MINO_WIDTH))
 #define MATRIX_HEIGHT ((uint8_t) (ST7735_TFTHEIGHT/MINO_HEIGHT))
-// Subtract 2 from matrix width and height to allow for borders
+/* Viewport dimensions, subtract 2 from matrix dimensions */
 #define BORDERED_MATRIX_WIDTH ((uint8_t) (MATRIX_WIDTH - 2))
 #define BORDERED_MATRIX_HEIGHT ((uint8_t) (MATRIX_HEIGHT - 2))
 
-typedef uint16_t Color;
-// typedef uint8_t Tetromino[5][2];
 
-typedef uint8_t Tetromino[5][2];
 
+// Array declarations, don't really like these, want to find better ways
 extern Vector2 StarshipWhite[83];
 extern Vector2 StarshipBlue[4];
 extern Vector2 StarshipRed[24];
 extern Vector2 Alien[46];
-
-
-typedef struct ActiveTetromino{
-    Tetromino Minos;
-    Color MinoColor;
-    Vector2 MinoPos;
-    Vector2 MinoMax;
-} ActiveTetromino;
-
-typedef uint8_t MinoPile[2];
-
 extern ActiveTetromino FixedTetrominos[19]; 
 
-uint8_t GetTetrominoSize(void);
+// Function prototypes
+void Tetromino_SetOrigin(ActiveTetromino active, Vector2 newOrigin);
 
-// void SelectTetromino(uint8_t index);
+void Tetromino_SetSize(ActiveTetromino active, Vector2 newSize);
+
+void Tetromino_SetColor(ActiveTetromino active, Color color);
+
+void Tetromino_SetMinos(ActiveTetromino active, Tetromino newTetromino);
 
 void DrawMatrixBorder(void);
 
-void tetris_main(uint8_t exitcode);
-
 void DrawTetromino(ActiveTetromino active, Color color);
 
-/*
-The following is a list of the shapes, their orientations and 
-    the relative positions of each block in each orientation
+void Matrix_Draw(ActiveMatrix active, Vector1 arrSize, Color colors[arrSize]);
 
+void Matrix_SetOrigin(ActiveMatrix active, Vector2 newOrigin);
+
+void Matrix_SetSize(ActiveMatrix active, Vector2 newSize);
+
+void Matrix_SetMaxHeight(ActiveMatrix active, Vector1 newMaxHeight);
+
+void Matrix_SetArrSize(ActiveMatrix active, Vector1 newArrSize);
+
+void Matrix_AddRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 newRow);
+
+void Matrix_DeleteRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 delRow);
+
+void tetris_main(uint8_t exitcode);
+
+
+/* Reference list of all Fixed Tetrominos, their 
+    relative Mino coordinates and their colors
 Tetrominos:
     I:
         ####
@@ -107,7 +119,7 @@ Tetrominos:
             {{0xF8,0x00},{0,0},{1,0},{0,1},{0,2}}
         #
         ###
-            {{0xF8,0x00},{0,0},{0,1},{0,2},{0,3}}
+            {{0xF8,0x00},{0,0},{0,1},{1,1},{2,1}}
 
     L:
         ## 
@@ -143,9 +155,7 @@ Tetrominos:
         #
             {{0x00, 0x1F},{1,0},{0,1},{1,1},{0,2}}
 */
-
-
-/*
+/* Reference bitmap of the Spaceship from Space Invaders
        #
        #
        #
@@ -162,10 +172,7 @@ Tetrominos:
 ##  33 # 33  ##
 #      #      #
 */
-
-
-
-/*
+/* Reference bitmap of Alien from Space Invaders
   #     #
    #   # 
   #######
