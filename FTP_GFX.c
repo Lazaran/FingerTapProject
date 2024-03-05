@@ -627,3 +627,21 @@ void d_DrawCharS(uint8_t x, uint8_t y, char c, uint16_t textColor, uint16_t bgCo
   };
 }
 
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Prints the input number and text to the LCD at the positions defined
+  @param x X position for the string to draw at
+  @param y Y position for the string to draw at
+  @param num Number to format into drawn string
+  @param text String to format into drawn string
+  @since March 3, 2024
+**********************************************************************/
+void format_Print(uint8_t x, uint8_t y, int num, char* text){
+	char buffer[100];
+//    if (sizeof(text)/sizeof(text[0]) <= 10){
+        // Format the inputs number and string for display
+        snprintf(buffer, 100, "%s %d", text, num);
+        // Draw formatted string to LCD
+        d_DrawString(x,y,buffer,ST7735_WHITE);
+//		};
+};

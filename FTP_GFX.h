@@ -4,6 +4,19 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#define ST7735_BLACK   0x0000
+#define ST7735_BLUE    0xF800
+#define ST7735_RED     0x001F
+#define ST7735_GREEN   0x07E0
+#define ST7735_CYAN    0xFFE0
+#define ST7735_MAGENTA 0xF81F
+#define ST7735_YELLOW  0x07FF
+#define ST7735_WHITE   0xFFFF
+#define ST7735_ORANGE  0xFD20
+#define ST7735_NEONGREEN 0x3FE2
+#define ST7735_GRAY 0x8410
 	
 void inline v_Swap(uint8_t a, uint8_t b){
   uint8_t t = a; 
@@ -42,5 +55,7 @@ void d_Circle(uint8_t x, uint8_t ys);
 uint8_t d_DrawString(uint8_t x, uint8_t y, char *pt, uint16_t textColor);
 
 void d_DrawCharS(uint8_t x, uint8_t y, char c, uint16_t textColor, uint16_t bgColor, uint8_t size);
+
+void format_Print(uint8_t x, uint8_t y, int num, char* text);
 
 #endif /* !FTP_GFX_H */

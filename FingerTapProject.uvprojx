@@ -416,14 +416,14 @@
               <FilePath>.\startup.s</FilePath>
             </File>
             <File>
-              <FileName>FTP_TETRIS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FTP_TETRIS.c</FilePath>
-            </File>
-            <File>
               <FileName>FTP_INPUT.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\FTP_INPUT.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_SNAKE.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_SNAKE.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -36,10 +36,6 @@
 
 
 // Array declarations, don't really like these, want to find better ways
-extern Vector2 StarshipWhite[83];
-extern Vector2 StarshipBlue[4];
-extern Vector2 StarshipRed[24];
-extern Vector2 Alien[46];
 extern ActiveTetromino FixedTetrominos[19]; 
 
 // Function prototypes

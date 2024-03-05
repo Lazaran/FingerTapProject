@@ -7,7 +7,12 @@
 /* General Core Types: Rely on standard types */
 typedef uint16_t Color;
 typedef uint8_t Vector1;
-typedef uint8_t Vector2[2];
+
+/* Members: uint8_t X, uint8_t Y */
+typedef struct {
+    uint8_t x;
+    uint8_t y;
+} Vector2;
 
 /* App Core Types: Rely on standard types, app-specific*/
 /* Tetris */
