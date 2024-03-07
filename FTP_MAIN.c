@@ -5,11 +5,7 @@
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
 #include "FTP_INPUT.h"
-#include "FTP_GAMEOBJ.h"
-#include "FTP_PHYSX.h"
 #include "FTP_PONG.h"
-#include "FTP_TETRIS.h"
-#include "FTP_SNAKE.h"
 #include "string.h"
 
 char IndexText[] = "Index Value";
@@ -30,7 +26,8 @@ int main(void){
     clearScreen(ST77XX_BLACK);
     
     while (1){
-        snake_main();
+        // snake_main();
+        pong_main();
         // d_DrawString(0,0,IndexText,ST7735_WHITE);
         // // WaitForInterrupt();
         // format_Print(0,0,IndexCircuit,IndexText);

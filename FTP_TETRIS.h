@@ -20,52 +20,69 @@
 #define ST7735_NEONGREEN 0x3FE2
 #define ST7735_GRAY 0x8410
 
-#define MINO_DIMENSION 10
 /* Mino dimensions, entire scale of game is based on this 
     Only takes MinoDimension if width/height is fully divisable by it
     Otherwise defaults to ten */ 
-#define MINO_WIDTH ((uint8_t) ((ST7735_TFTWIDTH % MINO_DIMENSION == 0) ? MINO_DIMENSION : 10))
-#define MINO_HEIGHT ((uint8_t) ((ST7735_TFTHEIGHT % MINO_DIMENSION == 0) ? MINO_DIMENSION : 10))
-/* Matrix dimensions, determined from mino and screen dimensions */
-#define MATRIX_WIDTH ((uint8_t) (ST7735_TFTWIDTH/MINO_WIDTH))
-#define MATRIX_HEIGHT ((uint8_t) (ST7735_TFTHEIGHT/MINO_HEIGHT))
-/* Viewport dimensions, subtract 2 from matrix dimensions */
-#define BORDERED_MATRIX_WIDTH ((uint8_t) (MATRIX_WIDTH - 2))
-#define BORDERED_MATRIX_HEIGHT ((uint8_t) (MATRIX_HEIGHT - 2))
+// Number of pixels per square | IMPORTANT
+#define TETRISGAME_SCALE 10
 
+// At snake scale of 10, width = 12, height = 16
+#define TETRISWIDTH ((ST7735_TFTWIDTH/TETRISGAME_SCALE) - ((ST7735_TFTWIDTH % TETRISGAME_SCALE)/TETRISGAME_SCALE))
+#define TETRISHEIGHT ((ST7735_TFTHEIGHT/TETRISGAME_SCALE) - ((ST7735_TFTHEIGHT % TETRISGAME_SCALE)/TETRISGAME_SCALE))
 
+/* App Core Types: Rely on standard types, app-specific*/
+/* Tetris */
 
-// Array declarations, don't really like these, want to find better ways
-extern ActiveTetromino FixedTetrominos[19]; 
+/* TETRIS */
+typedef struct Tetromino{
+    Vector2 falling_minos[4];
+    Color color;
+    Vector2 origin;
+    Vector2 bounding_box;
+} Tetromino;
+
+typedef struct TetrisMatrix{
+    Color stuck_minos[TETRISHEIGHT*TETRISWIDTH];
+    Vector2 origin;
+    Vector2 bounding_box;
+    uint8_t arrSize;
+} TetrisMatrix;
+
+typedef struct Tetris_GameState{
+    TetrisMatrix matrix;
+    Tetromino tetromino;
+    uint8_t active_tetromino;
+    uint8_t game_over;
+    uint8_t player_input;
+    uint8_t sides_valid;
+    uint8_t is_falling;
+    uint8_t fall_speed;
+    uint8_t affix_timer;
+} Tetris_GameState;
 
 // Function prototypes
-void Tetromino_SetOrigin(ActiveTetromino active, Vector2 newOrigin);
 
-void Tetromino_SetSize(ActiveTetromino active, Vector2 newSize);
+void handle_tetrisinput(Tetris_GameState *game);
 
-void Tetromino_SetColor(ActiveTetromino active, Color color);
+void move_tetromino(Tetris_GameState *game);
 
-void Tetromino_SetMinos(ActiveTetromino active, Tetromino newTetromino);
+void check_matrix_collision(Tetris_GameState *game);
 
-void DrawMatrixBorder(void);
+void check_boundary_collision(Tetris_GameState *game);
 
-void DrawTetromino(ActiveTetromino active, Color color);
+void affix_tetromino(Tetris_GameState *game);
 
-void Matrix_Draw(ActiveMatrix active, Vector1 arrSize, Color colors[arrSize]);
+void random_tetromino(Tetris_GameState *game);
 
-void Matrix_SetOrigin(ActiveMatrix active, Vector2 newOrigin);
+void render_tetromino(Tetris_GameState *game, uint8_t color_toggle);
 
-void Matrix_SetSize(ActiveMatrix active, Vector2 newSize);
+void render_matrix(Tetris_GameState *game);
 
-void Matrix_SetMaxHeight(ActiveMatrix active, Vector1 newMaxHeight);
+void init_tetrisgame(Tetris_GameState *game);
 
-void Matrix_SetArrSize(ActiveMatrix active, Vector1 newArrSize);
+void update_tetrisgamestate(Tetris_GameState *game);
 
-void Matrix_AddRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 newRow);
-
-void Matrix_DeleteRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 delRow);
-
-void tetris_main(uint8_t exitcode);
+void tetris_main(void);
 
 
 /* Reference list of all Fixed Tetrominos, their 

@@ -8,34 +8,37 @@
 #define SNAKEGAME_SCALE 10
 
 // At snake scale of 10, width = 12, height = 16
-#define WIDTH ((ST7735_TFTWIDTH/SNAKEGAME_SCALE) - ((ST7735_TFTWIDTH % SNAKEGAME_SCALE)/SNAKEGAME_SCALE))
-#define HEIGHT ((ST7735_TFTHEIGHT/SNAKEGAME_SCALE) - ((ST7735_TFTHEIGHT % SNAKEGAME_SCALE)/SNAKEGAME_SCALE))
+#define GAMEWIDTH ((ST7735_TFTWIDTH/SNAKEGAME_SCALE) - ((ST7735_TFTWIDTH % SNAKEGAME_SCALE)/SNAKEGAME_SCALE))
+#define GAMEHEIGHT ((ST7735_TFTHEIGHT/SNAKEGAME_SCALE) - ((ST7735_TFTHEIGHT % SNAKEGAME_SCALE)/SNAKEGAME_SCALE))
 #define SNAKE_SPEED 100
 #define SCORE_INCREMENT 2
 #define Y_INCREMENT 1
 #define X_INCREMENT 1
 #define INPUT_MIN 2000
 
+
+/* SNAKE */
 /* Members: Vector2 segments, Vector2 head, uint8_t length */
-typedef struct {
-    Vector2 segments[HEIGHT * WIDTH];
+typedef struct Snake{
+    Vector2 segments[GAMEHEIGHT * GAMEWIDTH];
     Vector2 head;
     uint8_t length;
 } Snake;
 
 /* Members: Snake snake, Vector2 food, uint8_t direction, uint8_t score, uint8_t game_over */
-typedef struct {
+typedef struct Snake_GameState{
     Snake snake;
     Vector2 oldfood;
     Vector2 food;
     uint8_t direction;
     uint8_t score;
     uint8_t game_over;
-} GameState;
+} Snake_GameState;
 
-void handle_input(GameState *game);
 
-void move_head(GameState *game);
+void handle_input(Snake_GameState *game);
+
+void move_head(Snake_GameState *game);
 
 uint8_t check_self_collision(Snake *snake);
 
@@ -43,21 +46,21 @@ uint8_t check_wall_collision(Vector2 *head);
 
 uint8_t check_food_collision(Vector2 *head, Vector2 *food);
 
-void add_segment(GameState *game);
+void add_segment(Snake_GameState *game);
 
-void move_body(GameState *game);
+void move_body(Snake_GameState *game);
 
-void render_snake(GameState *game, uint8_t draw_erase_toggle);
+void render_snake(Snake_GameState *game, uint8_t draw_erase_toggle);
 
-// void render_food(GameState *game);
+// void render_food(Snake_GameState *game);
 
-// void render_score(GameState *game);
+// void render_score(Snake_GameState *game);
 
-// void render_game(GameState *game);
+// void render_game(Snake_GameState *game);
 
-void init_game(GameState *game);
+void init_game(Snake_GameState *game);
 
-void update_gamestate(GameState *game);
+void update_gamestate(Snake_GameState *game);
 
 uint8_t snake_main(void);
 

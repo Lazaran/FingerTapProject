@@ -5,6 +5,15 @@
 #include "FTP_GFX.h"
 #include "FTP_TETRIS.h"
 #include "FTP_TYPES.h"
+#include "FTP_INPUT.h"
+
+#define INPUT_THRESHOLD 2000
+#define FIXED_TETROMINOS 19
+#define INPUT_LEFT 0x1
+#define INPUT_RIGHT 0x2
+#define INPUT_BOTH 0x03
+#define AFFIX_TIMER 5
+
 
 /* Notes:
         Ensure that rotation can only occur above the BlockMass boundary line 
@@ -29,13 +38,9 @@ Color TetrominoColors[11] = {
     ST7735_GRAY 
 };
 
-/* Color type array storing colors of each 
-    fallen Mino to draw for the MinoMatrix */
-Color arrMatrix[(BORDERED_MATRIX_HEIGHT*BORDERED_MATRIX_WIDTH)] = {ST7735_BLACK};
-
 /* Array of ActiveTetrominos each intialized with a Fixed Tetromino 
     and respective color and Max Relative Mino Coordinates */ 
-ActiveTetromino FixedTetrominos[19] = {
+Tetromino FixedTetrominos[19] = {
     // Tetromino: I | Orientation: 0
     {{{0,0}, {1,0}, {2,0}, {3,0}}, 0xFFE0, {0,0}, {3,0}},
     // Tetromino:{0,0} I | Orientation: 1
@@ -76,239 +81,355 @@ ActiveTetromino FixedTetrominos[19] = {
     {{{1,0}, {0,1}, {1,1}, {0,2}}, 0x001F, {0,0}, {1,2}}    
 };
 
+// /*!*******************************************************************
+//   @authors Qwyntyn Scurr
+//   @brief Draws the game border around the edge of the screen.
+//             Bounds the game and is true to the original
+//   @since February 29, 2024
+// **********************************************************************/
+// void DrawMatrixBorder(void){
+//     for (int i = 0; i < MATRIX_WIDTH; i++){
+//         for (int j = 0; j < MATRIX_HEIGHT; j++){
+//             if ((i != 0 && i != (MATRIX_WIDTH-1)) && (j != 0 && j != (MATRIX_HEIGHT-1))){
+//                 continue;
+//             }
+//             r_Rect((i*MINO_WIDTH),(j*MINO_HEIGHT),MINO_WIDTH,MINO_HEIGHT,ST7735_GRAY);
+//         };
+//     };
+// };
 
+// /*!*******************************************************************
+//   @authors Qwyntyn Scurr
+//   @brief Draws a Tetromino to the screen
+//   @param active An Tetromino object
+//   @param color 16-bit color in 5-6-5 format
+//   @since February 29, 2024
+// **********************************************************************/
+// void DrawTetromino(Tetromino active, Color color){
+//     for (int i = 0; i < 4; i++){
+//         r_Rect((active.origin[0]+active.minos[i][0])*MINO_WIDTH,(active.origin[1]+active.minos[i][1])*MINO_HEIGHT,MINO_WIDTH,MINO_HEIGHT,color);
+//     };
+// };
+
+
+// /*!*******************************************************************
+//   @authors Qwyntyn Scurr
+//   @brief Draws the MinoMatrix to the screen, dependent on MinoWidth and Height
+//   @param active An Tetromino object
+//   @param color 16-bit color in 5-6-5 format
+//   @since February 29, 2024
+// **********************************************************************/
+// void Matrix_Draw(TetrisMatrix active, uint8_t arrSize, Color colors[arrSize]){
+//     Vector2 drawPosition = {0,0};
+//     for (int colorsIndex = 0; colorsIndex < arrSize; colorsIndex++){
+//         if ((colorsIndex % BORDERED_MATRIX_WIDTH) == 0){
+//             drawPosition[1] += 1;
+//         }
+//         drawPosition[0] = (colorsIndex % BORDERED_MATRIX_WIDTH);
+//         r_Rect((active.origin[0]+drawPosition[0])*MINO_WIDTH, (active.origin[0]+drawPosition[1])*MINO_HEIGHT, MINO_WIDTH, MINO_HEIGHT, colors[colorsIndex]);
+//     };
+// };
+
+
+
+// /*!*******************************************************************
+//   @authors Qwyntyn Scurr
+//   @brief Adds a row at position 'newRow' of an TetrisMatrix object
+//   @param active An TetrisMatrix object
+//   @param colors Array of Matrix Mino colors
+//   @param newRow A uint8_t with the new row
+//   @since February 29, 2024
+// **********************************************************************/
+// void Matrix_AddRow(TetrisMatrix active, Color colors[active.arrSize], uint8_t newRow){
+//     active.arrSize += BORDERED_MATRIX_WIDTH;
+//     active.size[1] += 1;
+//     uint8_t tempCount = 0;
+//     Color* newMatrix = (Color*) calloc(active.arrSize, sizeof(Color));
+//     for (int row = 0; row < active.size[1]; row++){
+//         for (int col = 0; col < active.size[0]; col++){
+//             if (row < newRow){
+//                 newMatrix[tempCount] = colors[tempCount];
+//             }
+//             else if (row > newRow){
+//                 newMatrix[tempCount] = colors[tempCount-BORDERED_MATRIX_WIDTH];
+//             }
+//         }
+//     }
+// }
+
+// /*!*******************************************************************
+//   @authors Qwyntyn Scurr
+//   @brief Deletes a row from position 'delRow' of an TetrisMatrix object
+//   @note Copied from Matrix_AddRow, even less sure this will work as only flipped a couple values
+//   @param active An TetrisMatrix object
+//   @param colors Array of Matrix Mino colors
+//   @param delRow A uint8_t with the row to be deleted
+//   @since February 29, 2024
+// **********************************************************************/
+// void Matrix_DeleteRow(TetrisMatrix active, Color colors[active.arrSize], uint8_t delRow){
+//     active.arrSize -= BORDERED_MATRIX_WIDTH;
+//     active.size[1] -= 1;
+//     uint8_t tempCount = 0;
+//     Color* newMatrix = (Color*) calloc(active.arrSize, sizeof(Color));
+//     for (int row = 0; row < active.size[1]; row++){
+//         for (int col = 0; col < active.size[0]; col++){
+//             if (row < delRow){
+//                 newMatrix[tempCount] = colors[tempCount];
+//             }
+//             else if (row > delRow){
+//                 newMatrix[tempCount] = colors[tempCount+BORDERED_MATRIX_WIDTH];
+//             }
+//         }
+//     }
+// }
 
 /*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the origin of an ActiveTetromino
-  @note might not work because of the pointer issue with structs, minor fix
-  @param active An ActiveTetromino object
-  @param newPosition A Vector2 with the new position 
-  @since February 29, 2024
+    @authors Qwyntyn Scurr
+    @brief Checks raw finger circuit values and moves falling tetromino 
+    @note 0x1 = Left, 0x2 = Right
+    @param game A Tetris_GameState with important values for the game
+    @since March 5, 2024
 **********************************************************************/
-void Tetromino_SetOrigin(ActiveTetromino active, Vector2 newOrigin){
-    active.origin[0] = newOrigin[0];
-    active.origin[1] = newOrigin[1];
+void handle_tetrisinput(Tetris_GameState *game) {
+    if (MiddleCircuit > INPUT_THRESHOLD){
+        game->player_input = 0x01;
+    };
+    if (RingCircuit > INPUT_THRESHOLD){
+        game->player_input = 0x02;
+    };
+};
+
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Moves the falling tetromino
+    @note 0x1 = Left, 0x02 = Right
+    @param game A Tetris_GameState with important values for the game
+    @since March 5, 2024
+**********************************************************************/
+void move_tetromino(Tetris_GameState *game) {
+    if (game->is_falling){
+        game->tetromino.origin.y += 1;
+    };
+    switch(game->sides_valid & game->player_input){
+        case 0x01:
+            game->tetromino.origin.x -= 1;
+            break;
+        case 0x02:
+            game->tetromino.origin.x += 1;
+            break;
+    };
 }
 
 /*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the size of an ActiveTetromino
-  @note might not work because of the pointer issue with structs, minor fix
-  @param active An ActiveTetromino object
-  @param newSize A Vector2 with the new size 
-  @since February 29, 2024
+    @authors Qwyntyn Scurr
+    @brief Checks for a collision between the matrix and the falling tetromino
+            voiding valid directions if collisions found
+    @param game A Tetris_GameState with important values for the game
+    @since March 5, 2024
 **********************************************************************/
-void Tetromino_SetSize(ActiveTetromino active, Vector2 newSize){
-    active.size[0] = newSize[0];
-    active.size[1] = newSize[1];
-}
+void check_matrix_collision(Tetris_GameState *game) {
+    int i = 0;
+    int j = 0;
+    int yPosition = TETRISHEIGHT;
+    int xPosition = 0;
+    for (j = game->matrix.arrSize - 1; j >= 0; j--){        
+        if (game->matrix.stuck_minos[i] == 0){
+            continue;
+        }
 
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the color of an ActiveTetromino
-  @note might not work because of the pointer issue with structs, minor fix
-  @param active An ActiveTetromino object
-  @param color A Color with the new color
-  @since February 29, 2024
-**********************************************************************/
-void Tetromino_SetColor(ActiveTetromino active, Color color){
-    active.color = color;
-}
+        if (j % TETRISWIDTH == 0){
+            yPosition--;
+        }
+        xPosition = (j % TETRISWIDTH);
 
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the color of an ActiveTetromino
-  @note might not work because of the pointer issue with structs,
-            additionally memory might not set correctly, biggest fix of all TetrominoSets
-  @param active An ActiveTetromino object
-  @param color A Color with the new color
-  @since February 29, 2024
-**********************************************************************/
-void Tetromino_SetMinos(ActiveTetromino active, Tetromino newTetromino){
-    memcpy(active.minos, newTetromino, sizeof(Tetromino));
-}
-
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Draws the game border around the edge of the screen.
-            Bounds the game and is true to the original
-  @since February 29, 2024
-**********************************************************************/
-void DrawMatrixBorder(void){
-    for (int i = 0; i < MATRIX_WIDTH; i++){
-        for (int j = 0; j < MATRIX_HEIGHT; j++){
-            if ((i != 0 && i != (MATRIX_WIDTH-1)) && (j != 0 && j != (MATRIX_HEIGHT-1))){
-                continue;
-            }
-            r_Rect((i*MINO_WIDTH),(j*MINO_HEIGHT),MINO_WIDTH,MINO_HEIGHT,ST7735_GRAY);
+        for (i = 0; i < 4; i++){
+            // Blocking down
+            if (game->tetromino.falling_minos[i].y+1 == yPosition && game->tetromino.falling_minos[i].x == xPosition){
+                game->is_falling = 0;
+            };
+            // Blocking left side
+            if (game->tetromino.falling_minos[i].y == yPosition && game->tetromino.falling_minos[i].x-1 == xPosition){
+                game->sides_valid &= ~INPUT_LEFT;
+            };
+            // Blocking right side
+            if (game->tetromino.falling_minos[i].y == yPosition && game->tetromino.falling_minos[i].x+1 == xPosition){
+                game->sides_valid &= ~INPUT_RIGHT;
+            };
         };
     };
 };
 
 /*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Draws a Tetromino to the screen
-  @param active An ActiveTetromino object
-  @param color 16-bit color in 5-6-5 format
-  @since February 29, 2024
+    @authors Qwyntyn Scurr
+    @brief Checks for a collision between the falling tetromino and the boundaries of the game screen
+    @param game A Tetris_GameState with important values for the game
+    @since March 6, 2024
 **********************************************************************/
-void DrawTetromino(ActiveTetromino active, Color color){
-    for (int i = 0; i < 4; i++){
-        r_Rect((active.origin[0]+active.minos[i][0])*MINO_WIDTH,(active.origin[1]+active.minos[i][1])*MINO_HEIGHT,MINO_WIDTH,MINO_HEIGHT,color);
-    };
-};
+void check_boundary_collision(Tetris_GameState *game) {
+    if (game->tetromino.origin.x == 0){
+        game->sides_valid &= ~INPUT_LEFT;
+    }
+    if (game->tetromino.bounding_box.x == TETRISWIDTH){
+        game->sides_valid &= ~INPUT_RIGHT;
+    }
+    if (game->tetromino.bounding_box.y == TETRISHEIGHT){
+        game->is_falling = 0;
+    }
+}
+
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Adds the colored minos of a newly fallen tetromino to the matrix
+    @param game A Tetris_GameState with important values for the game
+    @since March 6, 2024
+**********************************************************************/
+void affix_tetromino(Tetris_GameState *game) {
+    int i = 0;
+    int tempPos = 0;
+    for (i = 0; i < 4; i++){
+        tempPos = ((game->tetromino.falling_minos[i].y * TETRISWIDTH) + game->tetromino.falling_minos[i].x);
+        game->matrix.stuck_minos[tempPos] = game->tetromino.color;
+    }
+}
+
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Sets a random active tetromino from the FixedTetrominos list
+    @param game A Tetris_GameState with important values for the game
+    @since March 6, 2024
+**********************************************************************/
+void random_tetromino(Tetris_GameState *game) {
+    game->active_tetromino = rand() % 19;
+    game->tetromino.origin.x = ((TETRISWIDTH / 2) - ((TETRISWIDTH % 2) / 2));
+    game->tetromino.origin.y = 0;
+    game->tetromino = FixedTetrominos[game->active_tetromino];
+}
 
 
 /*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Draws the MinoMatrix to the screen, dependent on MinoWidth and Height
-  @param active An ActiveTetromino object
-  @param color 16-bit color in 5-6-5 format
-  @since February 29, 2024
+    @authors Qwyntyn Scurr
+    @brief Renders the falling tetromino to the screen
+    @param game A Tetris_GameState with important values for the game
+    @since March 6, 2024
 **********************************************************************/
-void Matrix_Draw(ActiveMatrix active, Vector1 arrSize, Color colors[arrSize]){
-    Vector2 drawPosition = {0,0};
-    for (int colorsIndex = 0; colorsIndex < arrSize; colorsIndex++){
-        if ((colorsIndex % BORDERED_MATRIX_WIDTH) == 0){
-            drawPosition[1] += 1;
+void render_tetromino(Tetris_GameState *game, uint8_t color_toggle) {
+    int i = 0;
+    if (color_toggle){
+        for (i = 0; i < 4; i++){
+            d_Rect(game->tetromino.falling_minos[i].x*TETRISGAME_SCALE,game->tetromino.falling_minos[i].y*TETRISGAME_SCALE,TETRISGAME_SCALE,TETRISGAME_SCALE, 3, game->tetromino.color, 0, game->tetromino.color);
         }
-        drawPosition[0] = (colorsIndex % BORDERED_MATRIX_WIDTH);
-        r_Rect((active.origin[0]+drawPosition[0])*MINO_WIDTH, (active.origin[0]+drawPosition[1])*MINO_HEIGHT, MINO_WIDTH, MINO_HEIGHT, colors[colorsIndex]);
-    };
-};
-
-
-void ActiveMatrix_Build(ActiveMatrix active, Vector2 neworigin, Vector2 newsize, Vector1 newmaxheight, Vector1 newarrSize){
-    Matrix_SetOrigin(active, neworigin);
-    Matrix_SetSize(active, newsize);
-    Matrix_SetMaxHeight(active, newmaxheight);
-    Matrix_SetArrSize(active, newarrSize);
-}
-
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the origin of an ActiveMatrix
-  @param active An ActiveMatrix object
-  @param newOrigin A Vector2 with the new origin
-  @since February 29, 2024
-**********************************************************************/
-void Matrix_SetOrigin(ActiveMatrix active, Vector2 newOrigin){
-    active.origin [0] = newOrigin[0];
-    active.origin[1] = newOrigin[1];
-
-}
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the size of an ActiveMatrix
-  @param active An ActiveMatrix object
-  @param newSize A Vector2 with the new size
-  @since February 29, 2024
-**********************************************************************/
-void Matrix_SetSize(ActiveMatrix active, Vector2 newSize){
-    active.size[0] = newSize[0];
-    active.size[1] = newSize[1];
-}
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the max height of an ActiveMatrix
-  @param active An ActiveMatrix object
-  @param newMaxHeight A Vector2 with the new max height
-  @since February 29, 2024
-**********************************************************************/
-void Matrix_SetMaxHeight(ActiveMatrix active, Vector1 newMaxHeight){
-    active.maxheight = newMaxHeight;
-}
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Sets the array size of an ActiveMatrix
-  @param active An ActiveMatrix object
-  @param newArrSize A Vector2 with the new matrix size
-  @since February 29, 2024
-**********************************************************************/
-void Matrix_SetArrSize(ActiveMatrix active, Vector1 newArrSize){
-    active.arrSize = newArrSize;
-}
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Adds a row at position 'newRow' of an ActiveMatrix object
-  @param active An ActiveMatrix object
-  @param colors Array of Matrix Mino colors
-  @param newRow A Vector1 with the new row
-  @since February 29, 2024
-**********************************************************************/
-void Matrix_AddRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 newRow){
-    active.arrSize += BORDERED_MATRIX_WIDTH;
-    active.size[1] += 1;
-    Vector1 tempCount = 0;
-    Color* newMatrix = (Color*) calloc(active.arrSize, sizeof(Color));
-    for (int row = 0; row < active.size[1]; row++){
-        for (int col = 0; col < active.size[0]; col++){
-            if (row < newRow){
-                newMatrix[tempCount] = colors[tempCount];
-            }
-            else if (row > newRow){
-                newMatrix[tempCount] = colors[tempCount-BORDERED_MATRIX_WIDTH];
-            }
+    } else {
+        for (i = 0; i < 4; i++){
+            d_Rect(game->tetromino.falling_minos[i].x*TETRISGAME_SCALE,game->tetromino.falling_minos[i].y*TETRISGAME_SCALE,TETRISGAME_SCALE,TETRISGAME_SCALE, 3, ST7735_BLACK, 0, ST7735_BLACK);
         }
     }
 }
 
 /*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Deletes a row from position 'delRow' of an ActiveMatrix object
-  @note Copied from Matrix_AddRow, even less sure this will work as only flipped a couple values
-  @param active An ActiveMatrix object
-  @param colors Array of Matrix Mino colors
-  @param delRow A Vector1 with the row to be deleted
-  @since February 29, 2024
+    @authors Qwyntyn Scurr
+    @brief Renders the matrix to the screen
+    @param game A Tetris_GameState with important values for the game
+    @since March 6, 2024
 **********************************************************************/
-void Matrix_DeleteRow(ActiveMatrix active, Color colors[active.arrSize], Vector1 delRow){
-    active.arrSize -= BORDERED_MATRIX_WIDTH;
-    active.size[1] -= 1;
-    Vector1 tempCount = 0;
-    Color* newMatrix = (Color*) calloc(active.arrSize, sizeof(Color));
-    for (int row = 0; row < active.size[1]; row++){
-        for (int col = 0; col < active.size[0]; col++){
-            if (row < delRow){
-                newMatrix[tempCount] = colors[tempCount];
-            }
-            else if (row > delRow){
-                newMatrix[tempCount] = colors[tempCount+BORDERED_MATRIX_WIDTH];
-            }
+void render_matrix(Tetris_GameState *game) {
+    int i = 0;
+    int tempX = 0;
+    int tempY = TETRISHEIGHT;
+    for (i = 0; i < game->matrix.stuck_minos[i]; i++){
+        if (game->matrix.stuck_minos[i] == 0){
+            continue;
         }
+        
+        if (i % TETRISWIDTH == 0){
+            tempY--;
+        }
+        tempX = (i % TETRISWIDTH);
+
+        d_Rect(tempX*TETRISGAME_SCALE, tempY*TETRISGAME_SCALE, TETRISGAME_SCALE, TETRISGAME_SCALE, 4, game->matrix.stuck_minos[i], 0,game->matrix.stuck_minos[i]);
     }
 }
 
 /*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Initialize the GameState
+    @param game A Tetris_GameState with important values for the game
+    @since March 5, 2024
+**********************************************************************/
+void init_tetrisgame(Tetris_GameState *game) {
+    // Matrix
+    game->matrix.origin.x = 0;
+    game->matrix.origin.y = 0;  
+    game->matrix.bounding_box.x = 0;
+    game->matrix.bounding_box.y = 0;
+    game->matrix.arrSize = TETRISHEIGHT * TETRISWIDTH;
+
+    // Tetromino
+    game->active_tetromino = rand() % 19;
+    game->tetromino.origin.x = ((TETRISWIDTH / 2) - ((TETRISWIDTH % 2) / 2));
+    game->tetromino.origin.y = 0;
+    game->tetromino = FixedTetrominos[game->active_tetromino];
+    
+    // Other
+    game->game_over = 0;
+    game->player_input = 0;
+    game->sides_valid = 3;
+    game->is_falling = 1;
+    game->fall_speed = 1;
+    game->affix_timer = AFFIX_TIMER;
+}
+
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Check for collisions, check gameover condition, move the falling tetromino, affix fallen tetromino to matrix
+            render all objects to screen
+    @param game A Tetris_GameState with important values for the game
+    @returns gameover exitcode
+    @since March 6, 2024
+**********************************************************************/
+void update_tetrisgamestate(Tetris_GameState *game) {
+    game->sides_valid = 0x3;
+    check_matrix_collision(game);
+    check_boundary_collision(game);
+
+    if (game->sides_valid == 0 && game->is_falling == 0 && game->tetromino.origin.y == 0){
+        game->game_over = 1;
+    }
+
+    if (!game->is_falling){
+        if (game->affix_timer == 0){
+            affix_tetromino(game);
+            random_tetromino(game);
+            render_matrix(game);
+        } else {
+            game->affix_timer -= 1;
+        };
+    } else {
+        if (game->affix_timer != AFFIX_TIMER){
+            game->affix_timer = AFFIX_TIMER;
+        };
+    };
+
+    render_tetromino(game, 0);
+    move_tetromino(game);
+    render_tetromino(game, 1);
+}
+
+/*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Main hyper-loop for Tetris App
-  @param exitcode Code entered and returned on game exit
+  @brief Main game loop
   @since February 29, 2024
 **********************************************************************/
-void tetris_main(uint8_t exitcode){
-
-    // Might need this to activate minomatrix, need to sort this stuff out
-    // Tetromino testBlock;
-    // memcpy(testBlock, FixedTetrominos, GetTetrominoSize());
-
-    Vector1 startArrSize = sizeof(arrMatrix)/sizeof(arrMatrix[0]);
-    ActiveMatrix MinoMatrix = {{0,BORDERED_MATRIX_HEIGHT-2}, {BORDERED_MATRIX_WIDTH, startArrSize/BORDERED_MATRIX_WIDTH}, (startArrSize/BORDERED_MATRIX_WIDTH), startArrSize};
-    // ActiveMatrix_Build(MinoMatrix, AM_newOrigin, AM_newSize, AM_newMaxHeight, AM_newArrSize);
-    
-    
-    DrawMatrixBorder();
-
-
-    while(exitcode){
-        Matrix_Draw(MinoMatrix, MinoMatrix.arrSize, arrMatrix);
-        SysTick_Wait10ms(100);
-    };
+void tetris_main(void) {
+    Tetris_GameState TetrisGame;
+    clearScreen(ST7735_BLACK);
+    // init_game(&TetrisGame);
+    while(!TetrisGame.game_over){
+        handle_tetrisinput(&TetrisGame);
+        update_tetrisgamestate(&TetrisGame);
+        SysTick_Wait10ms(100/TetrisGame.fall_speed);
+    }
 };
+
+
+
 
