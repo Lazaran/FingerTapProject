@@ -27,13 +27,13 @@ int main(void){
     
     while (1){
         // snake_main();
-        pong_main();
+        // pong_main();
         // d_DrawString(0,0,IndexText,ST7735_WHITE);
-        // // WaitForInterrupt();
-        // format_Print(0,0,IndexCircuit,IndexText);
-        // format_Print(0,2,MiddleCircuit,MiddleText);
-        // format_Print(0,4,RingCircuit,RingText);
-        // format_Print(0,6,PinkyCircuit,PinkyText);
+        WaitForInterrupt();
+        format_Print(0,0,IndexCircuit,IndexText);
+        format_Print(0,2,MiddleCircuit,MiddleText);
+        format_Print(0,4,RingCircuit,RingText);
+        format_Print(0,6,PinkyCircuit,PinkyText);
         // SysTick_Wait10ms(100);
         // // tetris_main(1);
     };

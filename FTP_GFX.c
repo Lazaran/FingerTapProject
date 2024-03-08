@@ -640,7 +640,7 @@ void format_Print(uint8_t x, uint8_t y, int num, char* text){
 	char buffer[100];
 //    if (sizeof(text)/sizeof(text[0]) <= 10){
         // Format the inputs number and string for display
-        snprintf(buffer, 100, "%s %d", text, num);
+        snprintf(buffer, 100, "%d < %s ", num, text);
         // Draw formatted string to LCD
         d_DrawString(x,y,buffer,ST7735_WHITE);
 //		};

@@ -26,6 +26,7 @@ void ADC0Seq1_Handler(void){
     MiddleCircuit = ADC0_SSFIFO1_R;
     RingCircuit = ADC0_SSFIFO1_R;
     PinkyCircuit = ADC0_SSFIFO1_R;
+
     ADC0_ISC_R |= 0x2;
 };
 

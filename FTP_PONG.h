@@ -22,17 +22,17 @@
 
 /* Members: uVector2 origin, uVector2 old_origin, uVector2 bounding_box, sVector2 velocity*/
 typedef struct Ball{
-    sVector2 origin;
-    sVector2 old_origin;
-    sVector2 bounding_box;
-    sVector2 velocity;
+    s16Vector2 origin;
+    s16Vector2 old_origin;
+    u8Vector2 bounding_box;
+    s8Vector2 velocity;
 } Ball;
 
 /* Members: uVector2 origin, uVector2 old_origin, uVector2 bounding_box*/
 typedef struct Paddle{
-    sVector2 origin;
-    sVector2 old_origin;
-    sVector2 bounding_box;
+    s16Vector2 origin;
+    s16Vector2 old_origin;
+    u8Vector2 bounding_box;
 } Paddle;
 
 /* Members: Ball ball, Paddle player_paddle, Paddle ai_paddle, uint8_t player_direction, uint8_t game_over, uint8_t score*/
@@ -74,6 +74,12 @@ void render_paddle(Paddle *paddle);
 void update_player_paddle(Pong_GameState *game);
 
 void update_ai_paddle(Pong_GameState *game);
+
+
+
+
+
+
 
 uint8_t pong_main(void);
 

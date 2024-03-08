@@ -27,7 +27,7 @@ void pong_init(Pong_GameState *game) {
   game->ball.old_origin.y = game->ball.origin.y;
   game->ball.bounding_box.x = BALL_WIDTH;
   game->ball.bounding_box.y = BALL_HEIGHT;
-  game->ball.velocity.x = 0;
+  game->ball.velocity.x = 1;
   game->ball.velocity.y = -1;
   
   // Player Paddle Init
@@ -92,7 +92,7 @@ void move_ball(Pong_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_sides_collision(Ball *ball) {
-  return (ball->origin.x <= 0 || ball->bounding_box.x >= TETRIS_WIDTH);
+  return (ball->origin.x < 0 || (ball->origin.x + ball->bounding_box.x) > TETRIS_WIDTH);
 };
 
 /*!*******************************************************************
@@ -104,7 +104,7 @@ uint8_t ball_sides_collision(Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_ends_collision(Ball *ball) {
-  return (ball->origin.y <= 0 || ball->bounding_box.y >= TETRIS_HEIGHT);
+  return (ball->origin.y < 0 || (ball->origin.y + ball->bounding_box.y) > TETRIS_HEIGHT);
 };
 
 /*!*******************************************************************
@@ -116,9 +116,10 @@ uint8_t ball_ends_collision(Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_player_collision(Paddle *paddle, Ball *ball) {
-  return (ball->origin.y == paddle->bounding_box.y && 
-          ball->origin.x < paddle->bounding_box.x &&
-          ball->bounding_box.x > paddle->origin.x);
+  return (ball->origin.y <= (paddle->origin.y + paddle->bounding_box.y) && 
+          ball->origin.y >= paddle->origin.y && 
+          ball->origin.x < (paddle->origin.x + paddle->bounding_box.x) &&
+          (ball->origin.x + ball->bounding_box.x) > paddle->origin.x);
 };
 
 /*!*******************************************************************
@@ -130,7 +131,8 @@ uint8_t ball_player_collision(Paddle *paddle, Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_ai_collision(Paddle *paddle, Ball *ball) {
-  return (ball->bounding_box.y == paddle->origin.y && 
+  return ((ball->origin.y + ball->bounding_box.y) >= paddle->origin.y &&
+          (ball->origin.y + ball->bounding_box.y) <= (paddle->origin.y + paddle->bounding_box.y) &&
           ball->origin.x < paddle->bounding_box.x &&
           ball->bounding_box.x > paddle->origin.x);
 };
@@ -215,7 +217,7 @@ void move_ai_paddle(Pong_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t paddle_sides_collision(Paddle *paddle) {
-  return (paddle->origin.x < 0 || paddle->bounding_box.x > TETRIS_WIDTH);
+  return (paddle->origin.x < 0 || (paddle->origin.x + paddle->bounding_box.x) > TETRIS_WIDTH);
 };
 
 /*!*******************************************************************
@@ -269,6 +271,12 @@ void update_ai_paddle(Pong_GameState *game) {
   }
 }
 
+char OriginTextX[] = "OriginX";
+char OriginTextY[] = "OriginY";
+
+char OldOriginTextX[] = "OldOriginX";
+char OldOriginTextY[] = "OldOriginY";
+
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Get input and update game elements, waiting until gameover state
@@ -285,6 +293,10 @@ uint8_t pong_main(void) {
     update_player_paddle(&PongGame);
     update_ai_paddle(&PongGame);
     SysTick_Wait10ms(PONG_SPEED);
+    // format_Print(5,5,PongGame.player_paddle.origin.x, OriginTextX);
+    // format_Print(5,6,PongGame.player_paddle.origin.y, OriginTextY);
+    // format_Print(5,7,PongGame.player_paddle.old_origin.x, OldOriginTextX);
+    // format_Print(5,8,PongGame.player_paddle.old_origin.y, OldOriginTextY);
   };
   return 0;
 }
