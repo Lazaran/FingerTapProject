@@ -200,23 +200,24 @@ void init_game(Snake_GameState *game) {
     @returns gameover exitcode
     @since March 4, 2024
 **********************************************************************/
-void update_gamestate(Snake_GameState *game) {
+void update_snake_gamestate(Snake_GameState *game) {
     move_head(game);
-
+    // Check for bad collisions
     if (check_self_collision(&game->snake) || check_wall_collision(&game->snake.head)) {
         game->game_over = 1;
         return;
     };
-
+    // Check for good collisions
     if (check_food_collision(&game->snake.segments[0], &game->food)) {
-        r_Rect((game->food.x*SNAKEGAME_SCALE),(game->food.y*SNAKEGAME_SCALE),SNAKEGAME_SCALE,SNAKEGAME_SCALE,ST7735_BLACK);
+        r_Rect((game->food.x*SNAKEGAME_SCALE),(game->food.y*SNAKEGAME_SCALE),
+                SNAKEGAME_SCALE,SNAKEGAME_SCALE,ST7735_BLACK);
         add_segment(game);
         game->score += SCORE_INCREMENT;
         format_Print(0,0,game->score,GameScoreText);
         game->food.x = rand() % GAMEWIDTH;
         game->food.y = rand() % GAMEHEIGHT;
-        d_Rect((game->food.x*SNAKEGAME_SCALE),(game->food.y*SNAKEGAME_SCALE),SNAKEGAME_SCALE,SNAKEGAME_SCALE, 2, ST7735_NEONGREEN, 1, ST7735_GREEN);
-
+        d_Rect((game->food.x*SNAKEGAME_SCALE),(game->food.y*SNAKEGAME_SCALE),
+                SNAKEGAME_SCALE,SNAKEGAME_SCALE, 2, ST7735_NEONGREEN, 1, ST7735_GREEN);
     };
     render_snake(game, 0);
     move_body(game);

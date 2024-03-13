@@ -163,14 +163,17 @@ void render_ball(Ball *ball) {
 **********************************************************************/
 void update_ball(Pong_GameState *game) {
   move_ball(game);
+  // Check bad collision
   if (ball_ends_collision(&game->ball)){
     game->game_over = 1;
   }
+  // Check good collisions
   if (ball_sides_collision(&game->ball)){
     game->ball.origin.x = game->ball.old_origin.x;
     game->ball.velocity.x *= -1;
   }
-  if (ball_ai_collision(&game->ai_paddle, &game->ball) || ball_player_collision(&game->player_paddle, &game->ball)){
+  if (ball_ai_collision(&game->ai_paddle, &game->ball) ||
+      ball_player_collision(&game->player_paddle, &game->ball)){
     game->ball.origin.y = game->ball.old_origin.y;
     game->ball.velocity.y *= -1;
   }
@@ -292,11 +295,6 @@ uint8_t pong_main(void) {
     update_ball(&PongGame);
     update_player_paddle(&PongGame);
     update_ai_paddle(&PongGame);
-    SysTick_Wait10ms(PONG_SPEED);
-    // format_Print(5,5,PongGame.player_paddle.origin.x, OriginTextX);
-    // format_Print(5,6,PongGame.player_paddle.origin.y, OriginTextY);
-    // format_Print(5,7,PongGame.player_paddle.old_origin.x, OldOriginTextX);
-    // format_Print(5,8,PongGame.player_paddle.old_origin.y, OldOriginTextY);
   };
   return 0;
 }

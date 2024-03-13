@@ -207,21 +207,18 @@ void enableSleep(int enable) {
 **********************************************************************/
 void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h){
 
-  // Setting the columns to blit?
   writeCommand(ST77XX_CASET); // Column addr set
-  writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
+  writeData(0x00);            
   writeData(x + ScreenX);     // XSTART
-  writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
+  writeData(0x00);            
   writeData(w + ScreenX);     // XEND
 
-  // Setting the rows to blit?
   writeCommand(ST77XX_RASET); // Row addr set
-  writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
+  writeData(0x00);            
   writeData(y + ScreenY);     // YSTART
-  writeData(0x00);            // Dummy? or just null, to space out data transfers, check Datasheet
+  writeData(0x00);
   writeData(h + ScreenY);     // YEND
 
-  // Writing something to RAM, still not sure what or why
   writeCommand(ST77XX_RAMWR); // write to RAM
 };
 
