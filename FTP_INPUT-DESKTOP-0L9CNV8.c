@@ -1,38 +1,24 @@
-/*!*******************************************************************
-    @authors Qwyntyn Scurr
-    @brief Handles inputs from the FingerTap glove, both from the conductive
-            pads and the FSRs on each finger. This library does a few things:
-              - Holds the volatile variables for the rest of the applications
-                to read.
-              - Initializes the necessary modules for the inputs to function.
-              - Defines the interrupts for the ADC to read to the volatiles.
-    @since March 4, 2024
-    @version Rev 2
-**********************************************************************/
-
-// Library Includes
 #include "tm4c123gh6pm.h"
 #include "FTP_INPUT.h"
 
-// Macro Defines | Different speeds to sample inputs at
 #define EIGHTY_MHZ 80000000
 #define FORTY_MHZ 40000000
 #define TWENTY_MHZ 20000000
 
-// Input Volatiles
-volatile uint16_t IndexCircuit = 0;
-volatile uint16_t MiddleCircuit = 0;
-volatile uint16_t RingCircuit = 0;
-volatile uint16_t PinkyCircuit = 0;
-volatile uint16_t IndexFSR = 0;
-volatile uint16_t MiddleFSR = 0;
-volatile uint16_t RingFSR = 0;
-volatile uint16_t PinkyFSR = 0;
+ volatile uint16_t IndexCircuit = 0;
+ volatile uint16_t MiddleCircuit = 0;
+ volatile uint16_t RingCircuit = 0;
+ volatile uint16_t PinkyCircuit = 0;
+ volatile uint16_t IndexFSR = 0;
+ volatile uint16_t MiddleFSR = 0;
+ volatile uint16_t RingFSR = 0;
+ volatile uint16_t PinkyFSR = 0;
+
+/* Reduce GPTM speed when circuit values change, increase speed only when values become 0 again */
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Reads the ADC FIFO to get inputs from the conductive pads.
-          Called when AD0 Module 0, Sample Sequencer 1 generates an interrupt
+  @brief Called when AD0 Module 0, Sample Sequencer 1 generates an interrupt
   @since March 3, 2024
 **********************************************************************/
 void ADC0Seq1_Handler(void){
@@ -40,13 +26,13 @@ void ADC0Seq1_Handler(void){
     MiddleCircuit = ADC0_SSFIFO1_R;
     RingCircuit = ADC0_SSFIFO1_R;
     PinkyCircuit = ADC0_SSFIFO1_R;
+
     ADC0_ISC_R |= 0x2;
 };
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Reads the ADC FIFO to get inputs from the FSRs.
-          Called when AD0 Module 0, Sample Sequencer 2 generates an interrupt
+  @brief Called when AD0 Module 0, Sample Sequencer 2 generates an interrupt
   @since March 3, 2024
 **********************************************************************/
 void ADC0Seq2_Handler(void){
@@ -59,16 +45,7 @@ void ADC0Seq2_Handler(void){
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Converts
-  @since March 3, 2024
-**********************************************************************/
-void Input_Conversion(uint16_t input){
-
-};
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr
-  @brief Initializing ADC Module 0 Sequencers 1 and 2, GPIO Ports E and D, and GPTM Module 0
+  @brief Initializing ADC Module 0, GPIO Ports E and D, and GPTM Module 0
   @since March 3, 2024
 **********************************************************************/
 void Input_Init(void){
@@ -96,8 +73,7 @@ void Input_Init(void){
     ADC0_IM_R = 0x6;            // Interrupt Mask: Enable Seq[1:2]
     ADC0_ISC_R = 0xF;           // Interrupt Status/Clear: Clear All Interrupts
     ADC0_ACTSS_R = 0x6;         // Active Sequencers: Enable Seq[1:2]
-
-    // ADC | Seq1 = Interrupt 15 | Seq2 = Interrupt 16
+    // ADC Seq1 Interrupt 15, Seq2 Interrupt 16
     NVIC_EN0_R = 0x00018000;    // Interrupt Enable: Enable Int[15,16]
     NVIC_PRI3_R = 0x60000000;   // Interrupt Priority: Priority 3 Int[15]
     NVIC_PRI4_R = 0x000000A0;   // Interrupt Priority: Priority 5 Int[16]

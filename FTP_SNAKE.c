@@ -1,3 +1,12 @@
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief An emulation of the classic Snake game. Move the snake to eat the red
+            food, don't run into your own body or the sides of the screen or its
+            game over!
+    @since March 17, 2024
+    @version Rev 3
+**********************************************************************/
+
 #include <stdint.h>
 #include "SysTick.h"
 #include "FTP_ST7735R.h"
