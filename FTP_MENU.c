@@ -12,6 +12,7 @@
 #include "FTP_INPUT.h"
 #include "FTP_ST7735R.h"
 #include "FTP_MENU.h"
+#include "FTP_APPTIMER.h"
 
 // Array holding the X position of all icon origins
 uint8_t ICON_X[5] = {
@@ -236,13 +237,16 @@ uint8_t menu_main(void){
     render_tetris_icon(ICON_X[2],ICON_Y[2]);
     render_notes_icon(ICON_X[3],ICON_Y[3]);
     render_paint_icon(ICON_X[4],ICON_Y[4]);
-
+    // TIMER1_CTL_R = TIMER_ENABLE;
     while (!MainMenu.exit_code){
-        menu_input(&MainMenu);
-        update_appstate(&MainMenu);
-        // Replacing this with a system timer would probably work A LOT BETTER
-        // DO ITTTTTT
+        // if ((TIMER1_MIS_R & TIMER_STATUS_INTERRUPT)){
+            menu_input(&MainMenu);
+            update_appstate(&MainMenu);
+            // TIMER1_ICR_R = TIMER_CLEAR_INTERRUPT;
+        // }
         SysTick_Wait10ms(250);
     }
+    // TIMER1_CTL_R = TIMER_DISABLE;
+    // TIMER1_ICR_R = TIMER_CLEAR_INTERRUPT;
     return MainMenu.selector_position;
 }

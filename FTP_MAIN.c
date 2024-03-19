@@ -21,6 +21,7 @@
 #include "FTP_NOTES.h"
 #include "FTP_PAINT.h"
 #include "FTP_MENU.h"
+#include "FTP_APPTIMER.h"
 
 char IndexText[] = "Index Value";
 char MiddleText[] = "Middle Value";
@@ -52,9 +53,10 @@ int main(){
     init_appstate(&appstate);
     PLL_Init();
     SysTick_Init();
-    ST7735_initR();
     Input_Init();
+    AppTimer_Init();
 
+    ST7735_initR();
     clearScreen(ST77XX_BLACK);
 
     while (1){

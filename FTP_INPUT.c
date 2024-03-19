@@ -14,10 +14,7 @@
 #include "tm4c123gh6pm.h"
 #include "FTP_INPUT.h"
 
-// Macro Defines | Different speeds to sample inputs at
-#define EIGHTY_LOAD 80000000
-#define FORTY_LOAD 40000000
-#define TWENTY_LOAD 20000000
+
 
 // Input Volatiles
 volatile uint16_t IndexCircuit = 0;

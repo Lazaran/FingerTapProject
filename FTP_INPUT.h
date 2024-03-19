@@ -12,6 +12,12 @@
 
 #include <stdint.h>
 
+// Macros 
+// Different speeds to sample inputs at
+#define EIGHTY_LOAD 80000000
+#define FORTY_LOAD 40000000
+#define TWENTY_LOAD 20000000
+
 // Conductive Pad Circuit Conditional Mins and Maxes
 #define PP_MIN 3650
 #define PP_MAX 3750
@@ -46,7 +52,7 @@ extern volatile uint16_t MiddleFSR;
 extern volatile uint16_t RingFSR;
 extern volatile uint16_t PinkyFSR;
 
-// Function Prototypes
+// Prototypes
 uint8_t Circuit_Convert(uint16_t input);
 
 uint8_t Circuit_Parse(void);

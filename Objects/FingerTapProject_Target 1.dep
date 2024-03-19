@@ -1,104 +1,110 @@
 Dependencies for Project 'FingerTapProject', Target 'Target 1': (DO NOT MODIFY !)
-CompilerVersion: 6190000::V6.19::ARMCLANG
-F (.\FTP_GFX.c)(0x65F8CA41)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_gfx.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x6388E3B8)
+F (.\FTP_GFX.c)(0x65F8CA41)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_gfx.o --omf_browse .\objects\ftp_gfx.crf --depend .\objects\ftp_gfx.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54769BBE)
 I (FTP_ST7735R.h)(0x65F8781A)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
 I (SysTick.h)(0x651A3A5B)
-F (.\FTP_MAIN.c)(0x65F8F574)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_main.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x6388E3B8)
+F (.\FTP_MAIN.c)(0x65F9A90F)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_main.o --omf_browse .\objects\ftp_main.crf --depend .\objects\ftp_main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54769BC0)
 I (tm4c123gh6pm.h)(0x53E63EFA)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (PLL.h)(0x53E9280E)
 I (SysTick.h)(0x651A3A5B)
 I (FTP_ST7735R.h)(0x65F8781A)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (FTP_INPUT.h)(0x65F84A2B)
-I (FTP_SNAKE.h)(0x65F8F118)
+I (FTP_INPUT.h)(0x65F9A433)
+I (FTP_SNAKE.h)(0x65F9AA52)
 I (FTP_TYPES.h)(0x65F832AD)
 I (FTP_PONG.h)(0x65F8F104)
 I (FTP_TETRIS.h)(0x65F8F150)
 I (FTP_NOTES.h)(0x65F8F140)
 I (FTP_PAINT.h)(0x65F8EDEA)
 I (FTP_MENU.h)(0x65F8EE62)
-F (.\FTP_ST7735R.c)(0x65F87BB9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_st7735r.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (FTP_APPTIMER.h)(0x65F9A50D)
+F (.\FTP_ST7735R.c)(0x65F87BB9)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_st7735r.o --omf_browse .\objects\ftp_st7735r.crf --depend .\objects\ftp_st7735r.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
 I (tm4c123gh6pm.h)(0x53E63EFA)
 I (SysTick.h)(0x651A3A5B)
 I (FTP_ST7735R.h)(0x65F8781A)
-F (.\PLL.c)(0x580916A8)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/pll.o -MD)
+F (.\PLL.c)(0x580916A8)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\pll.o --omf_browse .\objects\pll.crf --depend .\objects\pll.d)
 I (PLL.h)(0x53E9280E)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (tm4c123gh6pm.h)(0x53E63EFA)
-F (.\SysTick.c)(0x65032775)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/systick.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+F (.\SysTick.c)(0x65032775)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\systick.o --omf_browse .\objects\systick.crf --depend .\objects\systick.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (tm4c123gh6pm.h)(0x53E63EFA)
-F (.\startup.s)(0x519796C4)(--target=armv7em-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"TM4C123GH6PM SETA 1"-o ./objects/startup.o)
-F (.\FTP_INPUT.c)(0x65F8DA9C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_input.o -MD)
+F (.\startup.s)(0x519796C4)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 514" --pd "TM4C123GH6PM SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\FTP_INPUT.c)(0x65F9A1E7)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_input.o --omf_browse .\objects\ftp_input.crf --depend .\objects\ftp_input.d)
 I (tm4c123gh6pm.h)(0x53E63EFA)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (FTP_INPUT.h)(0x65F84A2B)
-F (.\FTP_MENU.c)(0x65F8F42C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_menu.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
+I (FTP_INPUT.h)(0x65F9A433)
+F (.\FTP_MENU.c)(0x65F9ABE7)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_menu.o --omf_browse .\objects\ftp_menu.crf --depend .\objects\ftp_menu.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (SysTick.h)(0x651A3A5B)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-I (FTP_INPUT.h)(0x65F84A2B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+I (FTP_INPUT.h)(0x65F9A433)
 I (FTP_ST7735R.h)(0x65F8781A)
 I (FTP_MENU.h)(0x65F8EE62)
-F (.\FTP_NOTES.c)(0x65F8F4FB)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_notes.o -MD)
+I (FTP_APPTIMER.h)(0x65F9A50D)
+I (tm4c123gh6pm.h)(0x53E63EFA)
+F (.\FTP_NOTES.c)(0x65F8F4FB)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_notes.o --omf_browse .\objects\ftp_notes.crf --depend .\objects\ftp_notes.d)
 I (FTP_NOTES.h)(0x65F8F140)
 I (FTP_TYPES.h)(0x65F832AD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (FTP_ST7735R.h)(0x65F8781A)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-F (.\FTP_PAINT.c)(0x65F8ED9D)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_paint.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+F (.\FTP_PAINT.c)(0x65F8ED9D)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_paint.o --omf_browse .\objects\ftp_paint.crf --depend .\objects\ftp_paint.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (FTP_ST7735R.h)(0x65F8781A)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-I (FTP_INPUT.h)(0x65F84A2B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+I (FTP_INPUT.h)(0x65F9A433)
 I (FTP_PAINT.h)(0x65F8EDEA)
-F (.\FTP_PONG.c)(0x65F8F4E4)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_pong.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+F (.\FTP_PONG.c)(0x65F8F4E4)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_pong.o --omf_browse .\objects\ftp_pong.crf --depend .\objects\ftp_pong.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (FTP_ST7735R.h)(0x65F8781A)
 I (FTP_GFX.h)(0x65F8C8CE)
 I (FTP_PONG.h)(0x65F8F104)
 I (FTP_TYPES.h)(0x65F832AD)
-I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_INPUT.h)(0x65F9A433)
 I (SysTick.h)(0x651A3A5B)
 I (tm4c123gh6pm.h)(0x53E63EFA)
-F (.\FTP_SNAKE.c)(0x65F8F510)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_snake.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+F (.\FTP_SNAKE.c)(0x65F9A84B)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_snake.o --omf_browse .\objects\ftp_snake.crf --depend .\objects\ftp_snake.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
 I (SysTick.h)(0x651A3A5B)
 I (FTP_ST7735R.h)(0x65F8781A)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
-I (FTP_INPUT.h)(0x65F84A2B)
-I (FTP_SNAKE.h)(0x65F8F118)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
+I (FTP_INPUT.h)(0x65F9A433)
+I (FTP_SNAKE.h)(0x65F9AA52)
 I (FTP_TYPES.h)(0x65F832AD)
-F (.\FTP_TETRIS.c)(0x65F8F501)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_tetris.o -MD)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x6388E3B8)
+F (.\FTP_TETRIS.c)(0x65F8F501)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_tetris.o --omf_browse .\objects\ftp_tetris.crf --depend .\objects\ftp_tetris.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x54769BC0)
 I (SysTick.h)(0x651A3A5B)
 I (FTP_GFX.h)(0x65F8C8CE)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54769BC0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54769BC0)
 I (FTP_TETRIS.h)(0x65F8F150)
 I (FTP_TYPES.h)(0x65F832AD)
 I (FTP_ST7735R.h)(0x65F8781A)
-I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_INPUT.h)(0x65F9A433)
+F (.\FTP_APPTIMER.c)(0x65F9A64B)(--c99 -c --cpu Cortex-M4 -D__EVAL -g -O1 --apcs=interwork --split_sections-I "C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE"-I C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DTM4C123GH6PM-o .\objects\ftp_apptimer.o --omf_browse .\objects\ftp_apptimer.crf --depend .\objects\ftp_apptimer.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54769BC0)
+I (tm4c123gh6pm.h)(0x53E63EFA)
+I (FTP_INPUT.h)(0x65F9A433)

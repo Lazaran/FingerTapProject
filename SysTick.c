@@ -32,6 +32,8 @@
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 
+volatile uint32_t elapsedTime;
+
 
 #define NVIC_ST_CTRL_COUNT      0x00010000  // Count flag
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -40,7 +42,7 @@
 #define NVIC_ST_RELOAD_M        0x00FFFFFF  // Counter load value
 
 // Initialize SysTick with busy wait running at bus clock.
-void SysTick_Init(void){
+void FTP_WaitInit(void){
   NVIC_ST_CTRL_R = 0;                                         // disable SysTick during setup
   NVIC_ST_RELOAD_R = NVIC_ST_RELOAD_M;                        // maximum reload value
   NVIC_ST_CURRENT_R = 0;                                      // any write to current clears it
@@ -61,6 +63,21 @@ void SysTick_Wait(uint32_t delay){
 void SysTick_Wait10ms(uint32_t delay){
   uint32_t i;
   for(i=0; i<delay; i++){
-    SysTick_Wait(160000);  // wait 10ms (assumes 50 MHz clock)
+    SysTick_Wait(160000);  // wait 10ms (assumes 50 MHz clock) | NOT, 10ms is if its 16MHz clock then its 10ms, 50Mhz would be 500000, NOOBS
   }
+}
+
+void FTP_Wait10ms(uint32_t delay, uint32_t pll_speed){
+  uint32_t i;
+  for (i=0; i<delay; i++){
+    FTP_Wait(pll_speed/delay);
+  }
+}
+
+void FTP_Wait(uint32_t delay){
+  uint32_t startTime = NVIC_ST_CURRENT_R;
+  do{
+    elapsedTime = (startTime-NVIC_ST_CURRENT_R)&0x00FFFFFF;
+  }
+  while(elapsedTime <= delay);
 }
