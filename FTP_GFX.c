@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
+#include <math.h>
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
 #include "SysTick.h"
@@ -485,6 +486,51 @@ void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, 
 }
 
 
+
+void d_Circle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t borderColor, uint8_t borderThickness, uint16_t fillColor) {
+    // Clipping shape to screen if needed
+    if (x0 + radius >= WIDTH) { v_Clip((x0 + radius), WIDTH - 1); }
+    if (y0 + radius >= HEIGHT) { v_Clip((y0 + radius), HEIGHT - 1); }
+    if (x0 - radius < 0) { v_Clip(x0 - radius, 0); }
+    if (y0 - radius < 0) { v_Clip(y0 - radius, 0); }
+
+    // Number of slices to approximate the circle
+    int numSlices = 10;
+
+    // Draw the circle's border
+    for (int i = 0; i < numSlices; i++) {
+        // Calculate the angle for this slice
+        int angle = floor(2 * 3.14 * i / numSlices);
+
+        // Calculate the height of the rectangle for this slice
+        int height = radius * cos(angle);
+
+        // Calculate the width of the rectangle for this slice
+        int width = radius * sin(angle);
+
+        // Draw the rectangle for this slice
+        r_Rect(x0 - width, y0 - height, width * 2, height * 2, borderColor);
+    }
+
+    // Fill the circle's interior if fillColor is different from borderColor
+    if (fillColor != borderColor) {
+        for (int i = 0; i < numSlices; i++) {
+            // Calculate the angle for this slice
+            int angle = floor(2 * 3.14 * i / numSlices);
+
+            // Calculate the height of the rectangle for this slice
+            int height = radius * cos(angle);
+
+            // Calculate the width of the rectangle for this slice
+            int width = radius * sin(angle);
+
+            // Draw the rectangle for this slice
+            r_Rect(x0 - width + borderThickness, y0 - height + borderThickness, width * 2 - borderThickness * 2, height * 2 - borderThickness * 2, fillColor);
+        }
+    }
+}
+
+
 /*!*******************************************************************
   @author Qwyntyn Scurr
   @brief Draw a rectangle with a border of color c1, border thickness t,
@@ -500,54 +546,12 @@ void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, 
   @param c2 Infill color
   @since February 9th, 2024
 **********************************************************************/
-// void dCircle(uint8_t x, uint8_t y, ){
+// void d_Circle(uint8_t x, uint8_t y, ){
 // 
 // }
 
 
 
-
-/*!*******************************************************************
-  @deprecated Don't need to check if outside bounds if always in bounds
-  @author Qwyntyn Scurr
-  @brief Checks to ensure provided shape bounding-box coordinates
-          are within the boundaries of the screen 
-  @note The width and height variables are temporary until I integrate
-        current screen rotation into macros or similar so they're
-        builtin variables
-  @param x  X value to boundary check
-  @param y  Y value to boundary check
-  @param w  W value to boundary check
-  @param h  H value to boundary check
-  @param width  Screen width
-  @param height Screen height
-  @since February 7, 2024
-**********************************************************************/
-// int vScreenCheck(int x, int y, int w, int h, int width, int height){
-//   if (x < 0 || x > width){
-//     return 1;
-//   }
-//   if (w < 0 || w > width){
-//     return 2;
-//   }
-//   if (y < 0 || y > height){
-//     return 3;
-//   }
-//   if (h < 0 || h > height){
-//     return 4;
-//   }
-// }
-
-//void 
-/* printing letters to screen
-cursor x,y position
-for (x <5)
-  
-for (y< 8)
-  font[i][x] > y
-  
-
-*/
 
 
 
@@ -629,18 +633,37 @@ void d_DrawCharS(uint8_t x, uint8_t y, char c, uint16_t textColor, uint16_t bgCo
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Prints the input number and text to the LCD at the positions defined
+  @brief Prints a number and then a string at a position on the LCD
   @param x X position for the string to draw at
   @param y Y position for the string to draw at
   @param num Number to format into drawn string
   @param text String to format into drawn string
   @since March 3, 2024
 **********************************************************************/
-void format_Print(uint8_t x, uint8_t y, int num, char* text){
+void format_dec_text(uint8_t x, uint8_t y, int num, char* text){
 	char buffer[100];
 //    if (sizeof(text)/sizeof(text[0]) <= 10){
         // Format the inputs number and string for display
-        snprintf(buffer, 100, "%d < %s ", num, text);
+        snprintf(buffer, 100, "%d %s", num, text);
+        // Draw formatted string to LCD
+        d_DrawString(x,y,buffer,ST7735_WHITE);
+//		};
+};
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Prints a string and then a number at a position on the LCD
+  @param x X position for the string to draw at
+  @param y Y position for the string to draw at
+  @param num Number to format into drawn string
+  @param text String to format into drawn string
+  @since March 3, 2024
+**********************************************************************/
+void format_text_dec(uint8_t x, uint8_t y, int num, char* text){
+	char buffer[100];
+//    if (sizeof(text)/sizeof(text[0]) <= 10){
+        // Format the inputs number and string for display
+        snprintf(buffer, 100, "%s %d", text, num);
         // Draw formatted string to LCD
         d_DrawString(x,y,buffer,ST7735_WHITE);
 //		};

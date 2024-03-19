@@ -1,32 +1,38 @@
 Dependencies for Project 'FingerTapProject', Target 'Target 1': (DO NOT MODIFY !)
 CompilerVersion: 6190000::V6.19::ARMCLANG
-F (.\FTP_GFX.c)(0x65E9FDF6)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_gfx.o -MD)
+F (.\FTP_GFX.c)(0x65F8CA41)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_gfx.o -MD)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (FTP_ST7735R.h)(0x65E4C48C)
-I (FTP_GFX.h)(0x65E662BC)
+I (C:\Keil_v5\ARM\ARMCLANG\include\math.h)(0x6388E3B8)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (FTP_GFX.h)(0x65F8C8CE)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
 I (SysTick.h)(0x651A3A5B)
-F (.\FTP_MAIN.c)(0x65F74F9D)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_main.o -MD)
+F (.\FTP_MAIN.c)(0x65F8F574)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_main.o -MD)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x6388E3B8)
 I (tm4c123gh6pm.h)(0x53E63EFA)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
 I (PLL.h)(0x53E9280E)
 I (SysTick.h)(0x651A3A5B)
-I (FTP_ST7735R.h)(0x65E4C48C)
+I (FTP_ST7735R.h)(0x65F8781A)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
-I (FTP_GFX.h)(0x65E662BC)
-I (FTP_INPUT.h)(0x65E4D4DD)
-I (FTP_PONG.h)(0x65E9ED26)
-I (FTP_TYPES.h)(0x65E9E869)
-I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x6388E3B8)
-F (.\FTP_ST7735R.c)(0x65F1B179)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_st7735r.o -MD)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_SNAKE.h)(0x65F8F118)
+I (FTP_TYPES.h)(0x65F832AD)
+I (FTP_PONG.h)(0x65F8F104)
+I (FTP_TETRIS.h)(0x65F8F150)
+I (FTP_NOTES.h)(0x65F8F140)
+I (FTP_PAINT.h)(0x65F8EDEA)
+I (FTP_MENU.h)(0x65F8EE62)
+F (.\FTP_ST7735R.c)(0x65F87BB9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_st7735r.o -MD)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
 I (tm4c123gh6pm.h)(0x53E63EFA)
 I (SysTick.h)(0x651A3A5B)
-I (FTP_ST7735R.h)(0x65E4C48C)
+I (FTP_ST7735R.h)(0x65F8781A)
 F (.\PLL.c)(0x580916A8)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/pll.o -MD)
 I (PLL.h)(0x53E9280E)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
@@ -35,18 +41,64 @@ F (.\SysTick.c)(0x65032775)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
 I (tm4c123gh6pm.h)(0x53E63EFA)
 F (.\startup.s)(0x519796C4)(--target=armv7em-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"TM4C123GH6PM SETA 1"-o ./objects/startup.o)
-F (.\FTP_INPUT.c)(0x65F74EC3)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_input.o -MD)
+F (.\FTP_INPUT.c)(0x65F8DA9C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_input.o -MD)
 I (tm4c123gh6pm.h)(0x53E63EFA)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (FTP_INPUT.h)(0x65E4D4DD)
-F (.\FTP_PONG.c)(0x65EB4BA6)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_pong.o -MD)
+I (FTP_INPUT.h)(0x65F84A2B)
+F (.\FTP_MENU.c)(0x65F8F42C)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_menu.o -MD)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (SysTick.h)(0x651A3A5B)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (FTP_MENU.h)(0x65F8EE62)
+F (.\FTP_NOTES.c)(0x65F8F4FB)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_notes.o -MD)
+I (FTP_NOTES.h)(0x65F8F140)
+I (FTP_TYPES.h)(0x65F832AD)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+F (.\FTP_PAINT.c)(0x65F8ED9D)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_paint.o -MD)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_PAINT.h)(0x65F8EDEA)
+F (.\FTP_PONG.c)(0x65F8F4E4)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_pong.o -MD)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
-I (FTP_ST7735R.h)(0x65E4C48C)
-I (FTP_GFX.h)(0x65E662BC)
-I (FTP_PONG.h)(0x65E9ED26)
-I (FTP_TYPES.h)(0x65E9E869)
-I (FTP_INPUT.h)(0x65E4D4DD)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (FTP_PONG.h)(0x65F8F104)
+I (FTP_TYPES.h)(0x65F832AD)
+I (FTP_INPUT.h)(0x65F84A2B)
 I (SysTick.h)(0x651A3A5B)
 I (tm4c123gh6pm.h)(0x53E63EFA)
+F (.\FTP_SNAKE.c)(0x65F8F510)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_snake.o -MD)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (SysTick.h)(0x651A3A5B)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (FTP_INPUT.h)(0x65F84A2B)
+I (FTP_SNAKE.h)(0x65F8F118)
+I (FTP_TYPES.h)(0x65F832AD)
+F (.\FTP_TETRIS.c)(0x65F8F501)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=none -mfloat-abi=soft -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-gdwarf-4 -O1 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier-IC:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-IC:/Keil_v5/ARM/CMSIS/Include-D__UVISION_VERSION="538" -DTM4C123GH6PM-o ./objects/ftp_tetris.o -MD)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCLANG\include\string.h)(0x6388E3B8)
+I (SysTick.h)(0x651A3A5B)
+I (FTP_GFX.h)(0x65F8C8CE)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdlib.h)(0x6388E3B8)
+I (C:\Keil_v5\ARM\ARMCLANG\include\stdio.h)(0x6388E3B8)
+I (FTP_TETRIS.h)(0x65F8F150)
+I (FTP_TYPES.h)(0x65F832AD)
+I (FTP_ST7735R.h)(0x65F8781A)
+I (FTP_INPUT.h)(0x65F84A2B)

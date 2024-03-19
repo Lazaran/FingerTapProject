@@ -15,9 +15,9 @@
 #include "FTP_INPUT.h"
 
 // Macro Defines | Different speeds to sample inputs at
-#define EIGHTY_MHZ 80000000
-#define FORTY_MHZ 40000000
-#define TWENTY_MHZ 20000000
+#define EIGHTY_LOAD 80000000
+#define FORTY_LOAD 40000000
+#define TWENTY_LOAD 20000000
 
 // Input Volatiles
 volatile uint16_t IndexCircuit = 0;
@@ -59,11 +59,109 @@ void ADC0Seq2_Handler(void){
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
-  @brief Converts
+  @brief Converts a conductive pad input value into a code based on which pad
+          is active
   @since March 3, 2024
 **********************************************************************/
-void Input_Conversion(uint16_t input){
+uint8_t Circuit_Convert(uint16_t input){
+  // Proximal Posterior Pad
+  if (input > PP_MIN && input < PP_MAX){
+    return 1;
+  }
+  // Proximal Anterior Pad
+  else if (input > PA_MIN && input < PA_MAX){
+    return 2;
+  }
+  // Middle Anterior Pad
+  else if (input > MA_MIN && input < MA_MAX){
+    return 3;
+  }
+  // Middle Posterior Pad
+  else if (input > MP_MIN && input < MP_MAX){
+    return 4;
+  }
+  // Distal Posterior Pad
+  else if (input > DP_MIN && input < DP_MAX){
+    return 5;
+  }
+	return 0;
+};
 
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Parses the pad inputs of each finger, returning a code on the
+           first one with a value above 300 (an arbitrary limit)
+  @since March 3, 2024
+**********************************************************************/
+uint8_t Circuit_Parse(void){
+  // Index Finger Conductive Pad Circuit
+  if (IndexCircuit > 300){
+    return (10 + Circuit_Convert(IndexCircuit));
+  }
+  // Middle Finger Conductive Pad Circuit
+  else if (MiddleCircuit > 300){
+    return (20 + Circuit_Convert(MiddleCircuit));
+  }
+  // Ring Finger Conductive Pad Circuit
+  else if (RingCircuit > 300){
+    return (30 + Circuit_Convert(RingCircuit));
+  }
+  // Pinky Finger Conductive Pad Circuit
+  else if (PinkyCircuit > 300){
+    return (40 + Circuit_Convert(PinkyCircuit));
+  }
+	return 0;
+};
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Converts an FSR input value into a code based on the pressure 
+          being exerted on the FSR
+  @since March 3, 2024
+**********************************************************************/
+uint8_t FSR_Convert(uint16_t input){
+  if (input > L1_MIN && input < L1_MAX){
+    return 1;
+  }
+  else if (input > L2_MIN && input < L2_MAX){
+    return 2;
+  }
+  else if (input > L3_MIN && input < L3_MAX){
+    return 3;
+  }
+  else if (input > L4_MIN && input < L4_MAX){
+    return 4;
+  }
+  else if (input > L5_MIN && input < L5_MAX){
+    return 5;
+  }
+	return 0;
+};
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Parses the FSR inputs of each finger, returning a code on the
+           first FSR with a value above 300 (an arbitrary limit)
+  @since March 3, 2024
+**********************************************************************/
+uint8_t FSR_Parse(void){
+  // Index Finger FSR
+  if (IndexFSR > 300){
+    return (10 + FSR_Convert(IndexFSR));
+  }
+  // Middle Finger FSR
+  else if (MiddleFSR > 300){
+    return (20 + FSR_Convert(MiddleFSR));
+  }
+  // Ring Finger FSR
+  else if (RingFSR > 300){
+    return (30 + FSR_Convert(RingFSR));
+  }
+  // Pinky Finger FSR
+  else if (PinkyFSR > 300){
+    return (40 + FSR_Convert(PinkyFSR));
+  }
+	return 0;
 };
 
 /*!*******************************************************************
@@ -106,6 +204,6 @@ void Input_Init(void){
     TIMER0_CTL_R = 0x0000;      // Control: Disable timer
     TIMER0_CFG_R = 0x00000000;  // Configuration: Set 32-bit Timer
     TIMER0_TAMR_R = 0x0002;     // Timer A Mode: Set Periodic Timer
-    TIMER0_TAILR_R = FORTY_MHZ; // Interval Load: Load value: 500
+    TIMER0_TAILR_R = FORTY_LOAD; // Interval Load: Load value: 40,000,000
     TIMER0_CTL_R = 0x0021;      // Control: Enable Timer A
 };

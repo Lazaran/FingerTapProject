@@ -1,3 +1,11 @@
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Write to or erase text from the screen and move the cursor to change where text
+            is being added/removed
+    @since March 14, 2024
+    @version Rev 4
+**********************************************************************/
+
 #include "FTP_NOTES.h"
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
@@ -47,8 +55,7 @@ char PadArray[20] = {
 
 
 
-LetterArr letter_arr_template = 0;
-
+// LetterArr letter_arr_template = 0;
 // Move the cursor based on some input move code, either from the FSR or from the letter addition inputs
 void move_cursor(NoteState *notes, uint8_t cursor_move_code){
     switch (cursor_move_code)
@@ -72,7 +79,7 @@ void move_cursor(NoteState *notes, uint8_t cursor_move_code){
 
 
 // Adds a letter to the letters array at the cursor position
-add_letter(NoteState *notes){
+void add_letter(NoteState *notes){
     uint16_t i = 0;
     notes->written_length += 1; // Unsure, definitely going to change
     for (i = notes->written_length; i > 0; i--){
@@ -90,26 +97,26 @@ add_letter(NoteState *notes){
 // Reads through the letters array and draws it to the screen row by row
 // If the new length of the array is the same as the old length, don't redraw
 // Reduces unneeded calls, only draws when the array actually changes
-render_array(NoteState *notes){
-    if (notes->written_length == notes->old_written_length){
-        return;
-    }
-    uint8_t array_height = 1 + ((notes->written_length/NOTES_WIDTH) - ((notes->written_length/NOTES_WIDTH)/NOTES_WIDTH));
-    uint8_t i = 0;
-    for (i = 0; i < array_height; i++){
-        uint8_t j = 0;
-        uint8_t array_fragment[NOTES_WIDTH] = 0;
-        for (j = 0; j < NOTES_WIDTH; j++){
-            array_fragment[((i*NOTES_WIDTH)+j)];
-        }
-        d_DrawString(0,i,array_fragment,ST7735_WHITE);
-    }
-    notes->written_length = notes->old_written_length;
-}
+// void render_array(NoteState *notes){
+//     if (notes->written_length == notes->old_written_length){
+//         return;
+//     }
+//     uint8_t array_height = 1 + ((notes->written_length/NOTES_WIDTH) - ((notes->written_length/NOTES_WIDTH)/NOTES_WIDTH));
+//     uint8_t i = 0;
+//     for (i = 0; i < array_height; i++){
+//         uint8_t j = 0;
+//         uint8_t array_fragment[NOTES_WIDTH] = 0;
+//         for (j = 0; j < NOTES_WIDTH; j++){
+//             array_fragment[((i*NOTES_WIDTH)+j)];
+//         }
+//         d_DrawString(0,i,array_fragment,ST7735_WHITE);
+//     }
+//     notes->written_length = notes->old_written_length;
+// }
 
 // Renders the cursor using its index position to convert to x,y coordinates to draw to the screen
 // Controls the blinking of the cursor so it is visibly changing on the screen
-render_cursor(NoteState *notes){
+void render_cursor(NoteState *notes){
     uint8_t cursor_x = (notes->cursor_position % NOTES_WIDTH);
     uint8_t cursor_y = ((notes->cursor_position/NOTES_WIDTH) - ((notes->cursor_position/NOTES_WIDTH)/NOTES_WIDTH));
     if (notes->cursor_blink){
@@ -122,16 +129,16 @@ render_cursor(NoteState *notes){
 }
 
 // Updates the notestate using modifying functions
-update_notestate(NoteState *notes){
+void update_notestate(NoteState *notes){
     if (notes->pad_code != 0){
         add_letter(notes);
     }
-    render_array(notes);
+    // render_array(notes);
     render_cursor(notes);
 }
 
 // Initializes a Notestate struct
-init_notes(NoteState *notes){
+void init_notes(NoteState *notes){
     notes->cursor_position = 0;
     notes->written_length = 0;
     notes->old_written_length = 0;
@@ -146,10 +153,12 @@ init_notes(NoteState *notes){
 
 // The main function for the notes app
 uint8_t notes_main(void){
-    NoteState NoteApp;
+    setDirection(5);
     clearScreen(ST7735_BLACK);
+    NoteState NoteApp;
     init_notes(&NoteApp);
-    while(1){
-
+    while(!NoteApp.exitcode){
+        NoteApp.exitcode = 1;
     }
+    return 14;
 }

@@ -190,7 +190,7 @@ Tetromino FixedTetrominos[19] = {
     @param game A Tetris_GameState with important values for the game
     @since March 5, 2024
 **********************************************************************/
-void handle_tetrisinput(Tetris_GameState *game) {
+void tetris_input(Tetris_GameState *game) {
     if (MiddleCircuit > INPUT_THRESHOLD){
         game->player_input = 0x01;
     };
@@ -228,10 +228,10 @@ void move_tetromino(Tetris_GameState *game) {
     @since March 5, 2024
 **********************************************************************/
 void check_matrix_collision(Tetris_GameState *game) {
-    int i = 0;
-    int j = 0;
-    int yPosition = TETRISHEIGHT;
-    int xPosition = 0;
+    uint8_t i = 0;
+    uint8_t j = 0;
+    uint8_t yPosition = TETRISHEIGHT;
+    uint8_t xPosition = 0;
     for (j = game->matrix.arrSize - 1; j >= 0; j--){        
         if (game->matrix.stuck_minos[i] == 0){
             continue;
@@ -284,8 +284,8 @@ void check_boundary_collision(Tetris_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 void affix_tetromino(Tetris_GameState *game) {
-    int i = 0;
-    int tempPos = 0;
+    uint8_t i = 0;
+    uint8_t tempPos = 0;
     for (i = 0; i < 4; i++){
         tempPos = ((game->tetromino.falling_minos[i].y * TETRISWIDTH) + game->tetromino.falling_minos[i].x);
         game->matrix.stuck_minos[tempPos] = game->tetromino.color;
@@ -305,7 +305,6 @@ void random_tetromino(Tetris_GameState *game) {
     game->tetromino = FixedTetrominos[game->active_tetromino];
 }
 
-
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Renders the falling tetromino to the screen
@@ -313,7 +312,7 @@ void random_tetromino(Tetris_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 void render_tetromino(Tetris_GameState *game, uint8_t color_toggle) {
-    int i = 0;
+    uint8_t i = 0;
     if (color_toggle){
         for (i = 0; i < 4; i++){
             d_Rect(game->tetromino.falling_minos[i].x*TETRISGAME_SCALE,game->tetromino.falling_minos[i].y*TETRISGAME_SCALE,TETRISGAME_SCALE,TETRISGAME_SCALE, 3, game->tetromino.color, 0, game->tetromino.color);
@@ -332,9 +331,9 @@ void render_tetromino(Tetris_GameState *game, uint8_t color_toggle) {
     @since March 6, 2024
 **********************************************************************/
 void render_matrix(Tetris_GameState *game) {
-    int i = 0;
-    int tempX = 0;
-    int tempY = TETRISHEIGHT;
+    uint8_t i = 0;
+    uint8_t tempX = 0;
+    uint8_t tempY = TETRISHEIGHT;
     for (i = 0; i < game->matrix.stuck_minos[i]; i++){
         if (game->matrix.stuck_minos[i] == 0){
             continue;
@@ -355,7 +354,7 @@ void render_matrix(Tetris_GameState *game) {
     @param game A Tetris_GameState with important values for the game
     @since March 5, 2024
 **********************************************************************/
-void init_tetrisgame(Tetris_GameState *game) {
+void init_tetris(Tetris_GameState *game) {
     // Matrix
     game->matrix.origin.x = 0;
     game->matrix.origin.y = 0;  
@@ -419,15 +418,18 @@ void update_tetrisgamestate(Tetris_GameState *game) {
   @brief Main game loop
   @since February 29, 2024
 **********************************************************************/
-void tetris_main(void) {
-    Tetris_GameState TetrisGame;
+uint8_t tetris_main(void) {
+    setDirection(4);
     clearScreen(ST7735_BLACK);
+    Tetris_GameState TetrisGame;
     // init_game(&TetrisGame);
     while(!TetrisGame.game_over){
-        handle_tetrisinput(&TetrisGame);
+        TetrisGame.game_over = 1;
+        tetris_input(&TetrisGame);
         update_tetrisgamestate(&TetrisGame);
         SysTick_Wait10ms(100/TetrisGame.fall_speed);
     }
+    return 13;
 };
 
 

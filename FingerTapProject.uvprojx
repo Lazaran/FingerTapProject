@@ -12,7 +12,7 @@
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>6190000::V6.19::ARMCLANG</pArmCC>
       <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
-      <uAC6>9</uAC6>
+      <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>TM4C123GH6PM</Device>
@@ -331,7 +331,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
+            <v6LangP>5</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -421,9 +421,34 @@
               <FilePath>.\FTP_INPUT.c</FilePath>
             </File>
             <File>
+              <FileName>FTP_MENU.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_MENU.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_NOTES.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_NOTES.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_PAINT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_PAINT.c</FilePath>
+            </File>
+            <File>
               <FileName>FTP_PONG.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\FTP_PONG.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_SNAKE.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_SNAKE.c</FilePath>
+            </File>
+            <File>
+              <FileName>FTP_TETRIS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\FTP_TETRIS.c</FilePath>
             </File>
           </Files>
         </Group>

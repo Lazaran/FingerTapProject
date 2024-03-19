@@ -272,7 +272,7 @@ void enableSleep(int enable);
 
 void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h);
 
-void setRotation(uint8_t m);
+// void setRotation(uint8_t m);
 
 void commonInit(void);
 

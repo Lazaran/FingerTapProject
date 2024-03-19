@@ -35,16 +35,16 @@
 
 /* TETRIS */
 typedef struct Tetromino{
-    Vector2 falling_minos[4];
+    u8Vector2 falling_minos[4];
     Color color;
-    Vector2 origin;
-    Vector2 bounding_box;
+    s16Vector2 origin;
+    u8Vector2 bounding_box;
 } Tetromino;
 
 typedef struct TetrisMatrix{
     Color stuck_minos[TETRISHEIGHT*TETRISWIDTH];
-    Vector2 origin;
-    Vector2 bounding_box;
+    s16Vector2 origin;
+    u8Vector2 bounding_box;
     uint8_t arrSize;
 } TetrisMatrix;
 
@@ -62,7 +62,7 @@ typedef struct Tetris_GameState{
 
 // Function prototypes
 
-void handle_tetrisinput(Tetris_GameState *game);
+void tetris_input(Tetris_GameState *game);
 
 void move_tetromino(Tetris_GameState *game);
 
@@ -78,11 +78,11 @@ void render_tetromino(Tetris_GameState *game, uint8_t color_toggle);
 
 void render_matrix(Tetris_GameState *game);
 
-void init_tetrisgame(Tetris_GameState *game);
+void init_tetris(Tetris_GameState *game);
 
 void update_tetrisgamestate(Tetris_GameState *game);
 
-void tetris_main(void);
+uint8_t tetris_main(void);
 
 
 /* Reference list of all Fixed Tetrominos, their 

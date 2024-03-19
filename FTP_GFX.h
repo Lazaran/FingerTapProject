@@ -50,12 +50,14 @@ uint8_t d_Line(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t width, uint8_
 
 void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, uint8_t cToggle, uint16_t c2);
 
-void d_Circle(uint8_t x, uint8_t ys);
+void d_Circle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t borderColor, uint8_t borderThickness, uint16_t fillColor);
 
 uint8_t d_DrawString(uint8_t x, uint8_t y, char *pt, uint16_t textColor);
 
 void d_DrawCharS(uint8_t x, uint8_t y, char c, uint16_t textColor, uint16_t bgColor, uint8_t size);
 
-void format_Print(uint8_t x, uint8_t y, int num, char* text);
+void format_dec_text(uint8_t x, uint8_t y, int num, char* text);
+
+void format_text_dec(uint8_t x, uint8_t y, int num, char* text);
 
 #endif /* !FTP_GFX_H */

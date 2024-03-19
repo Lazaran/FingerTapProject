@@ -292,15 +292,15 @@ void setDirection(uint8_t m){
   uint8_t direction = m % 7; // Limits input to 0-7
   switch (direction) {
     case 0:
-    case 1:
     case 2:
-    case 3:
+    case 4:
+    case 6:
       ScreenW = ST7735_TFTWIDTH;
       ScreenH = ST7735_TFTHEIGHT;
       break;
-    case 4:
+    case 1:
+    case 3:
     case 5:
-    case 6:
     case 7:
       ScreenW = ST7735_TFTHEIGHT;
       ScreenH = ST7735_TFTWIDTH;

@@ -40,12 +40,12 @@ typedef struct Pong_GameState{
     Ball ball;
     Paddle player_paddle;
     Paddle ai_paddle;
-    uint8_t player_direction;
+    uint8_t direction;
     uint8_t game_over;
     uint8_t score;
 } Pong_GameState;
 
-void pong_init(Pong_GameState *game);
+void init_pong(Pong_GameState *game);
 
 void pong_input(Pong_GameState *game);
 
@@ -75,11 +75,7 @@ void update_player_paddle(Pong_GameState *game);
 
 void update_ai_paddle(Pong_GameState *game);
 
-
-
-
-
-
+void pong_game_over(Pong_GameState *game);
 
 uint8_t pong_main(void);
 

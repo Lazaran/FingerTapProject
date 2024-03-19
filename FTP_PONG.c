@@ -1,3 +1,12 @@
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief An emulation of the classic Atari game Pong. Move your paddle
+            up and down to bounce the ball back to the AI. Careful! The AI
+            is VERY GOOD XD
+    @since March 17, 2024
+    @version Rev 4
+**********************************************************************/
+
 //Standard Includes
 #include <stdlib.h>
 #include <stdio.h>
@@ -13,13 +22,18 @@
 #include "SysTick.h"
 #include "tm4c123gh6pm.h"
 
+/* Text to format the displayed score with */
+char PongGameScore[] = "Score:";
+char PongGameOver[] = "Game Over!";
+char PongYourScoreIs[] = "Your Score Is:";
+
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Initialize a Pong_GameState
     @param game A Pong_GameState to be modified
     @since March 6, 2024
 **********************************************************************/
-void pong_init(Pong_GameState *game) {
+void init_pong(Pong_GameState *game) {
   // Ball Init
   game->ball.origin.x = TETRIS_MIDWIDTH;
   game->ball.origin.y = TETRIS_MIDHEIGHT;
@@ -47,7 +61,7 @@ void pong_init(Pong_GameState *game) {
   game->ai_paddle.bounding_box.y = PADDLE_HEIGHT;
 
   // Other
-  game->player_direction = 0;
+  game->direction = 0;
   game->game_over = 0;
   game->score = 0;
 
@@ -60,17 +74,28 @@ void pong_init(Pong_GameState *game) {
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Checks for player input and sets the direction the player paddle will move
+    @note 2 = Up, 3 = Down
     @param game A Pong_GameState to be modified
     @since March 6, 2024
 **********************************************************************/
 void pong_input(Pong_GameState *game) {
-  game->player_direction = 0;
-  if (IndexCircuit > INPUT_MIN) {
-    game->player_direction = 1;
-  }
-  if (MiddleCircuit > INPUT_MIN) {
-    game->player_direction = 2;
-  }
+    switch(Circuit_Parse()){
+        // Index PA
+        case 12:
+            game->direction = 2;
+            return;
+        // Index MA
+        case 13:
+            game->direction = 3;
+            return;
+        // Pinky DP
+        case 45:
+            game->game_over = 1;
+            return;
+        default:
+            break;
+    };
+    return;
 };
 
 /*!*******************************************************************
@@ -188,7 +213,7 @@ void update_ball(Pong_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 void move_player_paddle(Pong_GameState *game) {
-  switch(game->player_direction){
+  switch(game->direction){
     case 1:
       game->player_paddle.origin.x += 1;
       break;
@@ -274,11 +299,17 @@ void update_ai_paddle(Pong_GameState *game) {
   }
 }
 
-char OriginTextX[] = "OriginX";
-char OriginTextY[] = "OriginY";
-
-char OldOriginTextX[] = "OldOriginX";
-char OldOriginTextY[] = "OldOriginY";
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief Displays the GameOver text along with the users' score
+    @param game A Pong_GameState with important values for the game
+    @since March 4, 2024
+**********************************************************************/
+void pong_game_over(Pong_GameState *game){
+    d_DrawString(5,4,PongGameOver,ST7735_WHITE);
+    d_DrawString(3,5,PongYourScoreIs,ST7735_WHITE);
+    format_dec_text(8,6,game->score," ");
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
@@ -287,16 +318,22 @@ char OldOriginTextY[] = "OldOriginY";
     @since March 6, 2024
 **********************************************************************/
 uint8_t pong_main(void) {
-  Pong_GameState PongGame;
-  clearScreen(ST7735_BLACK);
-  pong_init(&PongGame);
-  while(!PongGame.game_over){
-    pong_input(&PongGame);
-    update_ball(&PongGame);
-    update_player_paddle(&PongGame);
-    update_ai_paddle(&PongGame);
-  };
-  return 0;
+    setDirection(5);
+    clearScreen(ST7735_BLACK);
+    Pong_GameState PongGame;
+    init_pong(&PongGame);
+    while(!PongGame.game_over){
+        pong_input(&PongGame);
+        update_ball(&PongGame);
+        update_player_paddle(&PongGame);
+        update_ai_paddle(&PongGame);
+    };
+    pong_game_over(&PongGame);
+    // Replacing this with a system timer would probably work A LOT BETTER
+    // DO ITTTTTT
+    SysTick_Wait10ms(1500);
+    // Pong Exitcode
+    return 12;
 }
 
 
