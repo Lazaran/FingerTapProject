@@ -20,7 +20,8 @@
         "pll.h": "c",
         "math.h": "c",
         "ftp_snake.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "ftp_apptimer.h": "c"
     },
     "C_Cpp.default.cStandard": "c99",
     "cmsis-csolution.actions": [

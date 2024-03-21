@@ -318,20 +318,29 @@ void pong_game_over(Pong_GameState *game){
     @since March 6, 2024
 **********************************************************************/
 uint8_t pong_main(void) {
-    setDirection(5);
+    if (ScreenOrientation != 5){
+        ScreenOrientation = 5;
+        setDirection(ScreenOrientation);
+    }  
     clearScreen(ST7735_BLACK);
-    Pong_GameState PongGame;
-    init_pong(&PongGame);
-    while(!PongGame.game_over){
-        pong_input(&PongGame);
-        update_ball(&PongGame);
-        update_player_paddle(&PongGame);
-        update_ai_paddle(&PongGame);
-    };
-    pong_game_over(&PongGame);
-    // Replacing this with a system timer would probably work A LOT BETTER
-    // DO ITTTTTT
-    SysTick_Wait10ms(1500);
+    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
+    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
+    d_DrawString(11,5,"Under",ST7735_WHITE);
+    d_DrawString(8,6,"Construction",ST7735_WHITE);
+    SysTick_Wait10ms(2000);
+    // Pong_GameState PongGame;
+    // init_pong(&PongGame);
+    // d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
+    // while(!PongGame.game_over){
+    //     pong_input(&PongGame);
+    //     update_ball(&PongGame);
+    //     update_player_paddle(&PongGame);
+    //     update_ai_paddle(&PongGame);
+    // };
+    // pong_game_over(&PongGame);
+    // SysTick_Wait10ms(1500);
     // Pong Exitcode
     return 12;
 }

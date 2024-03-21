@@ -184,8 +184,8 @@ void Input_Init(void){
     ADC0_SSPRI_R = 0x2103;      // Seq1 = Pri 0 | Seq2 = Pri 1 | Seq3 = Pri 2 | Seq0 = Pri 3
     ADC0_ACTSS_R = 0x0;         // Active Sequencers: Disable All
     ADC0_EMUX_R = 0x0550;       // Event Mux: Seq[1:2] GPTM Timeout
-    ADC0_SSMUX1_R = 0x3210;     // Sequence Input Mux: AIN[0:3]
-    ADC0_SSMUX2_R = 0x7654;     // Sequence Input Mux: AIN[4:7]
+    ADC0_SSMUX1_R = 0x3210;     // Sequence Input Mux: AIN[0:3], PE[3:0]
+    ADC0_SSMUX2_R = 0x7654;     // Sequence Input Mux: AIN[4:7], PD[3:0]
     ADC0_SSCTL1_R = 0x6000;     // Seq Control: AIN[3] Interrupt + End | AIN[0:2] Empty
     ADC0_SSCTL2_R = 0x6000;     // Seq Control: AIN[7] Interrupt + End | AIN[4:6] Empty
     ADC0_IM_R = 0x6;            // Interrupt Mask: Enable Seq[1:2]

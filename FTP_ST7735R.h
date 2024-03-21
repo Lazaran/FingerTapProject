@@ -31,6 +31,7 @@
 #define ST7735_WHITE   0xFFFF
 #define BG_COLOR ST7735_BLACK
 
+volatile extern uint8_t ScreenOrientation;
 volatile extern uint8_t ScreenX;
 volatile extern uint8_t ScreenY;
 volatile extern uint8_t ScreenW;

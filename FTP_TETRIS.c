@@ -419,16 +419,27 @@ void update_tetrisgamestate(Tetris_GameState *game) {
   @since February 29, 2024
 **********************************************************************/
 uint8_t tetris_main(void) {
-    setDirection(4);
-    clearScreen(ST7735_BLACK);
-    Tetris_GameState TetrisGame;
-    // init_game(&TetrisGame);
-    while(!TetrisGame.game_over){
-        TetrisGame.game_over = 1;
-        tetris_input(&TetrisGame);
-        update_tetrisgamestate(&TetrisGame);
-        SysTick_Wait10ms(100/TetrisGame.fall_speed);
+    if (ScreenOrientation != 6){
+        ScreenOrientation = 6;
+        setDirection(ScreenOrientation);
     }
+    // clearScreen(ST7735_BLACK);
+    // Tetris_GameState TetrisGame;
+    // init_game(&TetrisGame);
+    clearScreen(ST7735_BLACK);
+    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
+    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
+    d_DrawString(11,5,"Under",ST7735_WHITE);
+    d_DrawString(8,6,"Construction",ST7735_WHITE);
+    SysTick_Wait10ms(2000);
+    // TetrisGame.game_over = 1;
+    // while(!TetrisGame.game_over){
+    //     tetris_input(&TetrisGame);
+    //     update_tetrisgamestate(&TetrisGame);
+    //     SysTick_Wait10ms(100/TetrisGame.fall_speed);
+    // }
     return 13;
 };
 

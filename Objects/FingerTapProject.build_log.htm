@@ -3,136 +3,62 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.14.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: James Vardy, Holland College, LIC=----
+IDE-Version: µVision V5.38.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Qwyn Scurr
+Holland College
+User-based license: Keil MDK Community (non-commercial free of charge)
+Valid until: May 31 2033. Cached until: Mar 25 2024
  
 Tool Versions:
-Toolchain:       MDK-Lite  Version: 5.14.0.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.05 update 1 (build 106)
-Assembler:       Armasm.exe V5.05 update 1 (build 106)
-Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
-Library Manager: ArmAr.exe V5.05 update 1 (build 106)
-Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
-CPU DLL:         SARMCM3.DLL V5.14.0.0
-Dialog DLL:      DCM.DLL V1.13.1.0
+Toolchain:       Keil MDK Community (non-commercial free of charge  Version: 5.38.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.19
+Assembler:       Armasm.exe V6.19
+Linker/Locator:  ArmLink.exe V6.19
+Library Manager: ArmAr.exe V6.19
+Hex Converter:   FromElf.exe V6.19
+CPU DLL:         SARMCM3.DLL V5.38.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
 Target DLL:      lmidk-agdi.dll V???
-Dialog DLL:      TCM.DLL V1.14.4.0
+Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-C:\Users\qscurr\OneDrive - Holland College\FingerTap\FingerTapProject.uvprojx
-Project File Date:  03/18/2024
+C:\Users\Qwyn\OneDrive - Holland College\FingerTap\FingerTapProject.uvprojx
+Project File Date:  03/20/2024
 
 <h2>Output:</h2>
+*** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-compiling FTP_GFX.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_GFX.c(367): warning:  #177-D: variable "bitmap" was declared but never referenced
-    uint8_t bitmap[2][500] = {0,0};
-FTP_GFX.c(471): warning:  #186-D: pointless comparison of unsigned integer with zero
-    if (x < 0){ v_Clip(x, 0); };
-FTP_GFX.c(472): warning:  #186-D: pointless comparison of unsigned integer with zero
-    if (y < 0){ v_Clip(y, 0); };
-FTP_GFX.c: 4 warnings, 0 errors
+compiling FTP_PAINT.c...
 compiling FTP_MAIN.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_TYPES.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_SNAKE.h(65): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_NOTES.h(43): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_MENU.h(44): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_MAIN.c(127): warning:  #1-D: last line of file ends without a newline
-  */
-FTP_MAIN.c: 7 warnings, 0 errors
-compiling FTP_ST7735R.c...
+assembling startup.s...
+compiling FTP_NOTES.c...
 compiling PLL.c...
 compiling SysTick.c...
-assembling startup.s...
+compiling FTP_ST7735R.c...
 compiling FTP_INPUT.c...
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_INPUT.c(206): warning:  #1-D: last line of file ends without a newline
-  };
-FTP_INPUT.c: 2 warnings, 0 errors
-compiling FTP_MENU.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_MENU.h(44): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_MENU.c(252): warning:  #1-D: last line of file ends without a newline
-  }
-FTP_MENU.c: 4 warnings, 0 errors
-compiling FTP_NOTES.c...
-FTP_TYPES.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_NOTES.h(43): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_NOTES.c(164): warning:  #1-D: last line of file ends without a newline
-  }
-FTP_NOTES.c: 4 warnings, 0 errors
-compiling FTP_PAINT.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_PAINT.c(17): warning:  #1-D: last line of file ends without a newline
-  }
-FTP_PAINT.c: 3 warnings, 0 errors
-compiling FTP_PONG.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_TYPES.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_PONG.c: 3 warnings, 0 errors
-compiling FTP_SNAKE.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_TYPES.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_SNAKE.h(65): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_SNAKE.c(295): warning:  #1-D: last line of file ends without a newline
-  }
-FTP_SNAKE.c: 5 warnings, 0 errors
+compiling FTP_GFX.c...
 compiling FTP_TETRIS.c...
-FTP_GFX.h(27): warning:  #550-D: parameter "a" was set but never used
-   void inline v_Clip(uint8_t a, uint8_t b){
-FTP_TYPES.h(41): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_TETRIS.c(235): warning:  #186-D: pointless comparison of unsigned integer with zero
-      for (j = game->matrix.arrSize - 1; j >= 0; j--){        
-FTP_TETRIS.c: 4 warnings, 0 errors
-compiling FTP_APPTIMER.c...
-FTP_INPUT.h(70): warning:  #1-D: last line of file ends without a newline
-  #endif
-FTP_APPTIMER.c: 1 warning, 0 errors
+compiling FTP_SNAKE.c...
+compiling FTP_MENU.c...
+compiling FTP_PONG.c...
 linking...
-Program Size: Code=7728 RO-data=1324 RW-data=204 ZI-data=1348  
-".\Objects\FingerTapProject.axf" - 0 Error(s), 37 Warning(s).
+Program Size: Code=9568 RO-data=1312 RW-data=160 ZI-data=1368  
+".\Objects\FingerTapProject.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil.TM4C_DFP.1.1.0
+                Texas Instruments Tiva C Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE
-  C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0
+  C:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123
 
 <h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

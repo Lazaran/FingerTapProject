@@ -1,11 +1,6 @@
-.\objects\ftp_tetris.o: FTP_TETRIS.c
-.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\ftp_tetris.o: SysTick.h
-.\objects\ftp_tetris.o: FTP_GFX.h
-.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\objects\ftp_tetris.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\ftp_tetris.o: FTP_TETRIS.h
-.\objects\ftp_tetris.o: FTP_TYPES.h
-.\objects\ftp_tetris.o: FTP_ST7735R.h
-.\objects\ftp_tetris.o: FTP_INPUT.h
+./objects/ftp_tetris.o: FTP_TETRIS.c \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h SysTick.h FTP_GFX.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h FTP_TETRIS.h \
+  FTP_TYPES.h FTP_ST7735R.h FTP_INPUT.h

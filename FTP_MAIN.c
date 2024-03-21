@@ -21,12 +21,17 @@
 #include "FTP_NOTES.h"
 #include "FTP_PAINT.h"
 #include "FTP_MENU.h"
-#include "FTP_APPTIMER.h"
+// #include "FTP_APPTIMER.h"
 
-char IndexText[] = "Index Value";
-char MiddleText[] = "Middle Value";
-char RingText[] = "Ring Value";
-char PinkyText[] = "Pinky Value";
+
+char IndexTextCircuit[] = "< Index Circuit";
+char MiddleTextCircuit[] = "< Middle Circuit";
+char RingTextCircuit[] = "< Ring Circuit";
+char PinkyTextCircuit[] = "< Pinky Circuit";
+char IndexTextFSR[] = "< Index FSR";
+char MiddleTextFSR[] = "< Middle FSR";
+char RingTextFSR[] = "< Ring FSR";
+char PinkyTextFSR[] = "< Pinky FSR";
 
 void WaitForInterrupt(void);
 
@@ -54,13 +59,25 @@ int main(){
     PLL_Init();
     SysTick_Init();
     Input_Init();
-    AppTimer_Init();
 
     ST7735_initR();
     clearScreen(ST77XX_BLACK);
+    ScreenOrientation = 1;
 
     while (1){
-        setDirection(0);
+        // format_dec_text(0,0,IndexCircuit,IndexTextCircuit);
+        // format_dec_text(0,1,MiddleCircuit,MiddleTextCircuit);
+        // format_dec_text(0,2,RingCircuit,RingTextCircuit);
+        // format_dec_text(0,3,PinkyCircuit,PinkyTextCircuit);
+
+        // format_dec_text(0,5,IndexFSR,IndexTextFSR);
+        // format_dec_text(0,6,MiddleFSR,MiddleTextFSR);
+        // format_dec_text(0,7,RingFSR,RingTextFSR);
+        // format_dec_text(0,8,PinkyFSR,PinkyTextFSR);
+        if (ScreenOrientation != 0){
+            ScreenOrientation = 0;
+            setDirection(ScreenOrientation);
+        }
         clearScreen(ST77XX_BLACK);
         appstate.menu_code = menu_main();
         WaitForInterrupt();
@@ -83,12 +100,6 @@ int main(){
             default:
                 break;
         }
-        // d_Circle(40,40,10,ST7735_WHITE,2,ST7735_BLACK);
-        // d_DrawString(0,0,IndexText,ST7735_WHITE);
-        // format_Print(0,0,IndexCircuit,IndexText);
-        // format_Print(0,2,MiddleCircuit,MiddleText);
-        // format_Print(0,4,RingCircuit,RingText);
-        // format_Print(0,6,PinkyCircuit,PinkyText);
    };
 };
 

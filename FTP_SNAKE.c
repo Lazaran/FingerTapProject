@@ -274,22 +274,28 @@ void snake_game_over(Snake_GameState *game){
     @since March 4, 2024
 **********************************************************************/
 uint8_t snake_main(void) {
-    setDirection(5);
+    if (ScreenOrientation != 5){
+        ScreenOrientation = 5;
+        setDirection(ScreenOrientation);
+    }
     clearScreen(ST7735_BLACK);
+    SysTick_Wait10ms(10);
     Snake_GameState SnakeGame;
     init_snake(&SnakeGame);
+    SysTick_Wait10ms(10);
+    d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
     while (!SnakeGame.game_over){
-        
+
         snake_input(&SnakeGame);
         update_snake_gamestate(&SnakeGame);
         // Replacing this with a system timer would probably work A LOT BETTER
         // DO ITTTTTT
-        SysTick_Wait10ms(250);
+        SysTick_Wait10ms(200);
     };
     snake_game_over(&SnakeGame);
     // Replacing this with a system timer would probably work A LOT BETTER
     // DO ITTTTTT
-    SysTick_Wait10ms(1500);
+    SysTick_Wait10ms(1000);
     // Snake Exitcode
     return 11;
 }

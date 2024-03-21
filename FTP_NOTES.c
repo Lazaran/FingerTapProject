@@ -6,6 +6,8 @@
     @version Rev 4
 **********************************************************************/
 
+#include <stdint.h>
+#include "SysTick.h"
 #include "FTP_NOTES.h"
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
@@ -153,12 +155,22 @@ void init_notes(NoteState *notes){
 
 // The main function for the notes app
 uint8_t notes_main(void){
-    setDirection(5);
+    if (ScreenOrientation != 5){
+        ScreenOrientation = 5;
+        setDirection(ScreenOrientation);
+    }   
     clearScreen(ST7735_BLACK);
-    NoteState NoteApp;
-    init_notes(&NoteApp);
-    while(!NoteApp.exitcode){
-        NoteApp.exitcode = 1;
-    }
+    // NoteState NoteApp;
+    // init_notes(&NoteApp);
+    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
+    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
+    d_DrawString(11,5,"Under",ST7735_WHITE);
+    d_DrawString(8,6,"Construction",ST7735_WHITE);
+    SysTick_Wait10ms(2000);
+    // NoteApp.exitcode = 1;
+    // while(!NoteApp.exitcode){
+    // }
     return 14;
 }

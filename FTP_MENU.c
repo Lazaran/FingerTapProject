@@ -16,14 +16,14 @@
 
 // Array holding the X position of all icon origins
 uint8_t ICON_X[5] = {
-    20,70,120,
-      30,70
+    20,64,107,
+      43,89
 };
 
 // Array holding the Y position of all icon origins
 uint8_t ICON_Y[5] = {
-    20, 20, 20,
-      60, 60
+    28, 28, 28,
+      69, 69
 };
 
 /*!*******************************************************************
@@ -104,9 +104,27 @@ void render_pong_icon(uint8_t x, uint8_t y){
 void render_paint_icon(uint8_t x, uint8_t y){
     // Border
     d_Rect(x+1,y+1,31,31,2,ST7735_GRAY,0,ST7735_BLACK);
-    // PlaceHolder
-    d_Rect(x+4,y+4,16,16,2,ST7735_BLUE,0,ST7735_BLACK);
-
+    // Rectangle
+    d_Rect(x+12,y+11,15,13,1,ST7735_CYAN,0,ST7735_BLACK);
+    // Circle
+    r_Rect(x+9,y+7,4,1,ST7735_GREEN);
+    r_Rect(x+7,y+9,1,4,ST7735_GREEN);
+    r_Rect(x+14,y+9,1,4,ST7735_GREEN);
+    r_Rect(x+9,y+14,4,1,ST7735_GREEN);
+    r_Pixel(x+8,y+8,ST7735_GREEN);
+    r_Pixel(x+8,y+13,ST7735_GREEN);
+    r_Pixel(x+13,y+8,ST7735_GREEN);
+    r_Pixel(x+13,y+13,ST7735_GREEN);
+    // Line
+    r_Rect(x+7,y+18,2,1,ST7735_RED);
+    r_Rect(x+9,y+19,2,1,ST7735_RED);
+    r_Rect(x+11,y+20,2,1,ST7735_RED);
+    r_Rect(x+13,y+21,3,1,ST7735_RED);
+    r_Rect(x+16,y+22,2,1,ST7735_RED);
+    r_Rect(x+18,y+23,3,1,ST7735_RED);
+    r_Rect(x+21,y+24,2,1,ST7735_RED);
+    r_Rect(x+23,y+25,2,1,ST7735_RED);
+    r_Rect(x+25,y+26,2,1,ST7735_RED);
 }
 
 /*!*******************************************************************
@@ -119,10 +137,26 @@ void render_paint_icon(uint8_t x, uint8_t y){
 void render_notes_icon(uint8_t x, uint8_t y){
     // Border
     d_Rect(x+1,y+1,31,31,2,ST7735_GRAY,0,ST7735_BLACK);
-    // PlaceHolder
-    d_Rect(x+16,y+4,4,16,2,ST7735_BLUE,0,ST7735_BLACK);
-    // PlaceHolder
-    d_Rect(x+4,y+16,16,4,2,ST7735_GREEN,0,ST7735_BLACK);
+    // A Left Leg
+    r_Rect(x+8,y+25,3,1,ST7735_GREEN);
+    r_Rect(x+9,y+22,2,4,ST7735_GREEN);
+    r_Rect(x+10,y+20,2,4,ST7735_GREEN);
+    r_Rect(x+11,y+17,2,4,ST7735_GREEN);
+    r_Rect(x+12,y+14,2,4,ST7735_GREEN);
+    r_Rect(x+13,y+12,2,3,ST7735_GREEN);
+    r_Rect(x+14,y+10,2,3,ST7735_GREEN);
+    r_Rect(x+15,y+8,2,3,ST7735_GREEN);
+    // A Right Leg
+    r_Rect(x+22,y+25,3,1,ST7735_GREEN);
+    r_Rect(x+21,y+23,3,2,ST7735_GREEN);
+    r_Rect(x+21,y+20,2,5,ST7735_GREEN);
+    r_Rect(x+20,y+18,2,4,ST7735_GREEN);
+    r_Rect(x+19,y+15,2,4,ST7735_GREEN);
+    r_Rect(x+18,y+13,2,3,ST7735_GREEN);
+    r_Rect(x+17,y+10,2,4,ST7735_GREEN);
+    // A Middle Bar
+    r_Rect(x+11,y+19,11,2,ST7735_GREEN);
+
 }
 
 
@@ -228,10 +262,14 @@ void update_appstate(Menu_AppState *menu){
     @since March 4, 2024
 **********************************************************************/
 uint8_t menu_main(void){
-    setDirection(MENU_DIR);
+    if (ScreenOrientation != MENU_DIR){
+        ScreenOrientation = MENU_DIR;
+        setDirection(ScreenOrientation);
+    }
+    clearScreen(ST7735_BLACK);
     Menu_AppState MainMenu;
     init_menu(&MainMenu);
-    clearScreen(ST7735_BLACK);
+    d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
     render_snake_icon(ICON_X[0],ICON_Y[0]);
     render_pong_icon(ICON_X[1],ICON_Y[1]);
     render_tetris_icon(ICON_X[2],ICON_Y[2]);

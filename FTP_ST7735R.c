@@ -19,6 +19,8 @@
 // Valvano statics, can be changed in the future
 #define BACKGROUND_COLOR ST77XX_BLACK
 
+volatile uint8_t ScreenOrientation = 0;
+
 volatile uint8_t ScreenX = 0;
 volatile uint8_t ScreenY = 0;
 volatile uint8_t ScreenW = ST7735_TFTWIDTH;
