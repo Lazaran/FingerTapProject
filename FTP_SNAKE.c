@@ -6,7 +6,7 @@
     @since March 17, 2024
     @version Rev 4
 **********************************************************************/
-
+// Includes
 #include <stdint.h>
 #include "SysTick.h"
 #include "FTP_ST7735R.h"
@@ -269,27 +269,30 @@ void snake_game_over(Snake_GameState *game){
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Get input, update the Snake_GameState and render game to screen
-            returns 0 back to system main if game over
-    @returns Game over exitcode
+    @returns Game Over exitcode
     @since March 4, 2024
 **********************************************************************/
 uint8_t snake_main(void) {
-    if (ScreenOrientation != 5){
-        ScreenOrientation = 5;
+    // Orient the screen
+    if (ScreenOrientation != SNAKE_ORIENT){
+        ScreenOrientation = SNAKE_ORIENT;
         setDirection(ScreenOrientation);
     }
+    // Clear the screen
     clearScreen(ST7735_BLACK);
-    SysTick_Wait10ms(10);
+    // SysTick_Wait10ms(10);
+    // Initialize the SnakeGame object
     Snake_GameState SnakeGame;
     init_snake(&SnakeGame);
-    SysTick_Wait10ms(10);
+    // SysTick_Wait10ms(10);
+    // Render screen border
     d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
     while (!SnakeGame.game_over){
-
+        // Get User Inputs
         snake_input(&SnakeGame);
+        // Update gamestate
         update_snake_gamestate(&SnakeGame);
-        // Replacing this with a system timer would probably work A LOT BETTER
-        // DO ITTTTTT
+        // Wait 2 seconds
         SysTick_Wait10ms(200);
     };
     snake_game_over(&SnakeGame);

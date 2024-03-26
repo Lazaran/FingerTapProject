@@ -1,3 +1,13 @@
+/*!*******************************************************************
+    @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
+    @brief Interacts with the ST7735R by setting windows of pixels to modify
+            Functions build on each other to render more complicated shapes
+            to the screen
+    @since March 21, 2024
+    @version Rev 4
+**********************************************************************/
+
+// Includes
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
@@ -5,19 +15,13 @@
 #include "FTP_GFX.h"
 #include "SysTick.h"
 
-#define PIXEL_ARR_SIZE 500
-#define WIDTH 128
-#define HEIGHT 160
-
-void extern inline v_Swap(uint8_t a, uint8_t b);
-
+// Inline Declarations
 void extern inline v_Clip(uint8_t a, uint8_t b);
 
 int extern inline v_Count(uint16_t x,uint16_t y,uint16_t w,uint16_t h);
 
-/* End of FTP_GFX Inlines*/
-
-const unsigned short colors[] = {
+// Library Arrays
+const unsigned short colors[8] = {
     0x0000,
     0xF800,
     0x001F,
@@ -293,9 +297,6 @@ static const uint8_t Font[] = {
   THICKNESS SHOULD ALWAYS GO TOWARD CENTER OF SCREEN
   THIS WAY ONLY THE 4 DIMENSIONS NEED TO BE CONSIDERED
   TO CHECK SHAPE BOUNDARIES
-*/
-
-/*
 
 r-Series: Raw primitives, at the moment only includes rLine and rRect
           These shapes only draw from the coordinates provided
@@ -313,30 +314,32 @@ c-Series: Color-affecting functions, fills and inversions perhaps
 t-Series: Testing functions to push the LCD
 
 rRect: Creates a rectangle filled with color c from point x,y to w,h
+
 rLine: Creates a line with color c from point x,y to w,h
+
 dRect: Create a rectangle with a border of color c1, border thickness t,
         infill color c2, from point x,y to w,h
         Checks x,y are in bounds and clips w,h if needed
+
 dLine: Draw a line of thickness t and color c from point x,y to w,h
         Checks x,y are in bounds and clips w,h if needed
+        INCOMPLETE
 dCircle: Draw a circle with border thickness y, border color c1, infill color c2,
-          with a radius of r and centerpoint x,y
+          with a radius of r and centerpoint x,y 
+          INCOMPLETE
 */
 
-void c_Fill(uint16_t vCnt, uint16_t c1){
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Fills a number of pixels with the provided color
+  @param vCnt Number of pixels to fill with a color
+  @param c A 16-bit color in 5-6-5 format to fill the pixels with
+  @since March 21, 2024
+**********************************************************************/
+void c_Fill(uint16_t vCnt, uint16_t c){
   for (int i = 0; i < (vCnt); i++){
-    pushColor(c1);
+    pushColor(c);
   };
-};
-
-void c_Bifill(uint16_t vCnt, uint16_t c1, uint16_t c2){
-  for (int i = 0; i < (vCnt); i++){
-    ((i % 2) == 0) ? pushColor(c1) : pushColor(c2); 
-  };
-};
-
-void c_Gradient(void){
-  // unknown
 };
 
 /*!*******************************************************************
@@ -360,7 +363,7 @@ void clearScreen(uint16_t c){
   @param y Y position of the first point
   @param w W position of the second point
   @param h H position of the second point
-  @since February 7th, 2024
+  @since February 7, 2024
 **********************************************************************/
 void r_Line(uint8_t x, uint8_t y, uint8_t w, uint8_t h){
 
@@ -376,7 +379,7 @@ void r_Line(uint8_t x, uint8_t y, uint8_t w, uint8_t h){
   @param w W position of the second point
   @param h H position of the second point
   @param c Color of the rectangle
-  @since February 7th, 2024
+  @since February 7, 2024
 **********************************************************************/
 void r_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t c){
   setAddrWindow(x,y,x+w,y+h);
@@ -389,7 +392,7 @@ void r_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t c){
   @param x X position of the first point
   @param y Y position of the first point
   @param c Color of the rectangle
-  @since February 25th, 2024
+  @since February 25, 2024
 **********************************************************************/
 void r_Pixel(uint8_t x, uint8_t y, uint16_t c){
   setAddrWindow(x,y,x,y);
@@ -423,7 +426,6 @@ void t_RandomPixels (){
 	};
 };
 
-
 /*!*******************************************************************  
   @author Qwyntyn Scurr
   @brief Calls rLine, but first ensures that (x,y) and (w,h) are valid coordinates on the LCD screen
@@ -436,7 +438,7 @@ void t_RandomPixels (){
   @param y Y position of the first point
   @param w W position of the second point
   @param h H position of the second point
-  @since February 7th, 2024
+  @since February 7, 2024
 **********************************************************************/
 //uint8_t dLine(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t width, uint8_t height){
 //  // Checks dimensions are valid, returns error code
@@ -447,7 +449,6 @@ void t_RandomPixels (){
 //  rLine(x,y,w,h);
 //  return 0;
 //};
-
 
 /*!*******************************************************************
   @author Qwyntyn Scurr
@@ -462,7 +463,7 @@ void t_RandomPixels (){
   @param c1 Border color
   @param cToggle Infill color toggle
   @param c2 Infill color
-  @since February 9th, 2024
+  @since February 9, 2024
 **********************************************************************/
 void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, uint8_t cToggle, uint16_t c2){
   // Clipping shape to screen if needed
@@ -485,75 +486,60 @@ void d_Rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t t, uint16_t c1, 
   }
 }
 
-
-
-void d_Circle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t borderColor, uint8_t borderThickness, uint16_t fillColor) {
-    // Clipping shape to screen if needed
-    if (x0 + radius >= WIDTH) { v_Clip((x0 + radius), WIDTH - 1); }
-    if (y0 + radius >= HEIGHT) { v_Clip((y0 + radius), HEIGHT - 1); }
-    if (x0 - radius < 0) { v_Clip(x0 - radius, 0); }
-    if (y0 - radius < 0) { v_Clip(y0 - radius, 0); }
-
-    // Number of slices to approximate the circle
-    int numSlices = 10;
-
-    // Draw the circle's border
-    for (int i = 0; i < numSlices; i++) {
-        // Calculate the angle for this slice
-        int angle = floor(2 * 3.14 * i / numSlices);
-
-        // Calculate the height of the rectangle for this slice
-        int height = radius * cos(angle);
-
-        // Calculate the width of the rectangle for this slice
-        int width = radius * sin(angle);
-
-        // Draw the rectangle for this slice
-        r_Rect(x0 - width, y0 - height, width * 2, height * 2, borderColor);
-    }
-
-    // Fill the circle's interior if fillColor is different from borderColor
-    if (fillColor != borderColor) {
-        for (int i = 0; i < numSlices; i++) {
-            // Calculate the angle for this slice
-            int angle = floor(2 * 3.14 * i / numSlices);
-
-            // Calculate the height of the rectangle for this slice
-            int height = radius * cos(angle);
-
-            // Calculate the width of the rectangle for this slice
-            int width = radius * sin(angle);
-
-            // Draw the rectangle for this slice
-            r_Rect(x0 - width + borderThickness, y0 - height + borderThickness, width * 2 - borderThickness * 2, height * 2 - borderThickness * 2, fillColor);
-        }
-    }
-}
-
-
 /*!*******************************************************************
-  @author Qwyntyn Scurr
-  @brief Draw a rectangle with a border of color c1, border thickness t,
-        infill color c2, from point x,y to w,h.
-        Clips w,h if necessary
-  @param x X position of first point
-  @param y Y position of first point
-  @param w X position of second point
-  @param h Y position of second point
-  @param t Border thickness
-  @param c1 Border color
-  @param cToggle Infill color toggle
-  @param c2 Infill color
-  @since February 9th, 2024
+  @author  Jesse Donat, Qwyntyn Scurr
+  @brief Draws a circle to the screen with a centerpoint at (x0,y0), variable
+          borderwith, optional toggle for infill/border only drawing
+  @param x0 X position of the centerpoint of the circle
+  @param y0 Y position of the centerpoint of the circle
+  @param radius X position of second point
+  @param borderColor 16-bit 5-6-5 color for the border
+  @param borderThickness Border thickness in pixels
+  @param fillColor 16-bit 5-6-5 color to fill circle with
+  @since March 15, 2024
 **********************************************************************/
-// void d_Circle(uint8_t x, uint8_t y, ){
-// 
+// void d_Circle(uint8_t x0, uint8_t y0, uint8_t radius, uint16_t borderColor, uint8_t borderThickness, uint16_t fillColor) {
+//     // Clipping shape to screen if needed
+//     if (x0 + radius >= WIDTH) { v_Clip((x0 + radius), WIDTH - 1); }
+//     if (y0 + radius >= HEIGHT) { v_Clip((y0 + radius), HEIGHT - 1); }
+//     if (x0 - radius < 0) { v_Clip(x0 - radius, 0); }
+//     if (y0 - radius < 0) { v_Clip(y0 - radius, 0); }
+
+//     // Number of slices to approximate the circle
+//     int numSlices = 10;
+
+//     // Draw the circle's border
+//     for (int i = 0; i < numSlices; i++) {
+//         // Calculate the angle for this slice
+//         int angle = floor(2 * 3.14 * i / numSlices);
+
+//         // Calculate the height of the rectangle for this slice
+//         int height = radius * cos(angle);
+
+//         // Calculate the width of the rectangle for this slice
+//         int width = radius * sin(angle);
+
+//         // Draw the rectangle for this slice
+//         r_Rect(x0 - width, y0 - height, width * 2, height * 2, borderColor);
+//     }
+
+//     // Fill the circle's interior if fillColor is different from borderColor
+//     if (fillColor != borderColor) {
+//         for (int i = 0; i < numSlices; i++) {
+//             // Calculate the angle for this slice
+//             int angle = floor(2 * 3.14 * i / numSlices);
+
+//             // Calculate the height of the rectangle for this slice
+//             int height = radius * cos(angle);
+
+//             // Calculate the width of the rectangle for this slice
+//             int width = radius * sin(angle);
+
+//             // Draw the rectangle for this slice
+//             r_Rect(x0 - width + borderThickness, y0 - height + borderThickness, width * 2 - borderThickness * 2, height * 2 - borderThickness * 2, fillColor);
+//         }
+//     }
 // }
-
-
-
-
-
 
 /*!*******************************************************************  
   @author Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
@@ -578,7 +564,6 @@ uint8_t d_DrawString(uint8_t x, uint8_t y, char *pt, uint16_t textColor){
   }
   return count;  // number of characters printed
 }
-
 
 /*!*******************************************************************  
   @author Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
@@ -667,4 +652,19 @@ void format_text_dec(uint8_t x, uint8_t y, int num, char* text){
         // Draw formatted string to LCD
         d_DrawString(x,y,buffer,ST7735_WHITE);
 //		};
+};
+
+/*!*******************************************************************
+  @authors Qwyntyn Scurr
+  @brief Prints the under construction logo and text to the screen
+  @since March 21, 2024
+**********************************************************************/
+void under_construction(void){
+    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
+    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
+    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
+    d_DrawString(11,5,"Under",ST7735_WHITE);
+    d_DrawString(8,6,"Construction",ST7735_WHITE);
+    SysTick_Wait10ms(2000);
 };

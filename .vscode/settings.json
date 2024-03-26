@@ -21,7 +21,11 @@
         "math.h": "c",
         "ftp_snake.h": "c",
         "string.h": "c",
-        "ftp_apptimer.h": "c"
+        "ftp_apptimer.h": "c",
+        "ftp_systick.h": "c",
+        "ftp_paint.h": "c",
+        "ftp_notes.h": "c",
+        "ftp_analogdemo.h": "c"
     },
     "C_Cpp.default.cStandard": "c99",
     "cmsis-csolution.actions": [

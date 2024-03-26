@@ -1,3 +1,13 @@
+/*!*******************************************************************
+    @authors Qwyntyn Scurr
+    @brief An emulation of the classic arcade game Tetris. Move the falling
+            block and rotate it so it fits into the Matrix, be careful not
+            to let the fallen blocks reach the top of the screen or
+            its Game Over
+    @since March 21, 2024
+    @version Rev 4
+**********************************************************************/
+
 // Includes
 #include <stdint.h>
 #include <string.h>
@@ -6,22 +16,6 @@
 #include "FTP_TETRIS.h"
 #include "FTP_TYPES.h"
 #include "FTP_INPUT.h"
-
-#define INPUT_THRESHOLD 2000
-#define FIXED_TETROMINOS 19
-#define INPUT_LEFT 0x1
-#define INPUT_RIGHT 0x2
-#define INPUT_BOTH 0x03
-#define AFFIX_TIMER 5
-
-
-/* Notes:
-        Ensure that rotation can only occur above the BlockMass boundary line 
-        Tetromino will consist of 1 color, and 4 positions relative to the position
-        To keep the en
-        The following array is filled in order according to the reference list at the bottom
-*/ 
-
 
 /* Color type array of defined colors */
 Color TetrominoColors[11] = {
@@ -416,23 +410,18 @@ void update_tetrisgamestate(Tetris_GameState *game) {
 /*!*******************************************************************
   @authors Qwyntyn Scurr
   @brief Main game loop
-  @since February 29, 2024
+  @since March 17, 2024
 **********************************************************************/
 uint8_t tetris_main(void) {
-    if (ScreenOrientation != 6){
-        ScreenOrientation = 6;
+    // Orient the scrren
+    if (ScreenOrientation != TETRIS_ORIENT){
+        ScreenOrientation = TETRIS_ORIENT;
         setDirection(ScreenOrientation);
     }
-    // clearScreen(ST7735_BLACK);
     // Tetris_GameState TetrisGame;
     // init_game(&TetrisGame);
     clearScreen(ST7735_BLACK);
-    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
-    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
-    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
-    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
-    d_DrawString(11,5,"Under",ST7735_WHITE);
-    d_DrawString(8,6,"Construction",ST7735_WHITE);
+    under_construction();
     SysTick_Wait10ms(2000);
     // TetrisGame.game_over = 1;
     // while(!TetrisGame.game_over){

@@ -2,24 +2,18 @@
     @authors Qwyntyn Scurr
     @brief Write to or erase text from the screen and move the cursor to change where text
             is being added/removed
-    @since March 14, 2024
+    @since March 15, 2024
     @version Rev 4
 **********************************************************************/
 
+// Includes
 #include <stdint.h>
 #include "SysTick.h"
 #include "FTP_NOTES.h"
 #include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
 
-// Placehodler values, replace with real later
-#define NOTES_WIDTH 20
-#define NOTES_HEIGHT 10
 
-#define CURSOR_WIDTH 1
-#define CURSOR_HEIGHT 8
-// Without the offset, the cursor would draw over top of the existing letters, causing holes to appear in the text 
-#define CURSOR_XOFFSET 1
 /* Pad Codes List
 These are the exact codes from the input handler
 The pad array puts each of these at index n-1 instead of n

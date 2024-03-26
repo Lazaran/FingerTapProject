@@ -1,18 +1,18 @@
 /*!*******************************************************************
     @authors Qwyntyn Scurr
-    @brief The main menu of the FingerTap, displays all available apps
+    @brief The main menu of the FingerTap System, displays all available apps
             and all apps return to this menu either on menuover or by
             exiting the application.
-    @since March 4, 2024
+    @since March 18, 2024
     @version Rev 3
 **********************************************************************/
+// Includes
 #include <stdint.h>
 #include "SysTick.h"
+#include "FTP_ST7735R.h"
 #include "FTP_GFX.h"
 #include "FTP_INPUT.h"
-#include "FTP_ST7735R.h"
 #include "FTP_MENU.h"
-#include "FTP_APPTIMER.h"
 
 // Array holding the X position of all icon origins
 uint8_t ICON_X[5] = {
@@ -28,10 +28,10 @@ uint8_t ICON_Y[5] = {
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
-    @brief Renders the Tetris menu Icon to the screen
+    @brief Renders the Tetris Game Icon to the screen
     @param x X Position of the Icon Origin
     @param y Y Position of the Icon Origin
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void render_tetris_icon(uint8_t x, uint8_t y){
     // Border
@@ -48,14 +48,14 @@ void render_tetris_icon(uint8_t x, uint8_t y){
     // Green Tetromino
     d_Rect(x+13,y+5,4,8,1,ST7735_GREEN,1,ST7735_GREEN);
     d_Rect(x+17,y+9,4,8,1,ST7735_GREEN,1,ST7735_GREEN);
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
-    @brief Renders the Snake menu Icon to the screen
+    @brief Renders the Snake Game Icon to the screen
     @param x X Position of the Icon Origin
     @param y Y Position of the Icon Origin
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void render_snake_icon(uint8_t x, uint8_t y){
     // Border
@@ -74,14 +74,14 @@ void render_snake_icon(uint8_t x, uint8_t y){
     d_Rect(x+17,y+15,4,4,1,ST7735_GRAY,1,ST7735_WHITE);
     // Food
     d_Rect(x+17,y+7,4,4,1,ST7735_GREEN,1,ST7735_GREEN);
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
-    @brief Renders the Pong menu Icon to the screen
+    @brief Renders the Pong Game Icon to the screen
     @param x X Position of the Icon Origin
     @param y Y Position of the Icon Origin
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void render_pong_icon(uint8_t x, uint8_t y){
     // Border
@@ -92,14 +92,14 @@ void render_pong_icon(uint8_t x, uint8_t y){
     d_Rect(x+15,y+14,4,4,1,ST7735_WHITE,1,ST7735_WHITE);
     // Right Paddle
     d_Rect(x+23,y+11,4,16,1,ST7735_WHITE,1,ST7735_WHITE);
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Renders the Paint Application Icon to the screen
     @param x X Position of the Icon Origin
     @param y Y Position of the Icon Origin
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void render_paint_icon(uint8_t x, uint8_t y){
     // Border
@@ -125,14 +125,14 @@ void render_paint_icon(uint8_t x, uint8_t y){
     r_Rect(x+21,y+24,2,1,ST7735_RED);
     r_Rect(x+23,y+25,2,1,ST7735_RED);
     r_Rect(x+25,y+26,2,1,ST7735_RED);
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Renders the Notes Application Icon to the screen
     @param x X Position of the Icon Origin
     @param y Y Position of the Icon Origin
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void render_notes_icon(uint8_t x, uint8_t y){
     // Border
@@ -156,16 +156,14 @@ void render_notes_icon(uint8_t x, uint8_t y){
     r_Rect(x+17,y+10,2,4,ST7735_GREEN);
     // A Middle Bar
     r_Rect(x+11,y+19,11,2,ST7735_GREEN);
-
-}
-
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Checks for user input and moves the selector or
             selects an application
-    @param menu A Menu_APpState with important values for the menu
-    @since March 4, 2024
+    @param menu A Menu_AppState with important values for the menu
+    @since March 18, 2024
 **********************************************************************/
 void menu_input(Menu_AppState *menu){
     switch(Circuit_Parse()){
@@ -175,7 +173,7 @@ void menu_input(Menu_AppState *menu){
             }
             else {
                 menu->selector_position += 1;
-            }
+            };
             return;
         case 14:
             menu->did_selection = 1;
@@ -186,7 +184,7 @@ void menu_input(Menu_AppState *menu){
             }
             else {
                 menu->selector_position -= 1;
-            }
+            };
             return;
         default:
             break;
@@ -198,21 +196,22 @@ void menu_input(Menu_AppState *menu){
     @authors Qwyntyn Scurr
     @brief Initialize a Menu_AppState
     @param menu A Menu_APpState with important values for the menu
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void init_menu(Menu_AppState *menu){
     menu->did_selection = 0;
     menu->exit_code = 0;
     menu->old_selector_position = 1;
     menu->selector_position = 1;
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Renders the 3 possible border colors based on a border_select
     @note Gray = Normal | Yellow = Highlighted | Red = Selected
     @param menu A Menu_AppState with important values for the menu
-    @since March 4, 2024
+    @param border_select 1 = Gray border | 2 = Yellow border | 3 = Red border
+    @since March 18, 2024
 **********************************************************************/
 void render_border(Menu_AppState *menu, uint8_t border_select){
     switch(border_select){
@@ -230,61 +229,64 @@ void render_border(Menu_AppState *menu, uint8_t border_select){
             return;
         default:
             break;
-    }
+    };
     return;
-}
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Updates the system based on values within a Menu_AppState
     @param menu A Menu_AppState with important values for the application
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 void update_appstate(Menu_AppState *menu){
     if (menu->did_selection){
         render_border(menu, 3);
         SysTick_Wait10ms(500);
         menu->exit_code = 1;
-    }
+    };
     
     // Check position updates from input
     if (menu->selector_position != menu->old_selector_position){
         render_border(menu, 1);
         render_border(menu, 2);
         menu->old_selector_position = menu->selector_position;
-    }
-}
+    };
+};
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Render icons, get user input, update the MainMenu AppState, returning
             a code that chooses which app will be run
-    @since March 4, 2024
+    @since March 18, 2024
 **********************************************************************/
 uint8_t menu_main(void){
-    if (ScreenOrientation != MENU_DIR){
-        ScreenOrientation = MENU_DIR;
+    // Orient the screen
+    if (ScreenOrientation != MENU_ORIENT){
+        ScreenOrientation = MENU_ORIENT;
         setDirection(ScreenOrientation);
-    }
+    };
+    // Clear the screen
     clearScreen(ST7735_BLACK);
+    // Initialize the MainMenu Appstate
     Menu_AppState MainMenu;
     init_menu(&MainMenu);
+    // Render Screen border and application icons to the screen
     d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
     render_snake_icon(ICON_X[0],ICON_Y[0]);
     render_pong_icon(ICON_X[1],ICON_Y[1]);
     render_tetris_icon(ICON_X[2],ICON_Y[2]);
     render_notes_icon(ICON_X[3],ICON_Y[3]);
     render_paint_icon(ICON_X[4],ICON_Y[4]);
-    // TIMER1_CTL_R = TIMER_ENABLE;
+    // Application superloop
     while (!MainMenu.exit_code){
-        // if ((TIMER1_MIS_R & TIMER_STATUS_INTERRUPT)){
-            menu_input(&MainMenu);
-            update_appstate(&MainMenu);
-            // TIMER1_ICR_R = TIMER_CLEAR_INTERRUPT;
-        // }
+        // Get user inputs
+        menu_input(&MainMenu);
+        // Update the MainMenu appstate based on user inputs
+        update_appstate(&MainMenu);
+        // Wait 2.5 seconds
         SysTick_Wait10ms(250);
-    }
-    // TIMER1_CTL_R = TIMER_DISABLE;
-    // TIMER1_ICR_R = TIMER_CLEAR_INTERRUPT;
+    };
+
     return MainMenu.selector_position;
-}
+};

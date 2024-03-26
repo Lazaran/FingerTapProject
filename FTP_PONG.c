@@ -7,20 +7,14 @@
     @version Rev 4
 **********************************************************************/
 
-//Standard Includes
-#include <stdlib.h>
-#include <stdio.h>
+// Includes
 #include <stdint.h>
-
-//FTP Includes
-#include "FTP_ST7735R.h"
-#include "FTP_GFX.h"
-#include "FTP_PONG.h"
-#include "FTP_INPUT.h"
-
-//External Lib Includes
 #include "SysTick.h"
 #include "tm4c123gh6pm.h"
+#include "FTP_ST7735R.h"
+#include "FTP_GFX.h"
+#include "FTP_INPUT.h"
+#include "FTP_PONG.h"
 
 /* Text to format the displayed score with */
 char PongGameScore[] = "Score:";
@@ -35,8 +29,8 @@ char PongYourScoreIs[] = "Your Score Is:";
 **********************************************************************/
 void init_pong(Pong_GameState *game) {
   // Ball Init
-  game->ball.origin.x = TETRIS_MIDWIDTH;
-  game->ball.origin.y = TETRIS_MIDHEIGHT;
+  game->ball.origin.x = ScreenW /2;
+  game->ball.origin.y = ScreenH /2;
   game->ball.old_origin.x = game->ball.origin.x;
   game->ball.old_origin.y = game->ball.origin.y;
   game->ball.bounding_box.x = BALL_WIDTH;
@@ -45,16 +39,16 @@ void init_pong(Pong_GameState *game) {
   game->ball.velocity.y = -1;
   
   // Player Paddle Init
-  game->player_paddle.origin.x = TETRIS_MIDWIDTH;
-  game->player_paddle.origin.y = 3;
+  game->player_paddle.origin.x = 20;
+  game->player_paddle.origin.y = 20;
   game->player_paddle.old_origin.x = game->player_paddle.origin.x;
   game->player_paddle.old_origin.y = game->player_paddle.origin.y;
   game->player_paddle.bounding_box.x = PADDLE_WIDTH;
   game->player_paddle.bounding_box.y = PADDLE_HEIGHT;
 
   // AI Paddle Init
-  game->ai_paddle.origin.x = TETRIS_MIDWIDTH;
-  game->ai_paddle.origin.y = TETRIS_HEIGHT - 3;
+  game->ai_paddle.origin.x = 140;
+  game->ai_paddle.origin.y = 20;
   game->ai_paddle.old_origin.x = game->ai_paddle.origin.x;
   game->ai_paddle.old_origin.y = game->ai_paddle.origin.y;
   game->ai_paddle.bounding_box.x = PADDLE_WIDTH;
@@ -65,9 +59,9 @@ void init_pong(Pong_GameState *game) {
   game->game_over = 0;
   game->score = 0;
 
-  d_Rect(game->ball.origin.x*TETRIS_SCALE,game->ball.origin.y*TETRIS_SCALE,BALL_WIDTH*TETRIS_SCALE,BALL_HEIGHT*TETRIS_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
-  d_Rect(game->ai_paddle.origin.x*TETRIS_SCALE,game->ai_paddle.origin.y*TETRIS_SCALE,PADDLE_WIDTH*TETRIS_SCALE,PADDLE_HEIGHT*TETRIS_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
-  d_Rect(game->player_paddle.origin.x*TETRIS_SCALE,game->player_paddle.origin.y*TETRIS_SCALE,PADDLE_WIDTH*TETRIS_SCALE,PADDLE_HEIGHT*TETRIS_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
+  d_Rect(game->ball.origin.x*PONG_SCALE,game->ball.origin.y*PONG_SCALE,BALL_WIDTH*PONG_SCALE,BALL_HEIGHT*PONG_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
+  d_Rect(game->ai_paddle.origin.x*PONG_SCALE,game->ai_paddle.origin.y*PONG_SCALE,PADDLE_WIDTH*PONG_SCALE,PADDLE_HEIGHT*PONG_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
+  d_Rect(game->player_paddle.origin.x*PONG_SCALE,game->player_paddle.origin.y*PONG_SCALE,PADDLE_WIDTH*PONG_SCALE,PADDLE_HEIGHT*PONG_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
 
 }
 
@@ -117,7 +111,7 @@ void move_ball(Pong_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_sides_collision(Ball *ball) {
-  return (ball->origin.x < 0 || (ball->origin.x + ball->bounding_box.x) > TETRIS_WIDTH);
+  return (ball->origin.y <= 0 || (ball->origin.y + ball->bounding_box.x) >= ScreenH);
 };
 
 /*!*******************************************************************
@@ -129,7 +123,7 @@ uint8_t ball_sides_collision(Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_ends_collision(Ball *ball) {
-  return (ball->origin.y < 0 || (ball->origin.y + ball->bounding_box.y) > TETRIS_HEIGHT);
+  return (ball->origin.x <= 0 || (ball->origin.x + ball->bounding_box.y) >= ScreenW);
 };
 
 /*!*******************************************************************
@@ -141,10 +135,10 @@ uint8_t ball_ends_collision(Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_player_collision(Paddle *paddle, Ball *ball) {
-  return (ball->origin.y <= (paddle->origin.y + paddle->bounding_box.y) && 
-          ball->origin.y >= paddle->origin.y && 
-          ball->origin.x < (paddle->origin.x + paddle->bounding_box.x) &&
-          (ball->origin.x + ball->bounding_box.x) > paddle->origin.x);
+  return (ball->origin.x <= (paddle->origin.x + paddle->bounding_box.x) && 
+          ball->origin.x >= paddle->origin.x && 
+          ball->origin.y < (paddle->origin.y + paddle->bounding_box.y) &&
+          (ball->origin.y + ball->bounding_box.y) > paddle->origin.y);
 };
 
 /*!*******************************************************************
@@ -156,10 +150,10 @@ uint8_t ball_player_collision(Paddle *paddle, Ball *ball) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t ball_ai_collision(Paddle *paddle, Ball *ball) {
-  return ((ball->origin.y + ball->bounding_box.y) >= paddle->origin.y &&
-          (ball->origin.y + ball->bounding_box.y) <= (paddle->origin.y + paddle->bounding_box.y) &&
-          ball->origin.x < paddle->bounding_box.x &&
-          ball->bounding_box.x > paddle->origin.x);
+  return ((ball->origin.x + ball->bounding_box.x) >= paddle->origin.x &&
+          (ball->origin.x + ball->bounding_box.x) <= (paddle->origin.x + paddle->bounding_box.x) &&
+          ball->origin.y < paddle->bounding_box.y &&
+          ball->bounding_box.y > paddle->origin.y);
 };
 
 /*!*******************************************************************
@@ -173,8 +167,8 @@ void render_ball(Ball *ball) {
   if (ball->origin.x == ball->old_origin.x && ball->origin.y == ball->old_origin.y){
     return;
   }
-  d_Rect(ball->old_origin.x*TETRIS_SCALE,ball->old_origin.y*TETRIS_SCALE,BALL_WIDTH*TETRIS_SCALE,BALL_HEIGHT*TETRIS_SCALE,3,ST7735_BLACK,0,ST7735_BLACK);
-  d_Rect(ball->origin.x*TETRIS_SCALE,ball->origin.y*TETRIS_SCALE,BALL_WIDTH*TETRIS_SCALE,BALL_HEIGHT*TETRIS_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
+  d_Rect(ball->old_origin.x*PONG_SCALE,ball->old_origin.y*PONG_SCALE,BALL_WIDTH*PONG_SCALE,BALL_HEIGHT*PONG_SCALE,3,ST7735_BLACK,0,ST7735_BLACK);
+  d_Rect(ball->origin.x*PONG_SCALE,ball->origin.y*PONG_SCALE,BALL_WIDTH*PONG_SCALE,BALL_HEIGHT*PONG_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
 }
 
 /*!*******************************************************************
@@ -194,13 +188,13 @@ void update_ball(Pong_GameState *game) {
   }
   // Check good collisions
   if (ball_sides_collision(&game->ball)){
-    game->ball.origin.x = game->ball.old_origin.x;
-    game->ball.velocity.x *= -1;
+    game->ball.origin.y = game->ball.old_origin.y;
+    game->ball.velocity.y *= -1;
   }
   if (ball_ai_collision(&game->ai_paddle, &game->ball) ||
       ball_player_collision(&game->player_paddle, &game->ball)){
-    game->ball.origin.y = game->ball.old_origin.y;
-    game->ball.velocity.y *= -1;
+    game->ball.origin.x = game->ball.old_origin.x;
+    game->ball.velocity.x *= -1;
   }
   render_ball(&game->ball);
   game->ball.old_origin = game->ball.origin;
@@ -245,7 +239,7 @@ void move_ai_paddle(Pong_GameState *game) {
     @since March 6, 2024
 **********************************************************************/
 uint8_t paddle_sides_collision(Paddle *paddle) {
-  return (paddle->origin.x < 0 || (paddle->origin.x + paddle->bounding_box.x) > TETRIS_WIDTH);
+  return (paddle->origin.x < 0 || (paddle->origin.x + paddle->bounding_box.x) > ScreenW);
 };
 
 /*!*******************************************************************
@@ -259,8 +253,8 @@ void render_paddle(Paddle *paddle) {
   if (paddle->origin.x == paddle->old_origin.x && paddle->origin.y == paddle->old_origin.y){
     return;
   }
-  d_Rect(paddle->old_origin.x*TETRIS_SCALE,paddle->old_origin.y*TETRIS_SCALE,PADDLE_WIDTH*TETRIS_SCALE,PADDLE_HEIGHT*TETRIS_SCALE,3,ST7735_BLACK,0,ST7735_BLACK);
-  d_Rect(paddle->origin.x*TETRIS_SCALE,paddle->origin.y*TETRIS_SCALE,PADDLE_WIDTH*TETRIS_SCALE,PADDLE_HEIGHT*TETRIS_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
+  d_Rect(paddle->old_origin.x*PONG_SCALE,paddle->old_origin.y*PONG_SCALE,PADDLE_WIDTH*PONG_SCALE,PADDLE_HEIGHT*PONG_SCALE,3,ST7735_BLACK,0,ST7735_BLACK);
+  d_Rect(paddle->origin.x*PONG_SCALE,paddle->origin.y*PONG_SCALE,PADDLE_WIDTH*PONG_SCALE,PADDLE_HEIGHT*PONG_SCALE,3,ST7735_WHITE,0,ST7735_BLACK);
 }
 
 /*!*******************************************************************
@@ -313,34 +307,37 @@ void pong_game_over(Pong_GameState *game){
 
 /*!*******************************************************************
     @authors Qwyntyn Scurr
-    @brief Get input and update game elements, waiting until gameover state
-    @returns Game over exitcode
+    @brief Get input, update Pong GameState and render game objects to screen
+    @returns Game Over exitcode
     @since March 6, 2024
 **********************************************************************/
 uint8_t pong_main(void) {
-    if (ScreenOrientation != 5){
-        ScreenOrientation = 5;
+    // Orient the screen
+    if (ScreenOrientation != PONG_ORIENT){
+        ScreenOrientation = PONG_ORIENT;
         setDirection(ScreenOrientation);
     }  
+    // Clear the screen
     clearScreen(ST7735_BLACK);
-    d_Rect((ScreenW/8),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_CYAN,0,ST7735_BLACK);
-    d_Rect((ScreenW/2),(ScreenH/8),ScreenW/2, ScreenH/2,3,ST7735_RED,0,ST7735_BLACK);
-    d_Rect((ScreenW/8),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_YELLOW,0,ST7735_BLACK);
-    d_Rect((ScreenW/2),(ScreenH/2),ScreenW/2, ScreenH/2,3,ST7735_GREEN,0,ST7735_BLACK);
-    d_DrawString(11,5,"Under",ST7735_WHITE);
-    d_DrawString(8,6,"Construction",ST7735_WHITE);
-    SysTick_Wait10ms(2000);
-    // Pong_GameState PongGame;
-    // init_pong(&PongGame);
-    // d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
-    // while(!PongGame.game_over){
-    //     pong_input(&PongGame);
-    //     update_ball(&PongGame);
-    //     update_player_paddle(&PongGame);
-    //     update_ai_paddle(&PongGame);
-    // };
-    // pong_game_over(&PongGame);
-    // SysTick_Wait10ms(1500);
+    // under_construction();
+    // Initialize the PongGame GameState
+    Pong_GameState PongGame;
+    init_pong(&PongGame);
+    // Render screen border
+    d_Rect(0,0,ScreenW,ScreenH,2,ST7735_WHITE,0,ST7735_BLACK);
+    // Application superloop
+    while(!PongGame.game_over){
+        // Get user inputs
+        pong_input(&PongGame);
+        // Update game object positions
+        update_ball(&PongGame);
+        update_player_paddle(&PongGame);
+        update_ai_paddle(&PongGame);
+    };
+    // Display gameover screen
+    pong_game_over(&PongGame);
+    // Wait for 15 seconds
+    SysTick_Wait10ms(1500);
     // Pong Exitcode
     return 12;
 }

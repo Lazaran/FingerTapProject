@@ -1,7 +1,20 @@
-./objects/ftp_main.o: FTP_MAIN.c \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdio.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h tm4c123gh6pm.h \
-  C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h PLL.h SysTick.h \
-  FTP_ST7735R.h C:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
-  FTP_GFX.h FTP_INPUT.h FTP_SNAKE.h FTP_TYPES.h FTP_PONG.h FTP_TETRIS.h \
-  FTP_NOTES.h FTP_PAINT.h FTP_MENU.h
+.\objects\ftp_main.o: FTP_MAIN.c
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\ftp_main.o: tm4c123gh6pm.h
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ftp_main.o: PLL.h
+.\objects\ftp_main.o: SysTick.h
+.\objects\ftp_main.o: FTP_MAIN.h
+.\objects\ftp_main.o: FTP_TYPES.h
+.\objects\ftp_main.o: FTP_ST7735R.h
+.\objects\ftp_main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\ftp_main.o: FTP_GFX.h
+.\objects\ftp_main.o: FTP_INPUT.h
+.\objects\ftp_main.o: FTP_MENU.h
+.\objects\ftp_main.o: FTP_SNAKE.h
+.\objects\ftp_main.o: FTP_PONG.h
+.\objects\ftp_main.o: FTP_TETRIS.h
+.\objects\ftp_main.o: FTP_NOTES.h
+.\objects\ftp_main.o: FTP_PAINT.h
+.\objects\ftp_main.o: FTP_FSRDEMO.h
+.\objects\ftp_main.o: FTP_ANALOGDEMO.h

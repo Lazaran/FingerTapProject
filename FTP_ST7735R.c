@@ -1,26 +1,33 @@
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include "tm4c123gh6pm.h"
-#include "SysTick.h"
-
-#include "FTP_ST7735R.h"
-
-
-/* End of FTP_ST7735R Inlines*/
-
-/* The purpose of this file is to separate SSI command functions from graphical
+/*!*******************************************************************
+    @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
+    @brief Initializes, configures and communicates with the ST7735R
+    @note The purpose of this file is to separate SSI command functions from graphical
     manipulation functions. Thus, the FTP_GFX file calls neither writeData or
     writeCommand. Similarly, this file may only call writeData, writeCommand
     or another function defined in this program.
+    @note ST7735R Breakout Pin Connections:
+        Backlight (pin 10) connected to +3.3 V
+        MISO (pin 9) unconnected
+        SCK (pin 8) connected to PA2 (SSI0Clk)
+        MOSI (pin 7) connected to PA5 (SSI0Tx)
+        TFT_CS (pin 6) connected to PA3 (SSI0Fss)
+        CARD_CS (pin 5) unconnected
+        Data/Command (pin 4) connected to PA6 (GPIO), high for data, low for command
+        RESET (pin 3) connected to PA7 (GPIO)
+        VCC (pin 2) connected to +3.3 V
+        Gnd (pin 1) connected to ground
+    @since March 14, 2024
+    @version Rev 3
+**********************************************************************/
 
-*/
+// Includes
+#include <stdint.h>
+#include "tm4c123gh6pm.h"
+#include "SysTick.h"
+#include "FTP_ST7735R.h"
 
-// Valvano statics, can be changed in the future
-#define BACKGROUND_COLOR ST77XX_BLACK
-
+// Volatile Definitions
 volatile uint8_t ScreenOrientation = 0;
-
 volatile uint8_t ScreenX = 0;
 volatile uint8_t ScreenY = 0;
 volatile uint8_t ScreenW = ST7735_TFTWIDTH;
@@ -85,7 +92,6 @@ uint8_t initCmdList[] = {
   ST77XX_DISPON, ST_CMD_DELAY, 100                           
 };                         
 
-
 /* SSI info from Valvano
   The Data/Command pin must be valid when the eighth bit is
   sent.  The SSI module has hardware input and output FIFOs
@@ -118,7 +124,6 @@ void writeCommand(uint8_t c) {
   while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
 };
 
-
 /*!*******************************************************************
   @author Jonathan W. Valvano
   @brief  The write data operation waits until there is room in the
@@ -138,60 +143,17 @@ void writeData(uint8_t c) {
   SSI0_DR_R = c;                        
 };
 
-
 /*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada
-  @brief  Set origin of (0,0) of display with offsets
-  @param  col  The offset from 0 for the column address
-  @param  row  The offset from 0 for the row address
-  @remarks I believe this sets the offsets of the screen, leaving as col- and row-start
-            for now but likely should be xOffset and yOffset
+  @brief Set software origin offset of LCD Screen
+  @param col The offset from 0 for the column address
+  @param row The offset from 0 for the row address
   @since January 27, 2024
 **********************************************************************/
 void setColRowStart(int8_t col, int8_t row) {
   ScreenX = col;
   ScreenY = row;
 };
-
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr, Limor Fried/Ladyada
-  @brief  Change whether display is on or off
-  @param  enable 1 if you want the display ON, 0 = OFF
-  @remarks Modified to use int instead of bool
-  @remarks changed sendcommand to writeCommand
-  @since January 27, 2024
-**********************************************************************/
-void enableDisplay(int enable) {
-  writeCommand(enable ? ST77XX_DISPON : ST77XX_DISPOFF);
-};
-
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr, Limor Fried/Ladyada
-  @brief  Change whether TE pin output is on or off
-  @param  enable 1 if you want the TE pin ON, 0 = OFF
-  @remarks Modified to use int instead of bool
-  @remarks changed sendcommand to writeCommand
-  @since January 27, 2024
-**********************************************************************/
-void enableTearing(int enable) {
-  writeCommand(enable ? ST77XX_TEON : ST77XX_TEOFF);
-};
-
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr, Limor Fried/Ladyada
-  @brief  Change whether sleep mode is on or off
-  @param  enable 1 if you want sleep mode ON, 0 = OFF
-  @remarks Modified to use int instead of bool
-  @remarks changed sendcommand to writeCommand
-  @since January 27, 2024
-**********************************************************************/
-void enableSleep(int enable) {
-  writeCommand(enable ? ST77XX_SLPIN : ST77XX_SLPOUT);
-};
-
 
 /*!*******************************************************************
   @brief Sets an address window rectangle for pixel blitting
@@ -224,7 +186,6 @@ void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h){
   writeCommand(ST77XX_RAMWR); // write to RAM
 };
 
-
 /*!*******************************************************************
   @authors Qwyntyn Scurr, Jonathan W. Valvano 
   @brief Writes the supplied 16-bit color to the ST7735R in two transmissions
@@ -236,43 +197,6 @@ void pushColor(uint16_t c) {
   writeData((uint8_t)(c >> 8));
   writeData((uint8_t)c);
 }
-
-/*!*******************************************************************
-  @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
-  @brief Sets the rotation of screen
-  @deprecated
-  @param m 0 to 3, determines rotation of screen
-  @since January 27, 2024
-**********************************************************************/
-// void setRotation(uint8_t m){
-//   uint8_t madctl = 0;
-//   int rotation = m % 3; // can't be higher than 3
-//   switch (rotation) {
-//     case 0:
-//       madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST7735_MADCTL_BGR;
-//       ScreenW = ST7735_TFTWIDTH;
-//       ScreenH = ST7735_TFTHEIGHT;
-//       break;
-//     case 1:
-//       madctl = ST77XX_MADCTL_MY | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
-//       ScreenW = ST7735_TFTHEIGHT;
-//       ScreenH = ST7735_TFTWIDTH;
-//       break;
-//     case 2:
-//       madctl = ST7735_MADCTL_BGR;
-//       ScreenW = ST7735_TFTWIDTH;
-//       ScreenH = ST7735_TFTHEIGHT;
-//       break;
-//     case 3:
-//       madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MV | ST7735_MADCTL_BGR;
-//       ScreenW = ST7735_TFTHEIGHT;
-//       ScreenH = ST7735_TFTWIDTH;
-//       break;
-//   }
-//   writeCommand(ST77XX_MADCTL);
-//   writeData(madctl);
-// };
-
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr
@@ -315,14 +239,11 @@ void setDirection(uint8_t m){
   writeData(direction);
 };
 
-
-
 /*!*******************************************************************
   @authors Qwyntyn Scurr, Jonathan W. Valvano 
   @brief Initilization code for the ST7735R
   @remarks Modifications include:
   @remarks shuffling Valvano's settings around to make more sense
-  Must put in ifndefs for systick wait to use it?
   @since January 25, 2024
 **********************************************************************/
 void commonInit(void) {
@@ -372,7 +293,6 @@ void commonInit(void) {
   //  Configure for system clock/PLL baud clock source
   SSI0_CC_R = (SSI0_CC_R&~SSI_CC_CS_M)+SSI_CC_CS_SYSPLL;
 
-
   // Clock divider for 8 MHz SSIClk (80 MHz PLL/24)
   // SysClk/(CPSDVSR*(1+SCR))
   // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
@@ -390,7 +310,6 @@ void commonInit(void) {
   // enable SSI
   SSI0_CR1_R |= SSI_CR1_SSE;
 }
-
 
 /*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
@@ -433,7 +352,6 @@ void readCmdList(const uint8_t *addr) {
   };
 };
 
-
 /*!*******************************************************************
   @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
   @brief  LCD screen Initilization function; calls commonInit to enable
@@ -448,5 +366,3 @@ void ST7735_initR(void) {
   commonInit();
   readCmdList(initCmdList);
 };
-
-

@@ -1,43 +1,24 @@
-/* File FTP_STT7735R.h */
-#ifndef FTP_STT7735R_H
-#define FTP_STT7735R_H
+/*!*******************************************************************
+    @authors Qwyntyn Scurr, Limor Fried/Ladyada, Jonathan W. Valvano 
+    @brief Corresponding H file for FTP_ST7735R.c, holds macros and function
+            prototypes
+    @since March 14, 2024
+    @version Rev 3
+**********************************************************************/
 
+/* File FTP_ST7735R.h*/
+#ifndef FTP_ST7735R_H
+#define FTP_ST7735R_H
+
+// Includes
 #include <stdint.h>
 #include <stdlib.h>
-// Backlight (pin 10) connected to +3.3 V
-// MISO (pin 9) unconnected
-// SCK (pin 8) connected to PA2 (SSI0Clk)
-// MOSI (pin 7) connected to PA5 (SSI0Tx)
-// TFT_CS (pin 6) connected to PA3 (SSI0Fss)
-// CARD_CS (pin 5) unconnected
-// Data/Command (pin 4) connected to PA6 (GPIO), high for data, low for command
-// RESET (pin 3) connected to PA7 (GPIO)
-// VCC (pin 2) connected to +3.3 V
-// Gnd (pin 1) connected to ground
 
-// --| Valvano TFT, DC and Reset Settings |--
-
-
+// Macros
 #define ST7735_TFTWIDTH  128
 #define ST7735_TFTHEIGHT 160
 
-#define ST7735_BLACK   0x0000
-#define ST7735_BLUE    0xF800
-#define ST7735_RED     0x001F
-#define ST7735_GREEN   0x07E0
-#define ST7735_CYAN    0xFFE0
-#define ST7735_MAGENTA 0xF81F
-#define ST7735_YELLOW  0x07FF
-#define ST7735_WHITE   0xFFFF
-#define BG_COLOR ST7735_BLACK
-
-volatile extern uint8_t ScreenOrientation;
-volatile extern uint8_t ScreenX;
-volatile extern uint8_t ScreenY;
-volatile extern uint8_t ScreenW;
-volatile extern uint8_t ScreenH;
-
-// Chip enable?
+// Chip enable
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS normally controlled by hardware
 #define TFT_CS_HIGH             0x08
@@ -50,7 +31,6 @@ volatile extern uint8_t ScreenH;
 #define RESET                   (*((volatile uint32_t *)0x40004200))
 #define RESET_LOW               0
 #define RESET_HIGH              0x80
-
 
 // --| Valvano SSI Settings |--
 
@@ -86,7 +66,6 @@ volatile extern uint8_t ScreenH;
 #define SYSCTL_RCGC1_SSI0       0x00000010  
 // port A Clock Gating Control
 #define SYSCTL_RCGC2_GPIOA      0x00000001
-
 
 // --| Adafruit ST7735 Register Settings |--
 
@@ -124,7 +103,6 @@ volatile extern uint8_t ScreenH;
 #define ST7735_GMCTRP1 0xE0 
 // Gamma - Polarity Correction Characteristics control
 #define ST7735_GMCTRN1 0xE1 
-
 
 // --| Adafruit ST77XX Register Settings |--
 
@@ -189,51 +167,10 @@ volatile extern uint8_t ScreenH;
 // Read ID4 Value
 #define ST77XX_RDID4 0xDD 
 
-
-// --| Adafruit ready-made 16-bit ('565') color settings |--
-#define ST77XX_BLACK 0x0000
-#define ST77XX_WHITE 0xFFFF
-#define ST77XX_RED 0xF800
-#define ST77XX_GREEN 0x07E0
-#define ST77XX_BLUE 0x001F
-#define ST77XX_CYAN 0x07FF
-#define ST77XX_MAGENTA 0xF81F
-#define ST77XX_YELLOW 0xFFE0
-#define ST77XX_ORANGE 0xFC00
-
-
 // Scurr custom set of SSI etc Settings
-//  Register location macros will have postfix _L
-//  Register value macros will have postfix _V
 
 // Defined 4-byte 0-string, for posterity mostly
-#define HEX_NULL 0x00000000
-
-// SSI Serial Clock Rate Location
-#define SSI_CR0_SCR_L           0x0000FF00  
-// SSI Serial Clock Rate Value
-#define SSI_CR0_SCR_V           HEX_NULL
-
-// SSI Serial Clock Phase Location
-#define SSI_CR0_SPH_L           0x00000080  
-// SSI Serial Clock Phase Value
-#define SSI_CR0_SPH_V           HEX_NULL
-
-// SSI Serial Clock Polarity Location
-#define SSI_CR0_SPO_L           0x00000040  
-// SSI Serial Clock Polarity Value
-#define SSI_CR0_SPO_V           HEX_NULL
-
-// SSI Frame Format Select Location
-#define SSI_CR0_FRF_L           0x00000030  
-// SSI Frame Format Select Value
-#define SSI_CR0_FRF_V           HEX_NULL
-
-// SSI Data Size Select Location
-#define SSI_CR0_DSS_L           0x0000000F  
-// SSI Data Size Select Value
-#define SSI_CR0_DSS_V           0x00000007 
- 
+#define HEX_NULL 0x00000000 
 // SSI Master/Slave Select
 #define SSI_CR1_MS              0x00000004  
 // SSI Synchronous Serial Port Enable
@@ -253,8 +190,14 @@ volatile extern uint8_t ScreenH;
 // port A Clock Gating Control
 #define SYSCTL_RCGC2_GPIOA      0x00000001
 
-// Function Prototypes
+// Volatile Declarations
+volatile extern uint8_t ScreenOrientation;
+volatile extern uint8_t ScreenX;
+volatile extern uint8_t ScreenY;
+volatile extern uint8_t ScreenW;
+volatile extern uint8_t ScreenH;
 
+// Prototypes
 void pushColor(uint16_t c);
 
 void setDirection(uint8_t m);
@@ -265,15 +208,7 @@ void writeData(uint8_t c);
 
 void setColRowStart(int8_t col, int8_t row);
 
-void enableDisplay(int enable);
-
-void enableTearing(int enable);
-
-void enableSleep(int enable);
-
 void setAddrWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h);
-
-// void setRotation(uint8_t m);
 
 void commonInit(void);
 
@@ -281,4 +216,5 @@ void readCmdList(const uint8_t *addr);
 
 void ST7735_initR(void);
 
-#endif /* !FTP_STT7735R_H */
+#endif /* File FTP_ST7735R.h*/
+

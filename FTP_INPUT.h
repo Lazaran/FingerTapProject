@@ -1,8 +1,8 @@
- /*!*******************************************************************
+/*!*******************************************************************
     @authors Qwyntyn Scurr
     @brief Corresponding H file for FTP_INPUT.c, holds macros and function
             prototypes
-    @since March 4, 2024
+    @since March 14, 2024
     @version Rev 3
 **********************************************************************/
 
@@ -10,6 +10,7 @@
 #ifndef FTP_INPUT_H
 #define FTP_INPUT_H
 
+// Includes
 #include <stdint.h>
 
 // Macros 
@@ -17,6 +18,9 @@
 #define EIGHTY_LOAD 80000000
 #define FORTY_LOAD 40000000
 #define TWENTY_LOAD 20000000
+
+#define ANALOG_CIRCUIT_MIN 300
+#define FSR_MIN 200
 
 // Conductive Pad Circuit Conditional Mins and Maxes
 #define PP_MIN 3650
@@ -31,16 +35,16 @@
 #define DP_MAX 1450
 
 // FSR Conditional Mins and Maxes (TEMP NEEDS CHANGING)
-#define L1_MIN  10
-#define L1_MAX  10
-#define L2_MIN  10
-#define L2_MAX  10
-#define L3_MIN  10
-#define L3_MAX  10
-#define L4_MIN  10
-#define L4_MAX  10
-#define L5_MIN  10
-#define L5_MAX  10
+#define L1_MIN  200
+#define L1_MAX  399
+#define L2_MIN  400
+#define L2_MAX  599
+#define L3_MIN  600
+#define L3_MAX  799
+#define L4_MIN  800
+#define L4_MAX  999
+#define L5_MIN  1000
+#define L5_MAX  1199
 
 // Input Volatiles Declaration
 extern volatile uint16_t IndexCircuit;
@@ -67,4 +71,4 @@ void ADC0Seq2_Handler(void);
 
 void Input_Init(void);
 
-#endif
+#endif /* File FTP_INPUT.h*/

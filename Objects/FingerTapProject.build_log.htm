@@ -3,62 +3,122 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.38.0.0
-Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Qwyn Scurr
-Holland College
-User-based license: Keil MDK Community (non-commercial free of charge)
-Valid until: May 31 2033. Cached until: Mar 25 2024
+IDE-Version: µVision V5.14.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: James Vardy, Holland College, LIC=----
  
 Tool Versions:
-Toolchain:       Keil MDK Community (non-commercial free of charge  Version: 5.38.0.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.19
-Assembler:       Armasm.exe V6.19
-Linker/Locator:  ArmLink.exe V6.19
-Library Manager: ArmAr.exe V6.19
-Hex Converter:   FromElf.exe V6.19
-CPU DLL:         SARMCM3.DLL V5.38.0.0
-Dialog DLL:      DCM.DLL V1.17.5.0
+Toolchain:       MDK-Lite  Version: 5.14.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 1 (build 106)
+Assembler:       Armasm.exe V5.05 update 1 (build 106)
+Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
+Library Manager: ArmAr.exe V5.05 update 1 (build 106)
+Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
+CPU DLL:         SARMCM3.DLL V5.14.0.0
+Dialog DLL:      DCM.DLL V1.13.1.0
 Target DLL:      lmidk-agdi.dll V???
-Dialog DLL:      TCM.DLL V1.56.4.0
+Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
-C:\Users\Qwyn\OneDrive - Holland College\FingerTap\FingerTapProject.uvprojx
+C:\Users\qscurr\OneDrive - Holland College\FingerTap\FingerTapProject.uvprojx
 Project File Date:  03/20/2024
 
 <h2>Output:</h2>
-*** Using Compiler 'V6.19', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-compiling FTP_PAINT.c...
-compiling FTP_MAIN.c...
-assembling startup.s...
-compiling FTP_NOTES.c...
-compiling PLL.c...
-compiling SysTick.c...
-compiling FTP_ST7735R.c...
-compiling FTP_INPUT.c...
 compiling FTP_GFX.c...
-compiling FTP_TETRIS.c...
-compiling FTP_SNAKE.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_GFX.c(370): warning:  #177-D: variable "bitmap" was declared but never referenced
+    uint8_t bitmap[2][500] = {0,0};
+FTP_GFX.c(472): warning:  #186-D: pointless comparison of unsigned integer with zero
+    if (x < 0){ v_Clip(x, 0); };
+FTP_GFX.c(473): warning:  #186-D: pointless comparison of unsigned integer with zero
+    if (y < 0){ v_Clip(y, 0); };
+FTP_GFX.c(632): warning:  #223-D: function "snprintf" declared implicitly
+          snprintf(buffer, 100, "%d %s", num, text);
+FTP_GFX.c(651): warning:  #223-D: function "snprintf" declared implicitly
+          snprintf(buffer, 100, "%s %d", text, num);
+FTP_GFX.c: 6 warnings, 0 errors
+compiling FTP_MAIN.c...
+FTP_MAIN.h(38): warning:  #1-D: last line of file ends without a newline
+  #endif /* File FTP_MAIN.h*/
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_FSRDEMO.h(43): warning:  #1-D: last line of file ends without a newline
+  #endif /* File FTP_FSRDEMO.h*/
+FTP_MAIN.c: 3 warnings, 0 errors
+compiling FTP_ST7735R.c...
+compiling PLL.c...
+assembling startup.s...
+compiling FTP_INPUT.c...
 compiling FTP_MENU.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_MENU.c(292): warning:  #1-D: last line of file ends without a newline
+  };
+FTP_MENU.c: 2 warnings, 0 errors
+compiling FTP_NOTES.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_NOTES.c(170): warning:  #1-D: last line of file ends without a newline
+  }
+FTP_NOTES.c: 2 warnings, 0 errors
+compiling FTP_PAINT.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_PAINT.c(33): warning:  #1-D: last line of file ends without a newline
+  }
+FTP_PAINT.c: 2 warnings, 0 errors
 compiling FTP_PONG.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_PONG.c: 1 warning, 0 errors
+compiling FTP_SNAKE.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_SNAKE.c(304): warning:  #1-D: last line of file ends without a newline
+  }
+FTP_SNAKE.c: 2 warnings, 0 errors
+compiling SysTick.c...
+SysTick.c(66): warning:  #1-D: last line of file ends without a newline
+  }
+SysTick.c: 1 warning, 0 errors
+compiling FTP_TETRIS.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_GFX.h(37): warning:  #223-D: function "abs" declared implicitly
+    return ((abs(w-x)+1) * (abs(y-h)+1));
+FTP_TETRIS.c(229): warning:  #186-D: pointless comparison of unsigned integer with zero
+      for (j = game->matrix.arrSize - 1; j >= 0; j--){        
+FTP_TETRIS.c: 3 warnings, 0 errors
+compiling FTP_ANALOGDEMO.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_ANALOGDEMO.c(71): warning:  #223-D: function "init_appstate" declared implicitly
+      init_appstate(&demo);
+FTP_ANALOGDEMO.c(85): warning:  #223-D: function "SysTick_Wait10ms" declared implicitly
+          SysTick_Wait10ms(200);
+FTP_ANALOGDEMO.c(89): warning:  #1-D: last line of file ends without a newline
+  }
+FTP_ANALOGDEMO.c: 4 warnings, 0 errors
+compiling FTP_FSRDEMO.c...
+FTP_GFX.h(32): warning:  #550-D: parameter "a" was set but never used
+   void inline v_Clip(uint8_t a, uint8_t b){
+FTP_FSRDEMO.h(43): warning:  #1-D: last line of file ends without a newline
+  #endif /* File FTP_FSRDEMO.h*/
+FTP_FSRDEMO.c(129): warning:  #1-D: last line of file ends without a newline
+  }
+FTP_FSRDEMO.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=9568 RO-data=1312 RW-data=160 ZI-data=1368  
-".\Objects\FingerTapProject.axf" - 0 Error(s), 0 Warning(s).
-
-<h2>Software Packages used:</h2>
-
-Package Vendor: Keil
-                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
-                Keil.TM4C_DFP.1.1.0
-                Texas Instruments Tiva C Series Device Support and Examples
+Program Size: Code=9368 RO-data=1324 RW-data=316 ZI-data=1348  
+".\Objects\FingerTapProject.axf" - 0 Error(s), 29 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:/Keil_v5/ARM/Pack/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123
+  C:\Users\qscurr\OneDrive - Holland College\FingerTap\RTE
+  C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
